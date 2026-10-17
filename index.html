@@ -3,2518 +3,1336 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0d0d0d">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%BE%3C/text%3E%3C/svg%3E">
-<title>Comanda → Planilha</title>
+<title>Re9 Second Hand — Gestão</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Titan+One&family=Poppins:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0d0d0d;
-    --paper:#f7f1e2;
-    --ink:#181818;
-    --ink-soft:#5c564a;
-    --orange:#f6af43;
-    --orange2:#f49140;
-    --red:#e73334;
-    --green:#2e9e4f;
-    --cyan:#40d5e8;
-    --line:#e3dac1;
-    --radius:14px;
+  :root {
+    --bg: #f7f5f0;
+    --card: #ffffff;
+    --ink: #1c2620;
+    --muted: #7a8079;
+    --line: #e6e2d6;
+
+    /* identidade Re9 Second Hand */
+    --verde: #0e3b2e;
+    --verde-escuro: #082921;
+    --verde-suave: #e3ede8;
+    --dourado: #b6913c;
+    --dourado-claro: #e8d9a8;
+    --dourado-escuro: #8f6f28;
+
+    --accent: var(--verde);
+    --accent-dark: var(--verde-escuro);
+    --accent-soft: var(--verde-suave);
+    --good: #4b7f52;
+    --bad: #b3452c;
+    --radius: 14px;
+    --font-logo: 'Playfair Display', Georgia, serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    background:
-      radial-gradient(circle at 15% 8%, rgba(246,175,67,0.10) 0%, transparent 40%),
-      radial-gradient(circle at 85% 92%, rgba(64,213,232,0.08) 0%, transparent 40%),
-      var(--bg);
-    color:var(--paper);
-    font-family:'Poppins',sans-serif;
-    min-height:100vh;
-    padding:0 0 60px 0;
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
   }
-  .wrap{max-width:560px;margin:0 auto;padding:0 34px;}
-
-  header{padding:30px 34px 4px;text-align:center;position:relative;}
-  header .logo-wrap{position:relative;display:flex;justify-content:center;align-items:center;height:56px;margin-bottom:2px;}
-  header .wordmark{position:relative;z-index:1;font-family:'Titan One',cursive;font-size:44px;letter-spacing:.02em;color:var(--paper);-webkit-text-stroke:3px var(--ink);text-shadow:3px 3px 0 var(--ink);}
-  header .wordmark .u{color:var(--orange);-webkit-text-stroke:3px var(--ink);}
-  header .eyebrow{font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);margin-top:2px;}
-  header h1{font-family:'Poppins',sans-serif;font-weight:700;font-size:19px;margin:4px 0 0;color:var(--paper);}
-  .gear{position:absolute;top:18px;right:16px;background:none;border:2px solid var(--paper);border-radius:50%;width:34px;height:34px;cursor:pointer;color:var(--paper);font-size:15px;z-index:2;}
-  .gear:hover{background:var(--orange);border-color:var(--orange);color:var(--ink);}
-
-  .side-wave{position:fixed;top:0;height:100vh;width:36px;z-index:5;pointer-events:none;}
-  .side-wave-left{left:0;}
-  .side-wave-right{right:0;}
-  @media (max-width:480px){
-    .side-wave{width:24px;}
+  header {
+    background: linear-gradient(180deg, var(--verde) 0%, var(--verde-escuro) 100%);
+    color: #fff;
+    padding: 22px 20px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+    border-bottom: 2px solid var(--dourado);
   }
-
-  .step-label{font-family:'Poppins',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);margin:0 0 8px;display:flex;align-items:center;gap:8px;}
-  .step-label .num{width:22px;height:22px;border-radius:50%;background:var(--red);border:2px solid var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Titan One',cursive;font-size:11px;flex-shrink:0;}
-
-  .card{background:var(--paper);border:2px solid var(--ink);border-radius:var(--radius);padding:18px;margin-bottom:22px;box-shadow:5px 5px 0 rgba(0,0,0,0.35);color:var(--ink);}
-
-  .field-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;}
-  .label-opcional{text-transform:none;font-weight:400;color:var(--ink-soft);letter-spacing:0;}
-  .field-row:last-child{margin-bottom:0;}
-  .field{flex:1;}
-  label{display:block;font-size:11.5px;color:var(--ink-soft);margin-bottom:4px;font-family:'Poppins',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
-  input[type=text],input[type=number],input[type=url],input[type=date]{
-    width:100%;padding:10px 11px;border:2px solid var(--ink);border-radius:8px;
-    font-family:'IBM Plex Mono',monospace;font-size:14px;background:#fff;color:var(--ink);
+  .brand-mark {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
   }
-  input:focus{outline:3px solid var(--orange);outline-offset:1px;}
-  select{
-    width:100%;padding:10px 11px;border:2px solid var(--ink);border-radius:8px;
-    font-family:'IBM Plex Mono',monospace;font-size:14px;background:#fff;color:var(--ink);
+  .brand-mark svg { width: 46px; height: auto; margin-bottom: -6px; }
+  .brand-mark .logo-nome {
+    font-family: var(--font-logo);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--dourado-claro);
+    letter-spacing: 0.5px;
+    line-height: 1;
   }
-  select:focus{outline:3px solid var(--orange);outline-offset:1px;}
-  .evento-hint{font-family:'Poppins',sans-serif;font-size:11.5px;color:var(--ink-soft);margin-top:8px;}
-
-  .btn-row{display:flex;gap:10px;}
-  .capture-btn{
-    flex:1;padding:15px 10px;border-radius:10px;border:2px solid var(--ink);
-    background:var(--orange);color:var(--ink);font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;
-    cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;
-    box-shadow:3px 3px 0 var(--ink);
+  .brand-mark .logo-sub {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 3.5px;
+    color: var(--dourado-claro);
+    text-transform: uppercase;
+    opacity: 0.92;
   }
-  .capture-btn.secondary{background:var(--cyan);color:var(--ink);}
-  .capture-btn:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink);}
-  .capture-btn:disabled{opacity:.45;cursor:default;transform:none;box-shadow:3px 3px 0 var(--ink);}
-  .capture-btn.disabled{opacity:.45;cursor:default;pointer-events:none;transform:none;box-shadow:3px 3px 0 var(--ink);}
-  input[type=file]{display:none;}
-
-  .status{margin-top:12px;font-family:'Poppins',sans-serif;font-size:13px;color:var(--ink-soft);display:flex;align-items:center;gap:8px;}
-  .spinner{width:14px;height:14px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--red);animation:spin .7s linear infinite;}
-  @keyframes spin{to{transform:rotate(360deg);}}
-
-  .progress-wrap{margin-top:12px;width:100%;}
-  .progress-track{width:100%;height:9px;border-radius:6px;background:#e8e0c8;border:1.5px solid var(--ink);overflow:hidden;}
-  .progress-fill{height:100%;background:linear-gradient(90deg, var(--orange), var(--red));border-radius:6px 0 0 6px;transition:width .3s ease;}
-  .progress-label{font-family:'Poppins',sans-serif;font-size:12.5px;color:var(--ink-soft);margin-top:6px;}
-
-  .comanda-card{border:2px solid var(--ink);border-radius:10px;padding:14px;margin-bottom:14px;background:#fffdf6;}
-  .comanda-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px;flex-wrap:wrap;}
-  .comanda-head-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-  .comanda-title{font-family:'Titan One',cursive;font-size:14px;color:var(--red);}
-  .comanda-numero-badge{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:#fff;background:var(--red);border-radius:6px;padding:2px 8px;letter-spacing:.3px;}
-  .del-comanda{background:none;border:none;color:var(--red);cursor:pointer;font-size:12.5px;font-family:'Poppins',sans-serif;font-weight:600;}
-  input.numero-vazio{border-color:var(--orange2);background:#fffaf3;}
-
-  tr.item-suspeito td{background:#fbecea;}
-  tr.item-suspeito input{border-color:var(--red);background:#fff7f6;}
-  .comanda-alerta{margin-top:10px;background:#fbecea;border:2px solid var(--red);color:var(--red);padding:8px 10px;border-radius:8px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;line-height:1.45;}
-
-  tr.item-sem-valor td{background:#fff6ea;}
-  tr.item-sem-valor input[data-field="valor_total"]{border-color:var(--orange2);background:#fffaf3;}
-  tr.item-auto-preenchido td{background:#eafbfc;}
-  tr.item-auto-preenchido input[data-field="valor_total"]{border-color:var(--cyan);background:#f2fdfe;}
-  tr.linha-badge-auto td{padding:0 4px 8px;border-bottom:1px solid var(--line);}
-  .badge-auto{display:block;width:100%;box-sizing:border-box;font-size:10.5px;font-weight:700;color:#0d7a84;background:#d7f5f7;padding:5px 10px;border-radius:6px;font-family:'Poppins',sans-serif;text-transform:none;letter-spacing:0;line-height:1.4;}
-  select.pagamento-vazio{border-color:var(--orange2);background:#fffaf3;}
-  .comanda-aviso{margin-top:10px;background:#fff6ea;border:2px solid var(--orange2);color:#8a5a12;padding:8px 10px;border-radius:8px;font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;line-height:1.45;}
-
-  table{width:100%;border-collapse:collapse;margin-top:6px;}
-  th{font-family:'Poppins',sans-serif;font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);text-align:left;padding:6px 4px;border-bottom:2px solid var(--ink);}
-  td{padding:6px 4px;border-bottom:1px solid var(--line);vertical-align:middle;}
-  td input{padding:6px 6px;font-size:13px;width:100%;}
-  .item-name-col{width:36%;}
-  .del-btn{background:none;border:none;color:var(--red);cursor:pointer;font-size:16px;padding:4px;line-height:1;}
-  .add-item{margin-top:8px;background:none;border:2px dashed var(--ink-soft);color:var(--ink-soft);border-radius:8px;padding:8px 12px;font-family:'Poppins',sans-serif;font-weight:600;font-size:11.5px;cursor:pointer;width:100%;}
-  .add-item:hover{border-color:var(--red);color:var(--red);}
-
-  .subtotal-row{display:flex;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-soft);}
-
-  .total-row{display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding-top:12px;border-top:3px solid var(--ink);font-family:'Titan One',cursive;font-size:16px;color:var(--ink);}
-
-  .save-btn{width:100%;margin-top:16px;padding:16px;border-radius:10px;border:2px solid var(--ink);background:var(--orange2);color:var(--ink);font-family:'Titan One',cursive;font-size:16px;cursor:pointer;box-shadow:3px 3px 0 var(--ink);}
-  .save-btn:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink);}
-  .save-btn:disabled{opacity:.5;cursor:default;transform:none;}
-
-  .stamp-wrap{display:flex;justify-content:center;margin:18px 0;opacity:0;transform:scale(1.4) rotate(-8deg);transition:opacity .25s ease, transform .3s cubic-bezier(.2,1.6,.4,1);}
-  .stamp-wrap.show{opacity:1;transform:scale(1) rotate(-8deg);}
-  .stamp{border:3px solid var(--green);color:var(--green);font-family:'Titan One',cursive;font-size:15px;padding:8px 18px;border-radius:8px;letter-spacing:.03em;}
-
-  .lote-btn{
-    display:flex;align-items:center;justify-content:space-between;gap:10px;
-    width:100%;padding:13px 14px;margin-bottom:8px;border-radius:10px;border:2px solid var(--ink);
-    background:var(--orange);color:var(--ink);font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;
-    cursor:pointer;box-shadow:3px 3px 0 var(--ink);text-decoration:none;
-    position:relative;overflow:hidden;
+  header .sub {
+    font-size: 0.74rem;
+    color: var(--dourado-claro);
+    opacity: 0.75;
+    margin-top: 2px;
+    letter-spacing: 0.4px;
   }
-  .lote-btn:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink);}
-  .lote-btn.enviado{background:#e4f5e9;border-color:var(--green);color:var(--green);}
-  .lote-btn .lote-check{font-size:15px;}
-  .lote-btn>span{position:relative;z-index:2;}
-  .lote-fill{position:absolute;inset:0;width:0%;background:rgba(0,0,0,0.32);transition:width 1.6s ease;z-index:1;pointer-events:none;}
-  .lote-btn.enviado .lote-fill{display:none;}
-  .lote-btn.carregando{cursor:default;}
-  .lote-btn.lote-status{cursor:default;background:#fff;}
-  .lote-btn.lote-status:hover{transform:none;box-shadow:3px 3px 0 var(--ink);}
-  .lote-btn.lote-status.carregando{background:#fdecc8;}
-  .lote-btn.lote-status.enviado{background:#e4f5e9;}
-  .lote-btn.falhou{background:#fbecea;border-color:var(--red);color:var(--red);}
-  .lote-falha-detalhe{font-family:'Poppins',sans-serif;font-size:12px;color:var(--red);margin:-2px 0 10px 4px;}
-  .lote-falha-detalhe a{color:var(--red);font-weight:700;}
-  #comandasList.travado{pointer-events:none;opacity:.55;}
-
-  .error-box{background:#fbecea;border:2px solid var(--red);color:var(--red);padding:10px 12px;border-radius:8px;font-family:'Poppins',sans-serif;font-size:12.5px;margin-top:12px;}
-  .empty-hint{font-family:'Poppins',sans-serif;font-size:12.5px;color:var(--ink-soft);text-align:center;padding:10px 0;}
-
-  .history-item{display:flex;justify-content:space-between;padding:8px 4px;border-bottom:1px solid var(--line);font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-soft);}
-  .ultimo-envio{display:flex;flex-direction:column;gap:3px;padding:8px 4px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-soft);}
-  .ultimo-envio strong{color:var(--ink);font-family:'Poppins',sans-serif;}
-  .ultimo-envio .sub{font-size:11px;opacity:.75;}
-
-  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:50;padding:20px;}
-  .modal-bg.show{display:flex;}
-  .modal{background:var(--paper);border-radius:14px;padding:22px;max-width:420px;width:100%;border:2px solid var(--ink);box-shadow:6px 6px 0 rgba(0,0,0,0.5);}
-  .modal h2{font-family:'Titan One',cursive;font-size:20px;margin:0 0 6px;color:var(--red);}
-  .modal p{font-size:13px;color:var(--ink-soft);line-height:1.5;margin:0 0 14px;}
-  .mode-options{display:flex;flex-direction:column;gap:8px;}
-  .mode-option{display:flex;align-items:flex-start;gap:9px;border:2px solid var(--ink);border-radius:8px;padding:9px 10px;cursor:pointer;background:#fff;}
-  .mode-option:has(input:checked){background:var(--orange);}
-  .mode-option input[type=radio]{margin-top:3px;width:auto;flex-shrink:0;}
-  .mode-option-text{font-family:'Poppins',sans-serif;font-size:12.5px;color:var(--ink);line-height:1.45;}
-  .mode-option-text strong{font-size:13px;}
-  .mode-warning{background:#fbecea;border:2px solid var(--red);color:var(--red);padding:8px 10px;border-radius:8px;font-family:'Poppins',sans-serif;font-size:12px;margin-top:10px;}
-  .modal-actions{display:flex;gap:10px;margin-top:16px;}
-  .btn-secondary{flex:1;padding:11px;border-radius:8px;border:2px solid var(--ink);background:#fff;color:var(--ink);font-family:'Poppins',sans-serif;font-weight:700;cursor:pointer;font-size:14px;}
-  .btn-primary{flex:1;padding:11px;border-radius:8px;border:2px solid var(--ink);background:var(--orange);color:var(--ink);font-family:'Poppins',sans-serif;font-weight:700;cursor:pointer;font-size:14px;}
-
-  .back-btn{background:none;border:2px solid var(--paper);border-radius:8px;color:var(--paper);font-family:'Poppins',sans-serif;font-weight:600;font-size:12.5px;padding:8px 14px;cursor:pointer;margin:2px 0 18px;display:inline-flex;align-items:center;gap:6px;}
-
-  .bi-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
-  .bi-refresh{background:none;border:2px solid var(--paper);color:var(--paper);border-radius:8px;padding:7px 13px;font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;cursor:pointer;}
-  .bi-refresh:hover{background:var(--orange);border-color:var(--orange);color:var(--ink);}
-  .bi-updated{font-family:'Poppins',sans-serif;font-size:11px;color:var(--ink-soft);}
-  .bi-stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;}
-  .bi-stat{flex:1;min-width:130px;background:#fffdf6;border:2px solid var(--ink);border-radius:10px;padding:14px 10px;text-align:center;box-shadow:3px 3px 0 rgba(0,0,0,0.25);}
-  .bi-stat .bi-stat-value{font-family:'Titan One',cursive;font-size:19px;color:var(--ink);display:block;}
-  .bi-stat .bi-stat-label{font-family:'Poppins',sans-serif;font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin-top:5px;display:block;}
-  .bi-section-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;color:var(--ink);margin:0 0 12px;}
-  .bi-bar-row{margin-bottom:12px;}
-  .bi-bar-row:last-child{margin-bottom:0;}
-  .bi-bar-label{display:flex;justify-content:space-between;gap:8px;font-family:'Poppins',sans-serif;font-size:12.5px;color:var(--ink);margin-bottom:5px;}
-  .bi-bar-label .bi-bar-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .bi-bar-label .bi-bar-value{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);flex-shrink:0;}
-  .bi-bar-track{width:100%;height:10px;border-radius:6px;background:#e8e0c8;border:1.5px solid var(--ink);overflow:hidden;}
-  .bi-bar-fill{height:100%;background:linear-gradient(90deg, var(--cyan), var(--green));border-radius:6px 0 0 6px;}
-  .bi-item-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--line);font-family:'Poppins',sans-serif;font-size:13px;color:var(--ink);}
-  .bi-item-row:last-child{border-bottom:none;}
-  .bi-item-row .bi-item-qtd{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-soft);}
-  .bi-item-row .bi-item-total{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-soft);}
-  .back-btn:hover{background:var(--orange);border-color:var(--orange);color:var(--ink);}
-
-  .bi-two-col{display:flex;gap:14px;}
-  .bi-two-col>div{flex:1;min-width:0;}
-  .bi-mini-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:11.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;}
-  .growth-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;padding:1px 7px;border-radius:10px;flex-shrink:0;}
-  .growth-tag.up{background:#e3f6e7;color:var(--green);}
-  .growth-tag.down{background:#fbecea;color:var(--red);}
-
-
-  .date-filter-actions{display:flex;gap:14px;margin-bottom:10px;flex-wrap:wrap;}
-  .date-filter-link{background:none;border:none;padding:0;font-family:'Poppins',sans-serif;font-size:11.5px;font-weight:700;color:var(--red);cursor:pointer;text-decoration:underline;}
-
-  .calendar{background:#fffdf6;}
-  .cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
-  .cal-nav-btn{background:#fff;border:2px solid var(--ink);border-radius:7px;width:30px;height:30px;font-size:16px;line-height:1;cursor:pointer;color:var(--ink);font-weight:700;}
-  .cal-nav-btn:hover{background:var(--orange);}
-  .cal-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;color:var(--ink);text-transform:capitalize;}
-  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
-  .cal-weekday{font-family:'Poppins',sans-serif;font-size:10px;color:var(--ink-soft);text-align:center;font-weight:700;text-transform:uppercase;padding-bottom:2px;}
-  .cal-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#c9c0a6;}
-  .cal-cell.empty{visibility:hidden;}
-  .cal-cell.available{color:var(--ink);cursor:pointer;border:2px solid var(--ink);background:#fff;font-weight:700;}
-  .cal-cell.available:hover{background:#fdecc8;}
-  .cal-cell.selected{background:var(--orange);border-color:var(--ink);}
-  .cal-legend{margin-top:12px;display:flex;flex-direction:column;gap:6px;}
-  .cal-legend-item{display:flex;align-items:center;gap:7px;font-family:'Poppins',sans-serif;font-size:11.5px;color:var(--ink);}
-  .cal-legend-item.inactive{color:var(--ink-soft);opacity:.6;}
-  .cal-legend-dot{width:9px;height:9px;border-radius:50%;background:var(--orange);flex-shrink:0;}
-  .cal-legend-item.inactive .cal-legend-dot{background:#ccc;}
-
-  .home-grid{display:flex;flex-direction:column;gap:14px;}
-  .home-card{border:2px solid var(--ink);border-radius:var(--radius);padding:18px 20px;box-shadow:5px 5px 0 rgba(0,0,0,0.35);text-align:left;cursor:pointer;font-family:'Poppins',sans-serif;display:flex;align-items:center;gap:14px;width:100%;transition:transform .1s ease,box-shadow .1s ease;}
-  .home-card:hover{transform:translate(1px,1px);box-shadow:3px 3px 0 rgba(0,0,0,0.35);}
-  .home-card .icon{font-size:26px;flex-shrink:0;}
-  .home-card .title{font-family:'Titan One',cursive;font-size:16px;flex:1;}
-  .home-card .badge{background:rgba(0,0,0,0.5);color:#fff;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 9px;border-radius:20px;flex-shrink:0;}
-  .home-card.c-yellow{background:var(--orange);color:var(--ink);}
-  .home-card.c-orange{background:var(--orange2);color:var(--ink);}
-  .home-card.c-cyan{background:var(--cyan);color:var(--ink);}
-  .home-card.c-red{background:var(--red);color:#fff;}
-
-  .app-footer{text-align:center;margin-top:34px;padding-top:16px;border-top:1px solid rgba(247,241,226,0.15);font-family:'Poppins',sans-serif;font-size:11px;color:rgba(247,241,226,0.45);letter-spacing:.03em;}
-
-  .placeholder-card{text-align:center;padding:34px 18px;}
-  .placeholder-card .icon{font-size:34px;display:block;margin-bottom:10px;}
-  .placeholder-card h2{font-family:'Titan One',cursive;font-size:17px;color:var(--red);margin:0 0 8px;}
-  .placeholder-card p{font-family:'Poppins',sans-serif;font-size:13px;color:var(--ink-soft);line-height:1.5;margin:0;}
-
-  .menu-item-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
-  .menu-item-row .field{flex:1;}
-  .menu-item-row .field-price{flex:0 0 110px;}
-  .preco-sugerido{flex:0 0 auto;background:var(--green);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;padding:6px 9px;border-radius:8px;cursor:pointer;white-space:nowrap;border:none;}
-  .preco-sugerido:hover{filter:brightness(1.08);}
-  .repasse-box{background:#fdf6e6;border:2px dashed var(--orange);border-radius:10px;padding:12px 14px;margin-top:4px;}
-  .repasse-box label{margin:0 0 6px;}
-  .repasse-box input{max-width:140px;}
-  .repasse-hint{font-family:'Poppins',sans-serif;font-size:12px;color:var(--ink-soft);line-height:1.5;margin:8px 0 0;}
-  .repasse-erro{font-family:'Poppins',sans-serif;font-size:12px;color:var(--red);font-weight:700;margin-top:8px;}
-  .save-msg{font-family:'Poppins',sans-serif;font-size:12.5px;color:var(--ink-soft);margin-top:10px;}
-  .save-msg.ok{color:#3a8a4a;font-weight:600;}
+  #connStatus { margin-top: 6px; font-weight: 600; }
+  #connStatus.connected { color: #8fd9a8; }
+  #connStatus.disconnected { color: #f0b199; }
+  nav.tabs {
+    display: flex;
+    gap: 6px;
+    padding: 10px 16px 0;
+    background: var(--bg);
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    border-bottom: 1px solid var(--line);
+  }
+  nav.tabs button {
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  nav.tabs button.active {
+    background: var(--card);
+    color: var(--verde);
+    box-shadow: inset 0 -2px 0 var(--dourado);
+  }
+  main {
+    padding: 18px 16px 60px;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  .card h2 {
+    margin: 0 0 14px;
+    font-size: 1.05rem;
+    color: var(--verde-escuro);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  label {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  input, select, textarea {
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 0.92rem;
+    background: #fff;
+    color: var(--ink);
+    font-family: inherit;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: 2px solid var(--accent-soft);
+    border-color: var(--accent);
+  }
+  .field { margin-bottom: 12px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--verde);
+    color: var(--dourado-claro);
+    border: 1px solid var(--verde);
+    padding: 10px 16px;
+    border-radius: 9px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  .btn:hover { background: var(--verde-escuro); }
+  .btn.secondary {
+    background: transparent;
+    color: var(--verde);
+    border: 1px solid var(--dourado);
+  }
+  .btn.secondary:hover { background: var(--verde-suave); }
+  .btn.ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+  .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+  .row-actions { display: flex; gap: 8px; margin-top: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+  th, td {
+    text-align: left;
+    padding: 9px 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  th { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.3px; }
+  tr:hover td { background: var(--verde-suave); }
+  .tag {
+    display: inline-block;
+    background: var(--verde-suave);
+    color: var(--verde);
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+  .qty-low { color: var(--bad); font-weight: 700; }
+  .scroll-x { overflow-x: auto; }
+  .codigo-tag {
+    font-family: 'Inter', monospace;
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: var(--dourado-escuro);
+    background: var(--dourado-claro);
+    padding: 2px 7px;
+    border-radius: 6px;
+  }
+  .consignado-tag {
+    display: block;
+    font-size: 0.68rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  #lembretes-badge {
+    display: inline-block;
+    background: var(--bad);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    border-radius: 999px;
+    padding: 1px 6px;
+    margin-left: 3px;
+    vertical-align: middle;
+  }
+  #lembretes-badge:empty { display: none; }
+  .lembrete-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 4px;
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .lembrete-row:last-child { border-bottom: none; }
+  .lembrete-info { flex: 1; min-width: 200px; }
+  .lembrete-info .nome { font-weight: 700; }
+  .lembrete-info .detalhe { font-size: 0.8rem; color: var(--muted); }
+  .venc-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--dourado-claro);
+    color: var(--dourado-escuro);
+  }
+  .venc-badge.atrasado { background: #fbe4dd; color: var(--bad); }
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .toolbar input[type=text] { max-width: 240px; }
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.25s;
+    z-index: 50;
+    max-width: 90vw;
+    text-align: center;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.error { background: var(--bad); }
+  .toast.success { background: var(--good); }
+  .empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 30px 10px;
+    font-size: 0.9rem;
+  }
+  .venda-item {
+    display: grid;
+    grid-template-columns: 2fr 80px 100px 34px;
+    gap: 8px;
+    align-items: end;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .venda-total {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--verde);
+  }
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .kpi {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--dourado);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .kpi .label { font-size: 0.75rem; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+  .kpi .value { font-size: 1.5rem; font-weight: 800; margin-top: 4px; color: var(--verde-escuro); }
+  .config-box {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .config-box.connected { color: var(--good); }
+  .config-box.disconnected { color: var(--bad); }
+  .loading-dot::after {
+    content: '…';
+    animation: dots 1.2s steps(4, end) infinite;
+  }
+  @keyframes dots {
+    0%, 20% { content: ''; }
+    40% { content: '.'; }
+    60% { content: '..'; }
+    80%, 100% { content: '...'; }
+  }
+  @media (max-width: 560px) {
+    .venda-item { grid-template-columns: 1fr 1fr; }
+  }
 </style>
 </head>
 <body>
 
-  <header>
-    <button class="gear" id="gearBtn" title="Configurar planilha">⚙</button>
-    <div class="logo-wrap">
-      <div class="wordmark">NAR<span class="u">U</span>A</div>
-    </div>
-    <div class="eyebrow">FoodTruck</div>
-    <h1 id="pageSubtitle">Escolha o que você quer fazer</h1>
-  </header>
-
-  <svg class="side-wave side-wave-left" viewBox="0 0 40 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <defs>
-      <pattern id="archPatternLeft" patternUnits="userSpaceOnUse" width="40" height="180">
-        <g fill="none" stroke-linecap="round" stroke-width="6">
-          <path d="M0,6 A28,28 0 0 1 0,62" stroke="#e73334"/>
-          <path d="M0,14 A20,20 0 0 1 0,54" stroke="#e73334"/>
-          <path d="M0,22 A12,12 0 0 1 0,46" stroke="#e73334"/>
-          <path d="M0,30 A4,4 0 0 1 0,38" stroke="#e73334"/>
-
-          <path d="M0,54 A28,28 0 0 1 0,110" stroke="#f49140"/>
-          <path d="M0,62 A20,20 0 0 1 0,102" stroke="#f49140"/>
-          <path d="M0,70 A12,12 0 0 1 0,94" stroke="#f49140"/>
-          <path d="M0,78 A4,4 0 0 1 0,86" stroke="#f49140"/>
-
-          <path d="M0,102 A28,28 0 0 1 0,158" stroke="#40d5e8"/>
-          <path d="M0,110 A20,20 0 0 1 0,150" stroke="#40d5e8"/>
-          <path d="M0,118 A12,12 0 0 1 0,142" stroke="#40d5e8"/>
-          <path d="M0,126 A4,4 0 0 1 0,134" stroke="#40d5e8"/>
-        </g>
-      </pattern>
-    </defs>
-    <rect width="40" height="800" fill="url(#archPatternLeft)"/>
-  </svg>
-  <svg class="side-wave side-wave-right" viewBox="0 0 40 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <defs>
-      <pattern id="archPatternRight" patternUnits="userSpaceOnUse" width="40" height="180">
-        <g fill="none" stroke-linecap="round" stroke-width="6">
-          <path d="M40,6 A28,28 0 0 0 40,62" stroke="#e73334"/>
-          <path d="M40,14 A20,20 0 0 0 40,54" stroke="#e73334"/>
-          <path d="M40,22 A12,12 0 0 0 40,46" stroke="#e73334"/>
-          <path d="M40,30 A4,4 0 0 0 40,38" stroke="#e73334"/>
-
-          <path d="M40,54 A28,28 0 0 0 40,110" stroke="#f49140"/>
-          <path d="M40,62 A20,20 0 0 0 40,102" stroke="#f49140"/>
-          <path d="M40,70 A12,12 0 0 0 40,94" stroke="#f49140"/>
-          <path d="M40,78 A4,4 0 0 0 40,86" stroke="#f49140"/>
-
-          <path d="M40,102 A28,28 0 0 0 40,158" stroke="#40d5e8"/>
-          <path d="M40,110 A20,20 0 0 0 40,150" stroke="#40d5e8"/>
-          <path d="M40,118 A12,12 0 0 0 40,142" stroke="#40d5e8"/>
-          <path d="M40,126 A4,4 0 0 0 40,134" stroke="#40d5e8"/>
-        </g>
-      </pattern>
-    </defs>
-    <rect width="40" height="800" fill="url(#archPatternRight)"/>
-  </svg>
-
-  <div class="wrap">
-
-  <button class="back-btn" id="backBtn" style="display:none;">← Voltar ao menu</button>
-
-  <div id="viewHome">
-    <div class="home-grid">
-      <button class="home-card c-yellow" type="button" data-view="comandas">
-        <span class="icon">🧾</span>
-        <span class="title">Lançar comandas</span>
-        <span class="badge" id="homeBadgeRascunho" style="display:none;"></span>
-      </button>
-      <button class="home-card c-orange" type="button" data-view="menu">
-        <span class="icon">🍜</span>
-        <span class="title">Editar menu</span>
-      </button>
-      <button class="home-card c-cyan" type="button" data-view="bi">
-        <span class="icon">📊</span>
-        <span class="title">Inteligência</span>
-      </button>
-      <button class="home-card c-red" type="button" data-view="consultarCompras">
-        <span class="icon">📦</span>
-        <span class="title">Consultar compras</span>
-      </button>
-    </div>
+<header>
+  <div class="brand-mark">
+    <svg viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M60 6 V16" stroke="#e8d9a8" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="60" cy="6" r="4.5" stroke="#e8d9a8" stroke-width="3" fill="none"/>
+      <path d="M60 16 L14 44 Q10 46.5 14 48 H106 Q110 46.5 106 44 L60 16 Z" stroke="#e8d9a8" stroke-width="3" fill="none" stroke-linejoin="round"/>
+    </svg>
+    <div class="logo-nome">Re9</div>
+    <div class="logo-sub">Second Hand</div>
   </div>
+  <div class="sub">Estoque · Clientes · Vendas</div>
+  <div id="connStatus" class="config-box disconnected">⚙️ configurar conexão</div>
+</header>
 
-  <div id="viewComandas" style="display:none;">
+<nav class="tabs">
+  <button data-tab="estoque" class="active">Estoque</button>
+  <button data-tab="vendas">Vendas</button>
+  <button data-tab="clientes">Clientes</button>
+  <button data-tab="lembretes">Lembretes <span id="lembretes-badge"></span></button>
+  <button data-tab="resumo">Resumo</button>
+  <button data-tab="config">Config</button>
+</nav>
 
-  <div id="rascunhoAviso" class="comanda-aviso" style="display:none;margin:0 0 18px;"></div>
+<main>
 
-  <div class="step-label"><span class="num">1</span>Dados do evento</div>
-  <div class="card" id="eventoCard">
-    <div class="field-row">
-      <div class="field" style="flex:1 1 130px;">
-        <label>Data do evento</label>
-        <input type="date" id="eventoData">
-      </div>
-      <div class="field" style="flex:2 1 190px;">
-        <label>Local do evento</label>
-        <input type="text" id="eventoLocal" list="locaisList" placeholder="Ex: Buffet Jardim, SP">
-        <datalist id="locaisList"></datalist>
-      </div>
-      <div class="field" style="flex:1 1 110px;">
-        <label>% acréscimo <span class="label-opcional">(opcional)</span></label>
-        <input type="number" id="eventoAcrescimo" min="0" step="0.5" placeholder="Ex: 10">
-      </div>
-    </div>
-    <div class="evento-hint">esses dados vão junto com todas as comandas enviadas nesta sessão. O % de acréscimo é só informativo — vai junto pra planilha, mas não muda o valor de nenhum item.</div>
-  </div>
-
-  <div class="step-label"><span class="num">2</span>Adicionar comandas</div>
-  <div class="card">
-    <div class="btn-row">
-      <input type="file" id="galleryInput" accept="image/*" multiple>
-      <label class="capture-btn" id="galleryBtn" for="galleryInput">🖼️ Envio em lote</label>
-    </div>
-    <button class="add-item" id="manualBtn" style="margin-top:10px;">+ adicionar comanda manualmente (sem foto)</button>
-    <div id="modeHint" class="evento-hint" style="display:none;"></div>
-    <div id="status"></div>
-    <div id="errorWrap"></div>
-  </div>
-
-  <div id="comandasSection" style="display:none;">
-    <div class="step-label"><span class="num">3</span>Conferir comandas</div>
+  <!-- ===================== ESTOQUE ===================== -->
+  <section class="panel active" id="panel-estoque">
     <div class="card">
-      <div id="comandasList"></div>
-
-      <div class="total-row">
-        <span>Total geral</span>
-        <span id="totalGeral">R$ 0,00</span>
-      </div>
-
-      <button class="save-btn" id="compileBtn">Compilar</button>
-      <div class="empty-hint" style="margin-top:8px;" id="compileHint">isso separa as comandas em lotes (pra não estourar o limite de tamanho de um envio só) e mostra um botão pra você confirmar o envio de cada lote</div>
-
-      <div id="lotesSection" style="display:none;margin-top:14px;">
-        <div class="step-label" style="margin-top:6px;"><span class="num">✓</span>Enviar lotes</div>
-        <div class="empty-hint" style="margin-bottom:10px;" id="lotesHint"></div>
-        <div id="lotesList"></div>
-      </div>
-
+      <h2 id="estoque-form-title">Nova peça / categoria</h2>
+      <form id="form-estoque">
+        <input type="hidden" id="est-id">
+        <div class="grid">
+          <div class="field">
+            <label>Código</label>
+            <input type="text" id="est-codigo" placeholder="Ex: 0001" required>
+          </div>
+          <div class="field">
+            <label>Categoria</label>
+            <input type="text" id="est-categoria" list="lista-categorias" placeholder="Ex: Camisetas" required>
+            <datalist id="lista-categorias"></datalist>
+          </div>
+          <div class="field">
+            <label>Marca</label>
+            <input type="text" id="est-marca" placeholder="Ex: Zara, Hering…">
+          </div>
+          <div class="field">
+            <label>Descrição</label>
+            <input type="text" id="est-descricao" placeholder="Ex: Camiseta listrada azul" required>
+          </div>
+          <div class="field">
+            <label>Tamanho</label>
+            <input type="text" id="est-tamanho" placeholder="P / M / G / Único">
+          </div>
+          <div class="field">
+            <label>Cor</label>
+            <input type="text" id="est-cor" placeholder="Ex: Azul">
+          </div>
+          <div class="field">
+            <label>Quantidade</label>
+            <input type="number" id="est-quantidade" min="0" step="1" value="1" required>
+          </div>
+          <div class="field">
+            <label>Preço de custo (R$)</label>
+            <input type="number" id="est-preco-custo" min="0" step="0.01">
+          </div>
+          <div class="field">
+            <label>Preço de venda (R$)</label>
+            <input type="number" id="est-preco-venda" min="0" step="0.01" required>
+          </div>
+          <div class="field">
+            <label>Proprietário da peça</label>
+            <input type="text" id="est-proprietario" list="lista-proprietarios" value="RE9">
+            <datalist id="lista-proprietarios"></datalist>
+          </div>
+          <div class="field" id="est-comissao-wrap" style="display:none;">
+            <label>% Comissão Re9</label>
+            <input type="number" id="est-comissao" min="0" max="100" step="0.1" placeholder="Ex: 30">
+          </div>
+        </div>
+        <div class="row-actions">
+          <button type="submit" class="btn" id="est-submit-btn">Salvar</button>
+          <button type="button" class="btn ghost" id="est-cancel-btn" style="display:none">Cancelar edição</button>
+        </div>
+      </form>
     </div>
-  </div>
 
-  <div class="stamp-wrap" id="stampWrap"><div class="stamp">ENVIADO ✓</div></div>
-
-  <div class="step-label"><span class="num">4</span>Último envio</div>
-  <div class="card">
-    <div id="historyList"><div class="empty-hint">nenhum envio ainda</div></div>
-  </div>
-
-  </div><!-- /viewComandas -->
-
-  <div id="viewMenu" style="display:none;">
-    <div class="step-label">Cardápio de referência</div>
     <div class="card">
-      <div class="evento-hint">Esses preços não aparecem pro cliente — servem só pra sinalizar quando uma leitura de foto parece errada (ex: valor digitado errado pela IA).</div>
+      <div class="toolbar">
+        <h2 style="margin:0">Peças em estoque</h2>
+        <input type="text" id="est-busca" placeholder="Buscar código, categoria ou descrição…">
+        <button class="btn secondary" id="est-refresh">↻ Atualizar</button>
+      </div>
+      <div id="est-tabela-wrap" class="scroll-x">
+        <div class="empty loading-dot">Carregando</div>
+      </div>
+    </div>
+  </section>
 
-      <div class="repasse-box">
-        <label>Simular repasse de taxa (%)</label>
-        <input type="number" id="repasseInput" min="0" step="0.5" placeholder="Ex: 5">
-        <p class="repasse-hint">Informe a % da taxa que é descontada da venda (maquininha, marketplace, etc). O app calcula o preço que, depois de descontada essa taxa, ainda deixa o valor atual pra você — não é uma soma simples de %. Toque no preço sugerido pra aplicá-lo naquele item.</p>
-        <div id="repasseErro" class="repasse-erro" style="display:none;"></div>
+  <!-- ===================== VENDAS ===================== -->
+  <section class="panel" id="panel-vendas">
+    <div class="card">
+      <h2>Nova venda</h2>
+      <div class="field">
+        <label>Cliente</label>
+        <select id="venda-cliente">
+          <option value="">Venda avulsa (sem cliente)</option>
+        </select>
       </div>
 
-      <div id="menuRows" style="margin-top:14px;"></div>
-      <button class="add-item" id="addMenuItemBtn">+ adicionar item ao cardápio</button>
-      <button class="save-btn" id="saveMenuBtn">Salvar menu</button>
-      <div id="menuSaveMsg" class="save-msg"></div>
-      <a id="menuSyncLink" class="lote-btn" target="_blank" rel="noopener" style="display:none;margin-top:10px;">📤 Sincronizar cardápio com a planilha</a>
-    </div>
-  </div>
-
-  <div id="viewBI" style="display:none;">
-    <div id="biWrap"></div>
-  </div>
-
-  <div id="viewConsultarCompras" style="display:none;">
-    <div id="comprasWrap"></div>
-  </div>
-
-  <footer class="app-footer">Desenvolvido por @Neon</footer>
-
-</div>
-
-<div class="modal-bg" id="modalBg">
-  <div class="modal">
-    <h2>Conectar planilha</h2>
-    <p>Cole aqui a URL do Google Apps Script (Web App) da sua planilha.</p>
-    <label>URL do Web App</label>
-    <input type="url" id="webhookInput" placeholder="https://script.google.com/macros/s/.../exec">
-
-    <p style="margin-top:18px;">URL do Web App da planilha de <strong>compras</strong> (usado na tela "Consultar compras").</p>
-    <label>URL do Web App de compras</label>
-    <input type="url" id="comprasWebhookInput" placeholder="https://script.google.com/macros/s/.../exec">
-
-    <p style="margin-top:18px;">Token de acesso da planilha de comandas. Só preencha se você configurou um <strong>TOKEN</strong> nas propriedades do Apps Script — precisa ser igual nos dois lados.</p>
-    <label>Token <span class="label-opcional">(opcional)</span></label>
-    <input type="password" id="tokenInput" placeholder="deixe vazio se não usa" autocomplete="off">
-
-    <p style="margin-top:18px;">Como as fotos das comandas devem ser lidas?</p>
-    <div class="mode-options" id="modeOptions">
-      <label class="mode-option">
-        <input type="radio" name="apiMode" value="auto">
-        <span class="mode-option-text"><strong>Automático (Claude.ai)</strong><br>Grátis, mas só funciona aqui dentro do preview do Claude.ai.</span>
-      </label>
-      <label class="mode-option">
-        <input type="radio" name="apiMode" value="manual">
-        <span class="mode-option-text"><strong>Manual (sem IA)</strong><br>Sem custo nenhum. Cada foto vira uma comanda em branco pra preencher na mão. Funciona em qualquer lugar.</span>
-      </label>
-      <label class="mode-option">
-        <input type="radio" name="apiMode" value="own">
-        <span class="mode-option-text"><strong>Minha chave de API</strong><br>Usa sua própria chave da Anthropic. Tem custo por comanda lida. Funciona em qualquer lugar (celular, hospedado, etc).</span>
-      </label>
-    </div>
-    <p id="modeWarning" class="mode-warning" style="display:none;"></p>
-
-    <div id="apiKeyWrap" style="display:none;margin-top:12px;">
-      <label>Chave de API da Anthropic</label>
-      <input type="password" id="apiKeyInput" placeholder="sk-ant-..." autocomplete="off">
-    </div>
-
-    <div class="modal-actions">
-      <button class="btn-secondary" id="modalCancel">Cancelar</button>
-      <button class="btn-primary" id="modalSave">Salvar</button>
-    </div>
-  </div>
-</div>
-
-<script>
-let comandas = [];
-let webhookUrl = null;
-let comprasWebhookUrl = null;
-let comandaCounter = 0;
-let webhookToken = '';
-
-// Monta a URL do Apps Script de comandas, anexando o token (quando configurado).
-// O valor de cada parâmetro vai com encodeURIComponent — o mesmo cálculo usado
-// pra medir o tamanho dos lotes.
-function urlServidor(params){
-  const partes = Object.entries(params).map(([k, v]) => k + '=' + encodeURIComponent(v));
-  if (webhookToken) partes.push('token=' + encodeURIComponent(webhookToken));
-  return webhookUrl + (webhookUrl.includes('?') ? '&' : '?') + partes.join('&');
-}
-
-// ID único e permanente de cada comanda. Vai pra planilha junto com as linhas
-// e é o que permite (1) a planilha ignorar um lote reenviado sem duplicar e
-// (2) o BI contar comandas certo, mesmo sem nome de cliente.
-function novoIdComanda(){
-  if (window.crypto && typeof crypto.randomUUID === 'function') return 'cmd_' + crypto.randomUUID();
-  const rnd = () => Math.random().toString(16).slice(2, 10);
-  return 'cmd_' + Date.now().toString(16) + '-' + rnd() + '-' + rnd();
-}
-const DEFAULT_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby0jXp7ePzyMtJL5Muc2Vvy39ofhdsohRBLUBxrpeRjFPw0Ey5V947BpmvShg6izWuTag/exec';
-const DEFAULT_COMPRAS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzG0MwJ3miFutupkYbY-jIlovE-TkXbVS0qBNRpXTx_No5nbA_67JUOl6orr6042-bjyw/exec';
-const hasNativeStorage = typeof window.storage !== 'undefined';
-
-async function storageGet(key, shared){
-  if (hasNativeStorage) {
-    try { return await window.storage.get(key, shared); } catch(e){ return null; }
-  }
-  try {
-    const raw = localStorage.getItem((shared ? 'shared:' : 'local:') + key);
-    return raw !== null ? { key, value: raw, shared } : null;
-  } catch(e){ return null; }
-}
-async function storageSet(key, value, shared){
-  if (hasNativeStorage) {
-    try { return await window.storage.set(key, value, shared); } catch(e){ return null; }
-  }
-  try {
-    localStorage.setItem((shared ? 'shared:' : 'local:') + key, value);
-  } catch(e){ return null; }
-  return { key, value, shared };
-}
-async function storageList(prefix, shared){
-  if (hasNativeStorage) {
-    try { return await window.storage.list(prefix, shared); } catch(e){ return { keys: [] }; }
-  }
-  const p = (shared ? 'shared:' : 'local:') + (prefix || '');
-  const keys = [];
-  for (let i = 0; i < localStorage.length; i++){
-    const k = localStorage.key(i);
-    if (k.startsWith(p)) keys.push(k.slice(shared ? 7 : 6));
-  }
-  return { keys };
-}
-
-const galleryInput = document.getElementById('galleryInput');
-const galleryBtn = document.getElementById('galleryBtn');
-const statusEl = document.getElementById('status');
-const errorWrap = document.getElementById('errorWrap');
-const comandasSection = document.getElementById('comandasSection');
-const comandasList = document.getElementById('comandasList');
-const totalGeral = document.getElementById('totalGeral');
-const compileBtn = document.getElementById('compileBtn');
-const lotesSection = document.getElementById('lotesSection');
-const lotesList = document.getElementById('lotesList');
-const stampWrap = document.getElementById('stampWrap');
-const historyList = document.getElementById('historyList');
-const gearBtn = document.getElementById('gearBtn');
-const modalBg = document.getElementById('modalBg');
-const webhookInput = document.getElementById('webhookInput');
-const comprasWebhookInput = document.getElementById('comprasWebhookInput');
-const apiKeyInput = document.getElementById('apiKeyInput');
-const apiKeyWrap = document.getElementById('apiKeyWrap');
-const modeOptions = document.getElementById('modeOptions');
-const modeWarning = document.getElementById('modeWarning');
-const manualBtn = document.getElementById('manualBtn');
-let apiMode = 'manual';
-const eventoData = document.getElementById('eventoData');
-const eventoLocal = document.getElementById('eventoLocal');
-const eventoAcrescimo = document.getElementById('eventoAcrescimo');
-
-const backBtn = document.getElementById('backBtn');
-const VIEW_IDS = { home:'viewHome', comandas:'viewComandas', menu:'viewMenu', bi:'viewBI', consultarCompras:'viewConsultarCompras' };
-const VIEW_SUBTITLES = {
-  home: 'Escolha o que você quer fazer',
-  comandas: 'Registro de vendas do food truck',
-  menu: 'Editar cardápio de referência',
-  bi: 'Inteligência do negócio',
-  consultarCompras: 'Compras registradas em outra planilha'
-};
-function showView(view){
-  Object.values(VIEW_IDS).forEach(id => { document.getElementById(id).style.display = 'none'; });
-  document.getElementById(VIEW_IDS[view] || VIEW_IDS.home).style.display = 'block';
-  backBtn.style.display = view === 'home' ? 'none' : 'inline-flex';
-  gearBtn.style.display = (view === 'comandas' || view === 'consultarCompras') ? 'flex' : 'none';
-  document.getElementById('pageSubtitle').textContent = VIEW_SUBTITLES[view] || VIEW_SUBTITLES.home;
-  if (view === 'menu') renderMenuEditor();
-  if (view === 'bi') loadBI();
-  if (view === 'consultarCompras') loadCompras();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-backBtn.addEventListener('click', () => showView('home'));
-document.querySelectorAll('.home-card').forEach(btn => btn.addEventListener('click', () => showView(btn.dataset.view)));
-
-manualBtn.addEventListener('click', addManualComanda);
-gearBtn.addEventListener('click', openModal);
-document.getElementById('modalCancel').addEventListener('click', closeModal);
-document.getElementById('modalSave').addEventListener('click', saveWebhook);
-compileBtn.addEventListener('click', compilarLotes);
-galleryInput.addEventListener('change', e => handleFiles(e.target.files));
-// dados do evento agora só são salvos no momento do envio (ver compilarLotes/finalizarLocalmente)
-
-init();
-
-async function init(){
-  try {
-    const cfg = await storageGet('config:webhook', false);
-    if (cfg && cfg.value) webhookUrl = cfg.value;
-  } catch(e){}
-  if (!webhookUrl) webhookUrl = DEFAULT_WEBHOOK_URL;
-  try {
-    const cfgCompras = await storageGet('config:comprasWebhook', false);
-    if (cfgCompras && cfgCompras.value) comprasWebhookUrl = cfgCompras.value;
-  } catch(e){}
-  if (!comprasWebhookUrl) comprasWebhookUrl = DEFAULT_COMPRAS_WEBHOOK_URL;
-  try {
-    const cfgToken = await storageGet('config:token', false);
-    if (cfgToken && cfgToken.value) webhookToken = cfgToken.value;
-  } catch(e){}
-  try {
-    const savedMode = await storageGet('config:apimode', false);
-    if (savedMode && savedMode.value) {
-      apiMode = savedMode.value;
-    } else {
-      const legacy = await storageGet('config:localmode', false);
-      apiMode = (legacy && legacy.value === 'true') ? 'manual' : (hasNativeStorage ? 'auto' : 'manual');
-    }
-  } catch(e){ apiMode = hasNativeStorage ? 'auto' : 'manual'; }
-  updateModeHint();
-  eventoData.value = dataHojeSP();
-  try {
-    const m = await storageGet('config:menu', false);
-    if (m && m.value) {
-      const parsed = JSON.parse(m.value);
-      if (Array.isArray(parsed) && parsed.length > 0) MENU_REFERENCIA = parsed;
-    }
-  } catch(e){ }
-  // A planilha é a fonte "oficial" do cardápio quando alcançável; o que está em
-  // local storage fica como cache/reserva pra quando não der pra buscar
-  // (offline, ou dentro do preview do chat).
-  try {
-    const resMenu = await fetch(urlServidor({ action: 'menu' }));
-    if (resMenu.ok) {
-      const itensSheet = await resMenu.json();
-      if (Array.isArray(itensSheet) && itensSheet.length > 0) {
-        MENU_REFERENCIA = itensSheet.map(i => ({ chave: normalizarTexto(i.chave), max: Number(i.max) || 0 })).filter(i => i.chave);
-        try { await storageSet('config:menu', JSON.stringify(MENU_REFERENCIA), false); } catch(e){}
-      }
-    }
-  } catch(e){ /* sem sinal ou dentro do chat: segue com o que já tem (local ou padrão do código) */ }
-  recalcMaiorPrecoCardapio();
-  await loadHistory();
-  await restaurarRascunho();
-  showView('home');
-}
-
-// ---------- Rascunho: comandas em conferência sobrevivem a recarregar/fechar a aba ----------
-const RASCUNHO_KEY = 'rascunho:comandas';
-let rascunhoTimer = null;
-
-function salvarRascunho(){
-  clearTimeout(rascunhoTimer);
-  rascunhoTimer = setTimeout(async () => {
-    try {
-      if (comandas.length === 0) {
-        await storageSet(RASCUNHO_KEY, '', false);
-      } else {
-        await storageSet(RASCUNHO_KEY, JSON.stringify({
-          salvoEm: new Date().toISOString(),
-          evento: { data: eventoData.value, local: eventoLocal.value, acrescimo: eventoAcrescimo.value },
-          comandas
-        }), false);
-      }
-    } catch(e){ /* sem espaço ou storage indisponível: segue sem rascunho */ }
-    atualizarIndicadoresRascunho();
-  }, 400);
-}
-
-async function limparRascunho(){
-  clearTimeout(rascunhoTimer);
-  try { await storageSet(RASCUNHO_KEY, '', false); } catch(e){}
-  document.getElementById('rascunhoAviso').style.display = 'none';
-  atualizarIndicadoresRascunho();
-}
-
-function atualizarIndicadoresRascunho(){
-  const badge = document.getElementById('homeBadgeRascunho');
-  if (comandas.length > 0) {
-    badge.textContent = comandas.length === 1 ? '1 pendente' : `${comandas.length} pendentes`;
-    badge.style.display = 'inline-block';
-  } else {
-    badge.style.display = 'none';
-    document.getElementById('rascunhoAviso').style.display = 'none';
-  }
-}
-
-async function restaurarRascunho(){
-  let r = null;
-  try {
-    const res = await storageGet(RASCUNHO_KEY, false);
-    if (res && res.value) r = JSON.parse(res.value);
-  } catch(e){ r = null; }
-  if (!r || !Array.isArray(r.comandas) || r.comandas.length === 0) return;
-
-  // rascunhos antigos (antes do ID único) ganham um ID agora
-  comandas = r.comandas.map(c => (c.id && String(c.id).startsWith('cmd_')) ? c : { ...c, id: novoIdComanda() });
-  if (r.evento) {
-    if (r.evento.data) eventoData.value = r.evento.data;
-    if (r.evento.local) eventoLocal.value = r.evento.local;
-    if (r.evento.acrescimo) eventoAcrescimo.value = r.evento.acrescimo;
-  }
-  renderComandas();
-  comandasSection.style.display = 'block';
-
-  const quando = r.salvoEm ? new Date(r.salvoEm) : null;
-  const quandoTxt = quando
-    ? ` (salvas em ${quando.toLocaleDateString('pt-BR', {timeZone:'America/Sao_Paulo'})} às ${quando.toLocaleTimeString('pt-BR', {timeZone:'America/Sao_Paulo', hour:'2-digit', minute:'2-digit'})})`
-    : '';
-  const aviso = document.getElementById('rascunhoAviso');
-  aviso.innerHTML = `💾 Recuperei ${comandas.length} comanda${comandas.length > 1 ? 's' : ''} que ainda não ${comandas.length > 1 ? 'foram enviadas' : 'foi enviada'}${escapeHtml(quandoTxt)}. Confira e envie normalmente.
-    <button type="button" id="descartarRascunhoBtn" style="margin-left:6px;background:none;border:none;padding:0;color:var(--red);font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;cursor:pointer;text-decoration:underline;">descartar rascunho</button>`;
-  aviso.style.display = 'block';
-  document.getElementById('descartarRascunhoBtn').addEventListener('click', async () => {
-    if (!confirm('Descartar as comandas recuperadas? Elas ainda não foram para a planilha.')) return;
-    comandas = [];
-    renderComandas();
-    comandasSection.style.display = 'none';
-    resetarTelaDeLotes();
-    await limparRascunho();
-  });
-}
-
-[eventoData, eventoLocal, eventoAcrescimo].forEach(el => el.addEventListener('input', () => {
-  if (comandas.length > 0) salvarRascunho();
-}));
-
-function dataHojeSP(){
-  return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo', year:'numeric', month:'2-digit', day:'2-digit' }).format(new Date());
-}
-function agoraSP(){
-  return new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
-}
-
-async function saveEventoConfig(){
-  try {
-    await storageSet('config:evento', JSON.stringify({
-      data: eventoData.value, local: eventoLocal.value, acrescimo: eventoAcrescimo.value
-    }), false);
-  } catch(e){  }
-}
-
-async function openModal(){
-  webhookInput.value = webhookUrl || '';
-  comprasWebhookInput.value = comprasWebhookUrl || '';
-  document.getElementById('tokenInput').value = webhookToken || '';
-  const radio = modeOptions.querySelector(`input[value="${apiMode}"]`);
-  if (radio) radio.checked = true;
-  try {
-    const k = await storageGet('config:apikey', false);
-    apiKeyInput.value = k ? k.value : '';
-  } catch(e){ apiKeyInput.value = ''; }
-  modeWarning.style.display = 'none';
-  updateModalModeUI();
-  modalBg.classList.add('show');
-}
-function closeModal(){ modalBg.classList.remove('show'); }
-async function saveWebhook(){
-  const val = webhookInput.value.trim();
-  if (val) {
-    try { await storageSet('config:webhook', val, false); webhookUrl = val; }
-    catch(e){  }
-  }
-  const valCompras = comprasWebhookInput.value.trim();
-  try {
-    await storageSet('config:comprasWebhook', valCompras, false);
-    comprasWebhookUrl = valCompras || null;
-  } catch(e){  }
-  const valToken = document.getElementById('tokenInput').value.trim();
-  try {
-    await storageSet('config:token', valToken, false);
-    webhookToken = valToken;
-  } catch(e){  }
-  biDados = null; // força o BI a buscar de novo com a configuração nova
-  const selected = modeOptions.querySelector('input[name="apiMode"]:checked');
-  const newMode = selected ? selected.value : 'manual';
-  const key = apiKeyInput.value.trim();
-
-  if (newMode === 'own' && !key) {
-    modeWarning.textContent = 'Pra usar sua própria chave, preencha o campo com a chave de API da Anthropic.';
-    modeWarning.style.display = 'block';
-    return;
-  }
-
-  try {
-    if (key) await storageSet('config:apikey', key, false);
-    else await storageSet('config:apikey', '', false);
-  } catch(e){  }
-
-  apiMode = newMode;
-  try { await storageSet('config:apimode', apiMode, false); }
-  catch(e){  }
-  updateModeHint();
-  closeModal();
-}
-
-const MODE_HINTS = {
-  auto: '🤖 leitura automática (modo Claude.ai) — grátis aqui dentro, mas não funciona fora do Claude.ai',
-  manual: '🔒 modo manual ativo — nenhuma chamada de IA será feita, sem custo',
-  own: '🔑 leitura automática com sua chave de API — cada foto lida gera custo na sua conta Anthropic'
-};
-function updateModeHint(){
-  const hintEl = document.getElementById('modeHint');
-  hintEl.textContent = MODE_HINTS[apiMode] || '';
-  hintEl.style.display = 'block';
-}
-function updateModalModeUI(){
-  const selected = modeOptions.querySelector('input[name="apiMode"]:checked');
-  const val = selected ? selected.value : apiMode;
-  apiKeyWrap.style.display = val === 'own' ? 'block' : 'none';
-  if (val === 'auto' && !hasNativeStorage) {
-    modeWarning.textContent = 'Você está fora do Claude.ai — o modo automático não vai funcionar aqui. Escolha "Manual" ou "Minha chave de API".';
-    modeWarning.style.display = 'block';
-  } else {
-    modeWarning.style.display = 'none';
-  }
-}
-modeOptions.addEventListener('change', updateModalModeUI);
-
-function getEvento(){
-  return { data: eventoData.value, local: eventoLocal.value.trim(), acrescimo: parseFloat(eventoAcrescimo.value) || 0 };
-}
-
-async function handleFiles(fileList){
-  const files = Array.from(fileList || []);
-  if (files.length === 0) return;
-  if (envioEmAndamento()) { showError('Aguarde o envio dos lotes terminar antes de adicionar comandas.'); galleryInput.value = ''; return; }
-  const ev = getEvento();
-  if (!ev.data || !ev.local) {
-    showError('Preencha a data e o local do evento antes de adicionar comandas.');
-    eventoData.focus();
-    return;
-  }
-  errorWrap.innerHTML = '';
-  galleryInput.disabled = true;
-  galleryBtn.classList.add('disabled');
-
-  if (apiMode === 'manual') {
-    files.forEach(() => addComanda({ itens: [] }));
-  } else {
-    const total = files.length;
-    let lidas = 0;
-    setProgress(lidas, total);
-
-    const grupos = [];
-    for (let i = 0; i < files.length; i += IMAGENS_POR_LOTE_LEITURA){
-      grupos.push(files.slice(i, i + IMAGENS_POR_LOTE_LEITURA));
-    }
-
-    let houveErro = false;
-    let ultimoErro = null;
-    let leiturasFaltando = 0;
-    for (const grupo of grupos){
-      try {
-        const imagens = await Promise.all(grupo.map(f => fileToBase64(f)));
-        const resultados = await analyzeImagesBatch(imagens);
-        // A IA deve devolver uma leitura por foto. Se vier menos, uma comanda
-        // sumiria em silêncio — completa com comandas em branco e avisa.
-        // Se vier mais, descarta o excedente (não existe foto pra ele).
-        resultados.slice(0, grupo.length).forEach(parsed => addComanda(parsed));
-        for (let i = resultados.length; i < grupo.length; i++){
-          addComanda({ itens: [] });
-          leiturasFaltando++;
-        }
-      } catch(err){
-        houveErro = true;
-        ultimoErro = err;
-        grupo.forEach(() => addComanda({ itens: [] }));
-      }
-      lidas += grupo.length;
-      setProgress(lidas, total);
-    }
-
-    if (leiturasFaltando > 0 && !houveErro){
-      showError(`A IA devolveu menos leituras do que fotos enviadas: ${leiturasFaltando} comanda${leiturasFaltando > 1 ? 's ficaram' : ' ficou'} em branco no fim da lista. Confira qual foto faltou e preencha à mão.`);
-    }
-    if (houveErro){
-      const detalhe = ultimoErro && ultimoErro.message ? ` (${escapeHtml(ultimoErro.message)})` : '';
-      if (apiMode === 'auto' && !hasNativeStorage) {
-        showError(`Não consegui ler as fotos automaticamente${detalhe}. O modo "Automático (Claude.ai)" só funciona dentro do preview do Claude.ai. No ícone de engrenagem ⚙, mude para "Manual" ou "Minha chave de API". Comandas em branco foram adicionadas para você preencher manualmente.`);
-      } else if (apiMode === 'own') {
-        showError(`Não consegui ler algumas fotos automaticamente${detalhe}. Confira se a chave de API no ícone de engrenagem ⚙ está correta e com créditos disponíveis. Comandas em branco foram adicionadas para você preencher manualmente onde a leitura falhou.`);
-      } else {
-        showError(`Não consegui ler algumas fotos automaticamente${detalhe}. Comandas em branco foram adicionadas para você preencher manualmente onde a leitura falhou.`);
-      }
-    }
-  }
-  setStatus('', false);
-  galleryInput.disabled = false;
-  galleryBtn.classList.remove('disabled');
-  galleryInput.value = '';
-  resetarTelaDeLotes();
-  comandasSection.style.display = 'block';
-  comandasSection.scrollIntoView({behavior:'smooth', block:'start'});
-}
-
-// Garante que, ao entrar novas comandas (novas fotos ou adição manual), a
-// tela volte pro estado "Compilar", descartando qualquer compilação de
-// lotes anterior (que não faz mais sentido depois que a lista de comandas
-// mudou).
-function resetarTelaDeLotes(){
-  loteState = null;
-  lotesSection.style.display = 'none';
-  compileBtn.style.display = 'block';
-  document.getElementById('compileHint').style.display = 'block';
-  stampWrap.classList.remove('show');
-}
-
-function addManualComanda(){
-  if (envioEmAndamento()) { showError('Aguarde o envio dos lotes terminar antes de adicionar comandas.'); return; }
-  const ev = getEvento();
-  if (!ev.data || !ev.local) {
-    showError('Preencha a data e o local do evento antes de adicionar comandas.');
-    eventoData.focus();
-    return;
-  }
-  errorWrap.innerHTML = '';
-  addComanda({ itens: [] });
-  resetarTelaDeLotes();
-  comandasSection.style.display = 'block';
-  comandasSection.scrollIntoView({behavior:'smooth', block:'start'});
-}
-
-// Mantido como reserva: lê o arquivo cru, sem redimensionar. Usado como
-// fallback se o redimensionamento por canvas falhar por algum motivo.
-function fileToBase64Original(file){
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve({ data: reader.result.split(',')[1], mediaType: file.type || 'image/jpeg' });
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-// 1568px no maior lado é o teto recomendado pela Anthropic pra imagens de
-// leitura de texto — acima disso não ganha precisão, só custa mais tokens
-// (e demora mais pra enviar, especialmente em rede de celular).
-const MAX_IMAGE_DIMENSION = 1568;
-
-function fileToBase64(file){
-  return new Promise((resolve) => {
-    const url = URL.createObjectURL(file);
-    const img = new Image();
-    const usarFallback = () => {
-      URL.revokeObjectURL(url);
-      fileToBase64Original(file).then(resolve).catch(() => resolve({ data: '', mediaType: file.type || 'image/jpeg' }));
-    };
-    img.onload = () => {
-      try {
-        let { width, height } = img;
-        const maiorLado = Math.max(width, height);
-        if (maiorLado > MAX_IMAGE_DIMENSION) {
-          const escala = MAX_IMAGE_DIMENSION / maiorLado;
-          width = Math.round(width * escala);
-          height = Math.round(height * escala);
-        }
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, width, height);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
-        URL.revokeObjectURL(url);
-        resolve({ data: dataUrl.split(',')[1], mediaType: 'image/jpeg' });
-      } catch (e) {
-        usarFallback();
-      }
-    };
-    img.onerror = usarFallback;
-    img.src = url;
-  });
-}
-
-async function analyzeImagesBatch(imagens){
-  const headers = { 'Content-Type': 'application/json' };
-
-  if (apiMode === 'own') {
-    const keyCfg = await storageGet('config:apikey', false);
-    const apiKey = keyCfg && keyCfg.value ? keyCfg.value : null;
-    if (!apiKey) {
-      throw new Error('Nenhuma chave de API configurada para o modo "Minha chave de API"');
-    }
-    headers['x-api-key'] = apiKey;
-    headers['anthropic-version'] = '2023-06-01';
-    headers['anthropic-dangerous-direct-browser-access'] = 'true';
-  }
-
-  const conteudoImagens = imagens.map((img, idx) => ([
-    { type: 'text', text: `Comanda ${idx+1}:` },
-    { type: 'image', source: { type: 'base64', media_type: img.mediaType, data: img.data } }
-  ])).flat();
-
-  const menuTexto = MENU_REFERENCIA.length
-    ? MENU_REFERENCIA.map(m => `- ${m.chave}: até R$ ${m.max.toFixed(2)} por unidade`).join('\n')
-    : '(nenhum item cadastrado)';
-
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 4000,
-      system: `Você extrai dados de comandas/pedidos de restaurante a partir de fotos. Cada foto recebida é uma comanda separada e independente, na ordem em que aparecem (Comanda 1, Comanda 2, etc). As comandas têm uma coluna de quantidade vendida e uma coluna de valor — esse valor escrito já é o TOTAL da linha (quantidade vezes o preço unitário), não é o preço unitário individual. Por exemplo, se a linha mostra quantidade 2 e valor 50, isso significa 2 unidades somando R$ 50 no total, e você deve devolver quantidade=2 e valor_total=50. Leia os números exatamente como estão escritos. As comandas também têm caixas marcadas com as siglas CR (crédito), DB (débito), PIX e DN (dinheiro) indicando a forma de pagamento — geralmente uma está circulada, marcada com X, ou destacada. Na base da comanda também costuma haver o nome do cliente. Algumas comandas também têm um número escrito em tinta/caneta VERMELHA no canto superior direito da folha — esse número é o identificador único daquela comanda (ID). Procure especificamente por esse número vermelho no canto superior direito; se ele existir e for legível, devolva-o como texto exatamente como está escrito (pode ter zeros à esquerda, ex: "042"); se não houver número vermelho visível ou ele estiver ilegível, devolva null nesse campo — não confunda com outros números da comanda (valores, quantidades, telefone). Responda APENAS com um JSON válido, sem markdown, sem texto adicional, sem nenhum comentário ou frase antes ou depois (nunca escreva coisas como "Analisando a imagem..." ou qualquer introdução — a primeira coisa que você escrever deve ser o caractere '{'), no formato exato: {"comandas": [{"numero": string ou null, "pagamento": "Crédito" | "Débito" | "Pix" | "Dinheiro" | "Não identificado", "cliente": string ou null, "itens": [{"nome": string, "quantidade": number, "valor_total": number}]}]}. O array "comandas" deve ter exatamente ${imagens.length} posições, uma para cada foto recebida, na mesma ordem. Quantidade padrão 1 se não estiver escrita. Não invente itens que não estão na comanda. Se não conseguir identificar a forma de pagamento, use "Não identificado". Se não encontrar cliente, use null.
-
-Preços de referência do cardápio deste food truck (por unidade, aproximados):
-${menuTexto}
-Esses preços existem só pra te ajudar a não errar a leitura de números, não são regra fixa. Antes de responder, confira: se o valor unitário implícito de um item (valor_total dividido pela quantidade) ficar MUITO acima do preço de referência do item mais parecido nessa lista — por exemplo, ler "4000" para um yakissoba de até R$ 40 — isso é quase sempre erro de leitura (um dígito a mais, vírgula e ponto confundidos, ou leu outro número da comanda por engano). Nesse caso, releia a região da imagem com atenção redobrada e corrija antes de responder. Só volte um valor fora da faixa de referência se, depois de reler com cuidado, tiver certeza de que é exatamente o que está escrito na comanda — nunca invente ou arredonde um valor que você não consegue confirmar.`,
-      messages: [{ role: 'user', content: conteudoImagens }]
-    })
-  });
-  const data = await response.json();
-  if (data.type === 'error') {
-    const msg = (data.error && data.error.message) ? data.error.message : 'erro desconhecido';
-    throw new Error('Erro da API: ' + msg);
-  }
-  const textBlock = (data.content || []).find(b => b.type === 'text');
-  if (!textBlock) throw new Error('Sem resposta da IA');
-  let clean = textBlock.text.trim().replace(/^```json/i,'').replace(/^```/,'').replace(/```$/,'').trim();
-  // A IA às vezes escreve um comentário antes/depois do JSON (ex: "Analisando a imagem...").
-  // Em vez de assumir que a resposta inteira é JSON puro, extraímos só o trecho entre
-  // a primeira '{' e a última '}' correspondente.
-  const inicio = clean.indexOf('{');
-  const fim = clean.lastIndexOf('}');
-  if (inicio === -1 || fim === -1 || fim < inicio) {
-    throw new Error('Resposta da IA não trouxe JSON reconhecível: ' + clean.slice(0, 120));
-  }
-  clean = clean.slice(inicio, fim + 1);
-  let parsed;
-  try {
-    parsed = JSON.parse(clean);
-  } catch (e) {
-    throw new Error('JSON inválido na resposta da IA: ' + e.message);
-  }
-  return parsed.comandas || [];
-}
-
-function addComanda(parsed){
-  const id = novoIdComanda();
-  const itens = (parsed.itens || []).map((it, idx) => tentarPreencherAutomatico({
-    id: id + '_it' + idx,
-    nome: it.nome || '',
-    quantidade: it.quantidade || 1,
-    valor_total: it.valor_total || 0
-  }));
-  if (itens.length === 0){
-    itens.push({ id: id + '_it0', nome: '', quantidade: 1, valor_total: 0 });
-  }
-  comandas.push({ id, numero: parsed.numero || '', pagamento: parsed.pagamento || 'Não identificado', cliente: parsed.cliente || '', itens });
-  renderComandas();
-}
-
-function setStatus(msg, loading){
-  statusEl.innerHTML = !msg ? '' : (loading ? `<div class="spinner"></div><span>${msg}</span>` : `<span>${msg}</span>`);
-}
-function setProgress(atual, total){
-  const pct = total ? Math.round((atual/total)*100) : 0;
-  const concluido = atual >= total;
-  statusEl.innerHTML = `
-    <div class="progress-wrap">
-      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
-      <div class="progress-label">${concluido ? 'Leitura concluída' : 'Lendo comandas'}: ${atual} de ${total}${concluido ? ' ✓' : '…'}</div>
-    </div>`;
-}
-function showError(msg){
-    errorWrap.innerHTML = `<div class="error-box">${msg}</div>`;
-}
-function formatBRL(n){ return 'R$ ' + (n||0).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2}); }
-function escapeHtml(s){ return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-
-// Preços de referência do cardápio NARUA (comida asiática de rua), usados só
-// para detectar leituras de comanda claramente fora da curva (ex: IA lendo
-// "116,00" como "11600"). "chave" é comparada contra o nome do item sem
-// acento/caixa; usa o maior preço de cada item (ex: Yakissoba G) como teto.
-let MENU_REFERENCIA = [
-  { chave: 'yakissoba p', max: 25 },
-  { chave: 'yakissoba g', max: 40 },
-  { chave: 'yakissoba', max: 25 }, // sem tamanho informado: considera P
-  { chave: 'karaague', max: 20 },
-  { chave: 'tempura', max: 18 },
-  { chave: 'corn dog', max: 18 },
-  { chave: 'takoyaki', max: 20 },
-  { chave: 'nikkuman', max: 18 },
-  { chave: 'guioza', max: 18 },
-  { chave: 'shimeji', max: 18 },
-  { chave: 'harumaki', max: 18 },
-  { chave: 'poke', max: 60 },
-  { chave: 'refrigerante', max: 7 },
-  { chave: 'heineken', max: 10 },
-  { chave: 'agua', max: 4 },
-  { chave: 'cha gelado', max: 15 },
-  { chave: 'suco natural', max: 9 },
-  { chave: 'suco importado', max: 17 },
-];
-let MAIOR_PRECO_CARDAPIO = Math.max(...MENU_REFERENCIA.map(m => m.max));
-function recalcMaiorPrecoCardapio(){
-  MAIOR_PRECO_CARDAPIO = MENU_REFERENCIA.length ? Math.max(...MENU_REFERENCIA.map(m => m.max)) : 40;
-}
-
-// Margem de repasse: quanto acima do preço de tabela ainda é considerado
-// normal (ex: reajuste pontual em evento, combo, etc). Ajuste este número
-// livremente — 0.2 = 20%, 0.5 = 50%... só o que passar disso é sinalizado.
-const MARGEM_REPASSE_PCT = 0.5; // 50% de folga: cobre um repasse de 20% com boa sobra
-
-const TOLERANCIA_ITEM_CONHECIDO = 1 + MARGEM_REPASSE_PCT;        // ex: 1.5x o preço de tabela
-const TOLERANCIA_ITEM_DESCONHECIDO = 1 + (MARGEM_REPASSE_PCT * 3); // item fora do cardápio: mais folga, sem referência exata
-const VALOR_TOTAL_ABSURDO = 800; // nenhuma linha de comanda de food truck deveria chegar perto disso
-
-function normalizarTexto(s){
-  return (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
-}
-function encontrarNoMenu(nome){
-  const norm = normalizarTexto(nome);
-  if (!norm) return null;
-  return MENU_REFERENCIA.find(m => norm.includes(m.chave)) || null;
-}
-// Quando a IA não lê nenhum valor pro item, pode ser um lançamento de iFood
-// (o preço não fica escrito na comanda física, só o nome do prato). Nesse
-// caso, tenta preencher automaticamente com o preço do cardápio de
-// referência e marca o item como "preenchido automaticamente", pra
-// conferência humana antes de enviar.
-function tentarPreencherAutomatico(item){
-  if (item.valor_total) return item;
-  if (!item.nome) return item;
-  const doMenu = encontrarNoMenu(item.nome);
-  if (!doMenu || !doMenu.max) return item;
-  const qtd = Number(item.quantidade) || 1;
-  return { ...item, valor_total: doMenu.max * qtd, autoPreenchido: true };
-}
-// Retorna { suspeito, motivo } comparando o preço unitário implícito do item
-// com o cardápio. Não altera nada — só sinaliza pra conferência humana.
-function avaliarItem(item){
-  const valorTotal = Number(item.valor_total) || 0;
-  const quantidade = Number(item.quantidade) || 1;
-  if (valorTotal <= 0) return { suspeito: false };
-  const precoUnitario = valorTotal / quantidade;
-  const doMenu = encontrarNoMenu(item.nome);
-  const limite = doMenu ? doMenu.max * TOLERANCIA_ITEM_CONHECIDO : MAIOR_PRECO_CARDAPIO * TOLERANCIA_ITEM_DESCONHECIDO;
-  if (precoUnitario > limite || valorTotal > VALOR_TOTAL_ABSURDO){
-    const motivo = doMenu
-      ? `"${item.nome || 'item'}" custa ${formatBRL(doMenu.max)} no cardápio (já com margem de repasse até ${formatBRL(limite)}), mas aqui está ${formatBRL(precoUnitario)}/un.`
-      : `"${item.nome || 'item'}" está a ${formatBRL(precoUnitario)}/un — bem acima do maior preço do cardápio, mesmo com margem (limite ${formatBRL(limite)}).`;
-    return { suspeito: true, motivo };
-  }
-  return { suspeito: false };
-}
-function atualizarAlertaComanda(comanda, card){
-  if (!card) return;
-  const alertaEl = card.querySelector('.comanda-alerta');
-  if (!alertaEl) return;
-  const suspeitos = comanda.itens.map(avaliarItem).filter(a => a.suspeito);
-  if (suspeitos.length === 0){
-    alertaEl.style.display = 'none';
-    alertaEl.innerHTML = '';
-  } else {
-    alertaEl.style.display = 'block';
-    alertaEl.innerHTML = '⚠️ Confira antes de salvar: ' + suspeitos.map(a => escapeHtml(a.motivo)).join(' ');
-  }
-}
-function atualizarAvisoComanda(comanda, card){
-  if (!card) return;
-  const avisoEl = card.querySelector('.comanda-aviso');
-  if (!avisoEl) return;
-  const partes = [];
-  if (!comanda.numero){
-    partes.push('o número da comanda (etiqueta vermelha) não foi identificado — preencha se houver');
-  }
-  if (comanda.pagamento === 'Não identificado'){
-    partes.push('a forma de pagamento não foi identificada — informe se souber');
-  }
-  const itensSemValor = comanda.itens.filter(i => !i.valor_total).length;
-  if (itensSemValor > 0){
-    partes.push(itensSemValor === 1 ? '1 item está sem valor informado' : `${itensSemValor} itens estão sem valor informado`);
-  }
-  const itensAuto = comanda.itens.filter(i => i.autoPreenchido).length;
-  if (itensAuto > 0){
-    partes.push(itensAuto === 1 ? '1 item teve o preço preenchido automaticamente pelo cardápio (pode ser iFood) — confira' : `${itensAuto} itens tiveram o preço preenchido automaticamente pelo cardápio (pode ser iFood) — confira`);
-  }
-  if (partes.length === 0){
-    avisoEl.style.display = 'none';
-    avisoEl.innerHTML = '';
-  } else {
-    avisoEl.style.display = 'block';
-    avisoEl.innerHTML = '💬 ' + partes.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' · ') + ' (não é obrigatório).';
-  }
-}
-
-function renderComandas(){
-  comandasList.innerHTML = comandas.map((c, idx) => {
-    const subtotal = c.itens.reduce((s,i)=> s + (i.valor_total||0), 0);
-    return `
-    <div class="comanda-card" data-comanda="${c.id}">
-      <div class="comanda-head">
-        <div class="comanda-head-left">
-          <span class="comanda-title">Comanda ${idx+1}</span>
-          ${c.numero ? `<span class="comanda-numero-badge">Nº ${escapeHtml(c.numero)}</span>` : ''}
-        </div>
-        <button class="del-comanda" data-action="del-comanda" data-comanda="${c.id}">remover comanda ✕</button>
+      <label>Itens da venda</label>
+      <div class="field" style="max-width:280px;">
+        <label>Buscar por código</label>
+        <input type="text" id="venda-busca-codigo" placeholder="Digite o código e pressione Enter">
       </div>
-      <div class="field-row">
-        <div class="field">
-          <label>Nº da comanda (etiqueta vermelha)</label>
-          <input type="text" data-field="numero" data-comanda="${c.id}" value="${escapeHtml(c.numero)}" placeholder="Ex: 042" class="${!c.numero ? 'numero-vazio' : ''}">
-        </div>
-        <div class="field">
-          <label>Cliente (opcional)</label>
-          <input type="text" data-field="cliente" data-comanda="${c.id}" value="${escapeHtml(c.cliente)}" placeholder="Ex: Maria">
-        </div>
-      </div>
-      <div class="field-row">
+      <div id="venda-itens"></div>
+      <button type="button" class="btn secondary" id="venda-add-item">+ Adicionar item</button>
+
+      <div class="grid" style="margin-top:16px; max-width:460px;">
         <div class="field">
           <label>Forma de pagamento</label>
-          <select data-field="pagamento" data-comanda="${c.id}" class="pagamento-select ${c.pagamento==='Não identificado' ? 'pagamento-vazio' : ''}">
-            <option value="Crédito" ${c.pagamento==='Crédito'?'selected':''}>Crédito (CR)</option>
-            <option value="Débito" ${c.pagamento==='Débito'?'selected':''}>Débito (DB)</option>
-            <option value="Pix" ${c.pagamento==='Pix'?'selected':''}>Pix</option>
-            <option value="Dinheiro" ${c.pagamento==='Dinheiro'?'selected':''}>Dinheiro (DN)</option>
-            <option value="Não identificado" ${c.pagamento==='Não identificado'?'selected':''}>Não identificado</option>
+          <select id="venda-pagamento">
+            <option>Dinheiro</option>
+            <option>Pix</option>
+            <option>Cartão</option>
+            <option>Parcelado</option>
+            <option>Outro</option>
           </select>
         </div>
+        <div class="field" id="venda-data-pagamento-wrap" style="display:none;">
+          <label>Data prevista do pagamento</label>
+          <input type="date" id="venda-data-pagamento">
+        </div>
       </div>
-      <table>
-        <thead><tr><th class="item-name-col">Item</th><th>Qtd</th><th>Valor total</th><th></th></tr></thead>
-        <tbody>
-          ${c.itens.map(it => {
-            const av = avaliarItem(it);
-            const semValor = !it.valor_total;
-            const classeLinha = av.suspeito ? 'item-suspeito' : (semValor ? 'item-sem-valor' : (it.autoPreenchido ? 'item-auto-preenchido' : ''));
-            return `
-            <tr data-item="${it.id}" data-comanda="${c.id}" class="${classeLinha}">
-              <td class="item-name-col"><input type="text" data-field="nome" data-comanda="${c.id}" data-item="${it.id}" value="${escapeHtml(it.nome)}" placeholder="Nome do item"></td>
-              <td><input type="number" data-field="quantidade" data-comanda="${c.id}" data-item="${it.id}" value="${it.quantidade}" min="0" step="1"></td>
-              <td><input type="number" data-field="valor_total" data-comanda="${c.id}" data-item="${it.id}" value="${it.valor_total || ''}" placeholder="0,00" min="0" step="0.01"></td>
-              <td><button class="del-btn" data-action="del-item" data-comanda="${c.id}" data-item="${it.id}">✕</button></td>
-            </tr>${it.autoPreenchido ? `
-            <tr class="linha-badge-auto" data-item-badge="${it.id}" data-comanda="${c.id}"><td colspan="4"><span class="badge-auto">🤖 preço automático (cardápio) — pode ser iFood, confira</span></td></tr>` : ''}`;
-          }).join('')}
-        </tbody>
-      </table>
-      <button class="add-item" data-action="add-item" data-comanda="${c.id}">+ adicionar item</button>
-      <div class="subtotal-row"><span>Subtotal</span><span>${formatBRL(subtotal)}</span></div>
-      <div class="comanda-aviso" data-comanda="${c.id}" style="display:none;"></div>
-      <div class="comanda-alerta" data-comanda="${c.id}" style="display:none;"></div>
-    </div>`;
-  }).join('') || '<div class="empty-hint">nenhuma comanda adicionada ainda</div>';
-  renderTotalGeral();
-  comandas.forEach(c => {
-    const card = comandasList.querySelector(`.comanda-card[data-comanda="${c.id}"]`);
-    atualizarAlertaComanda(c, card);
-    atualizarAvisoComanda(c, card);
-  });
-  atualizarIndicadoresRascunho();
-  salvarRascunho();
-}
 
-comandasList.addEventListener('input', handleFieldChange);
-comandasList.addEventListener('change', handleFieldChange);
+      <div class="row-actions" style="align-items:center; justify-content:space-between; margin-top:16px;">
+        <div>Total: <span class="venda-total" id="venda-total">R$ 0,00</span></div>
+        <button type="button" class="btn" id="venda-finalizar">Finalizar venda</button>
+      </div>
+    </div>
 
-function handleFieldChange(e){
-  if (envioEmAndamento()) return;
-  const t = e.target;
-  const comandaId = t.getAttribute('data-comanda');
-  const itemId = t.getAttribute('data-item');
-  const field = t.getAttribute('data-field');
-  if (!comandaId || !field) return;
-  const comanda = comandas.find(c => c.id === comandaId);
-  if (!comanda) return;
-  const card = t.closest('.comanda-card');
-  if (itemId){
-    const item = comanda.itens.find(i => i.id === itemId);
-    if (!item) return;
-    if (field === 'nome') item.nome = t.value;
-    else item[field] = parseFloat(t.value) || 0;
-    item.autoPreenchido = false; // qualquer edição manual invalida o preenchimento automático
-    const subtotalEl = card.querySelector('.subtotal-row span:last-child');
-    const subtotal = comanda.itens.reduce((s,i)=> s + (i.valor_total||0), 0);
-    subtotalEl.textContent = formatBRL(subtotal);
+    <div class="card">
+      <div class="toolbar">
+        <h2 style="margin:0">Últimas vendas</h2>
+        <button class="btn secondary" id="vendas-refresh">↻ Atualizar</button>
+      </div>
+      <div id="vendas-tabela-wrap" class="scroll-x">
+        <div class="empty loading-dot">Carregando</div>
+      </div>
+    </div>
+  </section>
 
-    const row = t.closest('tr');
-    if (row) {
-      const susp = avaliarItem(item).suspeito;
-      const semValor = !item.valor_total;
-      row.classList.toggle('item-suspeito', susp);
-      row.classList.toggle('item-sem-valor', !susp && semValor);
-      row.classList.remove('item-auto-preenchido');
-      const linhaBadge = row.nextElementSibling;
-      if (linhaBadge && linhaBadge.classList.contains('linha-badge-auto') && linhaBadge.getAttribute('data-item-badge') === itemId) {
-        linhaBadge.remove();
-      }
-    }
-    atualizarAlertaComanda(comanda, card);
-    atualizarAvisoComanda(comanda, card);
-  } else {
-    comanda[field] = t.value;
-    if (field === 'pagamento') {
-      t.classList.toggle('pagamento-vazio', t.value === 'Não identificado');
-      atualizarAvisoComanda(comanda, card);
-    }
-    if (field === 'numero') {
-      t.classList.toggle('numero-vazio', !t.value);
-      const badge = card.querySelector('.comanda-numero-badge');
-      if (t.value) {
-        if (badge) {
-          badge.textContent = 'Nº ' + t.value;
-        } else {
-          const left = card.querySelector('.comanda-head-left');
-          if (left) left.insertAdjacentHTML('beforeend', `<span class="comanda-numero-badge">Nº ${escapeHtml(t.value)}</span>`);
-        }
-      } else if (badge) {
-        badge.remove();
-      }
-    }
-  }
-  renderTotalGeral();
-  salvarRascunho();
-  if (loteState) resetarTelaDeLotes();
-}
+  <!-- ===================== CLIENTES ===================== -->
+  <section class="panel" id="panel-clientes">
+    <div class="card">
+      <h2 id="cliente-form-title">Novo cliente</h2>
+      <form id="form-cliente">
+        <input type="hidden" id="cli-id">
+        <div class="grid">
+          <div class="field">
+            <label>Nome</label>
+            <input type="text" id="cli-nome" required>
+          </div>
+          <div class="field">
+            <label>Telefone</label>
+            <input type="text" id="cli-telefone" placeholder="(11) 90000-0000">
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input type="email" id="cli-email">
+          </div>
+          <div class="field">
+            <label>Rede social (link)</label>
+            <input type="url" id="cli-rede-social" placeholder="https://instagram.com/...">
+          </div>
+          <div class="field" style="grid-column: 1/-1;">
+            <label>Observações (tamanhos, preferências…)</label>
+            <input type="text" id="cli-observacoes">
+          </div>
+        </div>
+        <div class="row-actions">
+          <button type="submit" class="btn" id="cli-submit-btn">Salvar</button>
+          <button type="button" class="btn ghost" id="cli-cancel-btn" style="display:none">Cancelar edição</button>
+        </div>
+      </form>
+    </div>
 
-comandasList.addEventListener('click', (e) => {
-  if (envioEmAndamento()) return;
-  const btn = e.target.closest('[data-action]');
-  if (!btn) return;
-  const action = btn.getAttribute('data-action');
-  const comandaId = btn.getAttribute('data-comanda');
-  const comanda = comandas.find(c => c.id === comandaId);
-  if (!comanda) return;
-  if (action === 'del-comanda'){
-    if (!confirm('Remover esta comanda? Essa ação não pode ser desfeita.')) return;
-    comandas = comandas.filter(c => c.id !== comandaId);
-  } else if (action === 'add-item'){
-    comanda.itens.push({ id: comandaId + '_it' + Date.now(), nome:'', quantidade:1, valor_total:0 });
-  } else if (action === 'del-item'){
-    const itemId = btn.getAttribute('data-item');
-    comanda.itens = comanda.itens.filter(i => i.id !== itemId);
-  }
-  if (loteState) resetarTelaDeLotes();
-  renderComandas();
-});
+    <div class="card">
+      <div class="toolbar">
+        <h2 style="margin:0">Clientes cadastrados</h2>
+        <input type="text" id="cli-busca" placeholder="Buscar por nome…">
+        <button class="btn secondary" id="cli-refresh">↻ Atualizar</button>
+      </div>
+      <div id="cli-tabela-wrap">
+        <div class="empty loading-dot">Carregando</div>
+      </div>
+    </div>
+  </section>
 
-function renderTotalGeral(){
-  const total = comandas.reduce((sum, c) => sum + c.itens.reduce((s,i)=> s + (i.valor_total||0), 0), 0);
-  totalGeral.textContent = formatBRL(total);
-}
+  <!-- ===================== LEMBRETES ===================== -->
+  <section class="panel" id="panel-lembretes">
+    <div class="card">
+      <div class="toolbar">
+        <h2 style="margin:0">Cobranças de vendas parceladas</h2>
+        <button class="btn secondary" id="lembretes-refresh">↻ Atualizar</button>
+      </div>
+      <p style="color:var(--muted); font-size:0.85rem; margin-top:-6px;">
+        Vendas marcadas como "Parcelado" aparecem aqui até serem confirmadas como pagas.
+      </p>
+      <div id="lembretes-wrap">
+        <div class="empty loading-dot">Carregando</div>
+      </div>
+    </div>
+  </section>
 
-const MAX_COMANDAS_POR_LOTE = 8;
-const MAX_CHARS_POR_LOTE = 4500;
-// Quantas fotos são enviadas por chamada de leitura — menor = barra de progresso
-// mais granular, maior = menos chamadas de API. Decidido pelo app.
-const IMAGENS_POR_LOTE_LEITURA = 5;
+  <!-- ===================== RESUMO ===================== -->
+  <section class="panel" id="panel-resumo">
+    <div class="kpis" id="resumo-kpis"></div>
+    <div class="card">
+      <h2>Vendas por categoria (mês atual)</h2>
+      <div id="resumo-categoria"><div class="empty loading-dot">Carregando</div></div>
+    </div>
+    <div class="card">
+      <h2>Estoque baixo (≤ 2 unidades)</h2>
+      <div id="resumo-estoque-baixo"><div class="empty loading-dot">Carregando</div></div>
+    </div>
+  </section>
 
-function montarComandasPayload(){
-  return comandas.map(c => ({
-    id: c.id,
-    numero: c.numero || '',
-    cliente: c.cliente,
-    pagamento: c.pagamento,
-    itens: c.itens.map(i => ({ nome: i.nome, quantidade: i.quantidade, valor_unitario: i.quantidade ? i.valor_total / i.quantidade : 0, valor_total: i.valor_total }))
-  }));
-}
-
-// Divide as comandas em lotes menores automaticamente, respeitando um limite
-// de quantidade e de tamanho de payload por lote. Isso é decidido pelo app,
-// não pelo usuário — o usuário sempre vê "salvar todas de uma vez".
-function montarLotes(comandasPayload, ev, registrado_em){
-  const lotes = [];
-  let loteAtual = [];
-  const tamanhoCom = (lote, extra) => encodeURIComponent(JSON.stringify({ evento: ev, registrado_em, comandas: [...lote, extra] })).length;
-
-  comandasPayload.forEach(c => {
-    const cabeNoLote = loteAtual.length > 0 && loteAtual.length < MAX_COMANDAS_POR_LOTE && tamanhoCom(loteAtual, c) <= MAX_CHARS_POR_LOTE;
-    if (loteAtual.length > 0 && !cabeNoLote){
-      lotes.push(loteAtual);
-      loteAtual = [];
-    }
-    loteAtual.push(c);
-  });
-  if (loteAtual.length > 0) lotes.push(loteAtual);
-  return lotes;
-}
-
-function montarUrlLote(ev, registrado_em, lote, confirmado){
-  const params = { payload: JSON.stringify({ evento: ev, registrado_em, comandas: lote }) };
-  if (confirmado) params.formato = 'json';
-  return urlServidor(params);
-}
-
-// Pergunta ao Apps Script qual versão ele roda. A v2 grava com deduplicação
-// por ID e responde em JSON, então o app consegue confirmar cada lote de
-// verdade. Um Apps Script antigo não conhece a rota "versao" e responde
-// "sem payload" (sem gravar nada) — aí o app cai no envio por link de sempre.
-async function detectarModoEnvio(){
-  try {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 8000);
-    const res = await fetch(urlServidor({ action: 'versao' }), { signal: ctrl.signal });
-    clearTimeout(timer);
-    const j = await res.json();
-    if (j && j.ok && Number(j.versao) >= 2) return 'confirmado';
-    if (j && j.ok === false && j.erro === 'token') return 'token-invalido';
-  } catch(e){ /* sem sinal, Apps Script antigo ou resposta em HTML */ }
-  return 'link';
-}
-
-// Estado do lote atualmente compilado.
-// modo 'confirmado': o app envia cada lote via fetch e só marca ✓ quando a
-//   planilha responde {ok:true}. Reenviar é seguro: a planilha ignora IDs
-//   de comanda que já tem.
-// modo 'link': Apps Script antigo — cada lote é um link aberto em aba nova,
-//   sem confirmação (comportamento anterior).
-let loteState = null; // { ev, registrado_em, comandasPayload, lotes, urls, modo, enviados:Set, carregando:Set, falhas:{}, resultados:{}, enviando }
-
-async function compilarLotes(){
-  if (!webhookUrl){ openModal(); showError('Configure a URL da planilha (ícone de engrenagem) antes de salvar.'); return; }
-  if (comandas.length === 0){ showError('Adicione ao menos uma comanda antes de salvar.'); return; }
-  const ev = getEvento();
-  if (!ev.data || !ev.local){ showError('Preencha a data e o local do evento.'); return; }
-
-  errorWrap.innerHTML = '';
-  stampWrap.classList.remove('show');
-  compileBtn.disabled = true;
-  const textoOriginal = compileBtn.textContent;
-  compileBtn.textContent = 'Verificando a planilha…';
-
-  const modo = await detectarModoEnvio();
-  compileBtn.disabled = false;
-  compileBtn.textContent = textoOriginal;
-
-  if (modo === 'token-invalido'){
-    showError('A planilha recusou o token configurado. Confira o campo "Token" na engrenagem ⚙ — ele precisa ser igual ao TOKEN das propriedades do Apps Script.');
-    errorWrap.scrollIntoView({behavior:'smooth', block:'center'});
-    return;
-  }
-
-  const registrado_em = agoraSP();
-  const comandasPayload = montarComandasPayload();
-  const lotes = montarLotes(comandasPayload, ev, registrado_em);
-  const confirmado = modo === 'confirmado';
-  const urls = lotes.map(lote => montarUrlLote(ev, registrado_em, lote, confirmado));
-
-  loteState = { ev, registrado_em, comandasPayload, lotes, urls, modo, enviados: new Set(), carregando: new Set(), falhas: {}, resultados: {}, enviando: false };
-
-  compileBtn.style.display = 'none';
-  document.getElementById('compileHint').style.display = 'none';
-  renderLotes();
-  lotesSection.style.display = 'block';
-  lotesSection.scrollIntoView({behavior:'smooth', block:'nearest'});
-}
-
-// Duração da animação "escurecendo" do modo link. É só visual: nesse modo a
-// página não tem como saber se a aba aberta gravou de fato.
-const LOTE_CARREGANDO_MS = 1800;
-const LOTE_TIMEOUT_MS = 30000;
-
-function rotuloLote(i){
-  const n = loteState.lotes[i].length;
-  return `Lote ${i+1}${loteState.urls.length > 1 ? ` de ${loteState.urls.length}` : ''} · ${n} comanda${n>1?'s':''}`;
-}
-
-function renderLotes(){
-  if (!loteState) return;
-  const hintEl = document.getElementById('lotesHint');
-  if (loteState.modo === 'confirmado') {
-    hintEl.textContent = 'a planilha confirma cada lote; se algum falhar, é só tentar de novo — nada é gravado em dobro';
-    renderLotesConfirmado();
-  } else {
-    hintEl.textContent = 'toque em cada lote pra enviar (abre e fecha rapidinho). Atenção: neste modo o app não recebe confirmação da planilha — atualize o Apps Script para a versão 2 para envio confirmado';
-    renderLotesLink();
-  }
-}
-
-function renderLotesConfirmado(){
-  const totalLotes = loteState.urls.length;
-  const pendentes = totalLotes - loteState.enviados.size;
-  const temFalha = Object.keys(loteState.falhas).length > 0;
-
-  const linhas = loteState.urls.map((url, i) => {
-    const enviado = loteState.enviados.has(i);
-    const carregando = loteState.carregando.has(i);
-    const falha = loteState.falhas[i];
-    let statusTxt = 'aguardando';
-    if (enviado) {
-      const r = loteState.resultados[i] || {};
-      statusTxt = '✓ gravado na planilha' + (r.ignoradas ? ` (${r.ignoradas} já estava${r.ignoradas>1?'m':''} lá)` : '');
-    } else if (carregando) statusTxt = 'enviando…';
-    else if (falha) statusTxt = '✗ falhou';
-    const extra = falha && !enviado && !carregando
-      ? `<div class="lote-falha-detalhe">${escapeHtml(falha)} · <a href="${url}" target="_blank" rel="noopener">enviar pelo link</a></div>`
-      : '';
-    return `<div class="lote-btn lote-status${enviado ? ' enviado' : ''}${carregando ? ' carregando' : ''}${falha && !enviado && !carregando ? ' falhou' : ''}" data-idx="${i}">
-      <span>${rotuloLote(i)}</span>
-      <span class="lote-check">${statusTxt}</span>
-    </div>${extra}`;
-  }).join('');
-
-  const botao = pendentes > 0
-    ? `<button class="save-btn" id="enviarLotesBtn" style="margin-top:6px;" ${loteState.enviando ? 'disabled' : ''}>${loteState.enviando ? 'Enviando…' : (temFalha ? `Tentar de novo (${pendentes} lote${pendentes>1?'s':''})` : `Enviar ${pendentes} lote${pendentes>1?'s':''}`)}</button>`
-    : '';
-
-  lotesList.innerHTML = linhas + botao;
-  const btn = document.getElementById('enviarLotesBtn');
-  if (btn) btn.addEventListener('click', enviarLotesConfirmado);
-}
-
-async function enviarUmLote(url){
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), LOTE_TIMEOUT_MS);
-  try {
-    const res = await fetch(url, { signal: ctrl.signal });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    let j;
-    try { j = await res.json(); } catch(e){ throw new Error('a planilha não respondeu em JSON'); }
-    if (!j || j.ok !== true) throw new Error((j && j.erro) ? 'planilha: ' + j.erro : 'resposta inesperada da planilha');
-    return j;
-  } catch(err){
-    if (err.name === 'AbortError') throw new Error('sem resposta em 30 s');
-    if (err instanceof TypeError) throw new Error('sem conexão com a planilha');
-    throw err;
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-// Soma do que já foi confirmado pela planilha nesta rodada de envio — sobrevive
-// a uma recompilação (ex.: um lote falhou, o usuário corrigiu algo e compilou
-// de novo só o que faltava), pra o resumo de "último envio" sair completo.
-let envioAcumulado = null; // { lotes, comandas, total }
-
-// Comandas de um lote confirmado saem da lista de conferência (e do rascunho):
-// já estão seguras na planilha, e editar uma delas depois não teria efeito,
-// porque a planilha ignora IDs que já tem.
-function registrarLoteGravado(lote){
-  const ids = new Set(lote.map(c => c.id));
-  envioAcumulado = envioAcumulado || { lotes: 0, comandas: 0, total: 0 };
-  envioAcumulado.lotes += 1;
-  envioAcumulado.comandas += lote.length;
-  envioAcumulado.total += lote.reduce((soma, c) => soma + c.itens.reduce((s, i) => s + (i.valor_total || 0), 0), 0);
-  comandas = comandas.filter(c => !ids.has(c.id));
-  renderComandas();
-}
-
-async function enviarLotesConfirmado(){
-  const st = loteState;
-  if (!st || st.enviando) return;
-  st.enviando = true;
-  comandasList.classList.add('travado');
-  renderLotes();
-  for (let i = 0; i < st.urls.length; i++){
-    if (loteState !== st) break;
-    if (st.enviados.has(i)) continue;
-    st.carregando.add(i);
-    delete st.falhas[i];
-    renderLotes();
-    try {
-      const r = await enviarUmLote(st.urls[i]);
-      st.resultados[i] = r;
-      st.enviados.add(i);
-      registrarLoteGravado(st.lotes[i]);
-    } catch(err){
-      st.falhas[i] = err.message || 'erro desconhecido';
-    }
-    st.carregando.delete(i);
-    if (loteState === st) renderLotes();
-  }
-  st.enviando = false;
-  comandasList.classList.remove('travado');
-  if (loteState !== st) return;
-  renderLotes();
-  if (st.enviados.size === st.urls.length){
-    finalizarEnvio();
-  }
-}
-
-function envioEmAndamento(){
-  return !!(loteState && loteState.enviando);
-}
-
-function renderLotesLink(){
-  lotesList.innerHTML = loteState.urls.map((url, i) => {
-    const enviado = loteState.enviados.has(i);
-    const carregando = loteState.carregando.has(i);
-    const statusTxt = enviado ? '✓ aberto (sem confirmação)' : (carregando ? 'enviando…' : 'toque pra enviar');
-    return `<a class="lote-btn${enviado ? ' enviado' : ''}${carregando ? ' carregando' : ''}" href="${url}" target="_blank" rel="noopener" data-idx="${i}">
-      <div class="lote-fill"></div>
-      <span>${rotuloLote(i)}</span>
-      <span class="lote-check">${statusTxt}</span>
-    </a>`;
-  }).join('');
-  lotesList.querySelectorAll('.lote-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      // O clique em si (link real, target="_blank") já dispara a navegação
-      // pro webhook — sendo um clique direto do usuário, não é bloqueado
-      // por bloqueador de pop-up em nenhum navegador, incluindo mobile.
-      const idx = Number(btn.dataset.idx);
-      if (loteState.enviados.has(idx) || loteState.carregando.has(idx)) return;
-      loteState.carregando.add(idx);
-      renderLotes();
-
-      const freshBtn = lotesList.querySelector(`.lote-btn[data-idx="${idx}"]`);
-      const fill = freshBtn ? freshBtn.querySelector('.lote-fill') : null;
-      if (fill){
-        requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.width = '100%'; }));
-      }
-
-      setTimeout(() => {
-        loteState.carregando.delete(idx);
-        loteState.enviados.add(idx);
-        renderLotes();
-        if (loteState.enviados.size === loteState.urls.length){
-          finalizarEnvio();
-        }
-      }, LOTE_CARREGANDO_MS);
-    });
-  });
-}
-
-// Executa o "fechamento local" do ciclo: salva o resumo do último envio,
-// registra o local pra sugestão automática, e reseta a tela pra um novo
-// lançamento. Separado em função própria pra poder ser corrido contra um
-// timeout (ver finalizarEnvio) — nunca reescreve nada na planilha, isso já
-// foi feito lote a lote.
-async function finalizarLocalmente(){
-  const { ev, lotes, urls, modo } = loteState;
-  let qtdLotes, qtdComandas, totalValor;
-  if (modo === 'confirmado' && envioAcumulado) {
-    qtdLotes = envioAcumulado.lotes;
-    qtdComandas = envioAcumulado.comandas;
-    totalValor = envioAcumulado.total;
-  } else {
-    const comandasEnviadas = lotes.flat();
-    qtdLotes = urls.length;
-    qtdComandas = comandasEnviadas.length;
-    totalValor = comandasEnviadas.reduce((soma, c) => soma + c.itens.reduce((s,i)=>s+i.valor_total,0), 0);
-  }
-
-  await salvarUltimoEnvio(ev, qtdLotes, qtdComandas, totalValor, modo === 'confirmado');
-  await registrarLocalVisto(ev.local);
-  await saveEventoConfig();
-  envioAcumulado = null;
-  stampWrap.querySelector('.stamp').textContent = modo === 'confirmado' ? 'GRAVADO NA PLANILHA ✓' : 'ENVIADO (sem confirmação)';
-  stampWrap.classList.add('show');
-  await loadHistory();
-  comandas = [];
-  renderComandas();
-  await limparRascunho();
-  comandasSection.style.display = 'none';
-  lotesSection.style.display = 'none';
-  compileBtn.style.display = 'block';
-  document.getElementById('compileHint').style.display = 'block';
-  loteState = null;
-}
-
-// Disparada automaticamente assim que o último lote termina a animação de
-// envio (não existe mais um botão "Concluir" separado pra tocar).
-async function finalizarEnvio(){
-  try {
-    // Timeout de segurança: se o armazenamento local (storage) travar sem
-    // nunca responder, o fluxo não pode ficar preso pra sempre. Depois de
-    // 8s sem resposta, desiste e mostra erro com opção de tentar de novo.
-    await Promise.race([
-      finalizarLocalmente(),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('tempo esgotado ao salvar localmente')), 8000))
-    ]);
-  } catch(err){
-    mostrarErroFinalizacao();
-  }
-}
-
-function mostrarErroFinalizacao(){
-  errorWrap.innerHTML = `<div class="error-box">
-    Todos os lotes já foram enviados pra planilha — isso não muda. Mas houve falha (ou demora demais) ao fechar o registro localmente aqui no app.
-    <button id="retryFinalizarBtn" style="margin-top:8px;background:none;border:2px solid var(--red);color:var(--red);border-radius:6px;padding:6px 10px;font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;cursor:pointer;">Tentar de novo</button>
-  </div>`;
-  document.getElementById('retryFinalizarBtn').addEventListener('click', () => {
-    errorWrap.innerHTML = '';
-    finalizarEnvio();
-  });
-}
-
-// Salva só um resumo do envio mais recente (substitui o anterior) — não
-// acumula mais um log por comanda.
-async function salvarUltimoEnvio(ev, lotesCount, comandasCount, totalValor, confirmado){
-  try {
-    await storageSet('ultimoEnvio', JSON.stringify({
-      quando: new Date().toISOString(), evento: ev, lotes: lotesCount, comandas: comandasCount, total: totalValor, confirmado: !!confirmado
-    }), false);
-  } catch(e){  }
-}
-
-// Mantém uma listinha separada (até 30) dos locais já usados, só pra
-// alimentar a sugestão automática do campo "local" — independente do
-// resumo de último envio acima.
-async function registrarLocalVisto(local){
-  const nome = (local || '').trim();
-  if (!nome) return;
-  try {
-    const atual = await storageGet('locaisVistos', false);
-    let lista = [];
-    if (atual && atual.value){
-      try { lista = JSON.parse(atual.value); } catch(e){ lista = []; }
-    }
-    if (!Array.isArray(lista)) lista = [];
-    const chave = nome.toLowerCase();
-    lista = lista.filter(l => (l || '').toLowerCase() !== chave);
-    lista.unshift(nome);
-    await storageSet('locaisVistos', JSON.stringify(lista.slice(0, 30)), false);
-  } catch(e){  }
-}
-
-async function loadHistory(){
-  try {
-    const res = await storageGet('ultimoEnvio', false);
-    if (!res || !res.value){
-      historyList.innerHTML = '<div class="empty-hint">nenhum envio ainda</div>';
-    } else {
-      const e = JSON.parse(res.value);
-      const local = (e.evento && e.evento.local) ? e.evento.local : 'sem local';
-      const qtdLotes = e.lotes || 0;
-      const dt = new Date(e.quando);
-      const dtStr = dt.toLocaleDateString('pt-BR', {timeZone:'America/Sao_Paulo'});
-      const hrStr = dt.toLocaleTimeString('pt-BR', {timeZone:'America/Sao_Paulo', hour:'2-digit', minute:'2-digit'});
-      historyList.innerHTML = `<div class="ultimo-envio">
-        <span><strong>Último envio:</strong> ${e.comandas || 0} comanda${(e.comandas||0)>1?'s':''} em ${qtdLotes} lote${qtdLotes>1?'s':''} · ${escapeHtml(local)}</span>
-        <span class="sub">${dtStr} às ${hrStr} · ${formatBRL(e.total || 0)} · ${e.confirmado ? 'confirmado pela planilha ✓' : 'sem confirmação da planilha'}</span>
-      </div>`;
-    }
-  } catch(e){
-    historyList.innerHTML = '<div class="empty-hint">nenhum envio ainda</div>';
-  }
-
-  try {
-    const locRes = await storageGet('locaisVistos', false);
-    let lista = [];
-    if (locRes && locRes.value){
-      try { lista = JSON.parse(locRes.value); } catch(e){ lista = []; }
-    }
-    if (!Array.isArray(lista)) lista = [];
-    document.getElementById('locaisList').innerHTML = lista.map(l => `<option value="${escapeHtml(l)}"></option>`).join('');
-  } catch(e){  }
-}
-
-let menuRascunho = [];
-let menuRepassePercent = 0;
-function renderMenuEditor(){
-  menuRascunho = MENU_REFERENCIA.map(m => ({ ...m }));
-  desenharMenuRows();
-  document.getElementById('menuSaveMsg').textContent = '';
-  document.getElementById('menuSyncLink').style.display = 'none';
-}
-function desenharMenuRows(){
-  const wrap = document.getElementById('menuRows');
-  const pct = menuRepassePercent || 0;
-  const erroEl = document.getElementById('repasseErro');
-  if (erroEl) {
-    if (pct >= 100) {
-      erroEl.textContent = 'Uma taxa de 100% ou mais não tem preço possível pra compensar — revise o número.';
-      erroEl.style.display = 'block';
-    } else {
-      erroEl.style.display = 'none';
-    }
-  }
-  wrap.innerHTML = menuRascunho.map((m, idx) => {
-    // preço sugerido = preço atual ÷ (1 − taxa/100), pra que depois de a taxa ser
-    // descontada do valor cobrado, sobre exatamente o preço atual pra você.
-    // Não é uma simples soma de %: 25 × 1,10 = 27,50, mas 27,50 × 0,90 = 24,75 (menos que 25!).
-    // A conta certa é 25 ÷ 0,90 = 27,78, que aí sim volta pros 25 depois do desconto.
-    const sugestao = (pct > 0 && pct < 100) ? m.max / (1 - pct / 100) : null;
-    return `
-    <div class="menu-item-row" data-idx="${idx}">
+  <!-- ===================== CONFIG ===================== -->
+  <section class="panel" id="panel-config">
+    <div class="card">
+      <h2>Conexão com a planilha</h2>
+      <p style="color:var(--muted); font-size:0.88rem; line-height:1.5;">
+        Cole aqui a URL do seu Apps Script publicado como "App da Web"
+        (Extensões → Apps Script → Implantar → Nova implantação).
+        A URL termina em <code>/exec</code>.
+      </p>
       <div class="field">
-        <input type="text" data-menu-field="chave" data-idx="${idx}" value="${escapeHtml(m.chave)}" placeholder="Ex: yakissoba">
+        <label>URL do Apps Script</label>
+        <input type="text" id="cfg-url" placeholder="https://script.google.com/macros/s/XXXXX/exec">
       </div>
-      <div class="field field-price">
-        <input type="number" data-menu-field="max" data-idx="${idx}" value="${m.max}" min="0" step="0.5">
+      <div class="row-actions">
+        <button class="btn" id="cfg-salvar">Salvar</button>
+        <button class="btn secondary" id="cfg-testar">Testar conexão</button>
       </div>
-      ${sugestao !== null ? `<button type="button" class="preco-sugerido" data-action="usar-sugestao" data-idx="${idx}" data-valor="${sugestao.toFixed(2)}" title="Tocar para usar esse preço">→ ${formatBRL(sugestao)}</button>` : ''}
-      <button class="del-btn" data-action="del-menu-item" data-idx="${idx}" title="Remover item">✕</button>
-    </div>`;
-  }).join('') || '<div class="empty-hint">nenhum item no cardápio ainda</div>';
-}
-document.getElementById('menuRows').addEventListener('input', e => {
-  const t = e.target;
-  const idx = t.getAttribute('data-idx');
-  const field = t.getAttribute('data-menu-field');
-  if (idx === null || !field) return;
-  menuRascunho[idx][field] = field === 'max' ? (parseFloat(t.value) || 0) : t.value;
-});
-document.getElementById('menuRows').addEventListener('click', e => {
-  const usarBtn = e.target.closest('[data-action="usar-sugestao"]');
-  if (usarBtn) {
-    const idx = Number(usarBtn.getAttribute('data-idx'));
-    const valor = parseFloat(usarBtn.getAttribute('data-valor')) || 0;
-    menuRascunho[idx].max = valor;
-    desenharMenuRows();
-    return;
+      <p id="cfg-status" style="margin-top:10px; font-size:0.86rem;"></p>
+      <p style="color:var(--muted); font-size:0.8rem; margin-top:14px;">
+        Na primeira vez, se as abas "Estoque", "Clientes" e "Vendas" ainda não
+        existirem na planilha, elas são criadas automaticamente ao usar o app
+        (ou clique em "Testar conexão").
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   CAMADA DE COMUNICAÇÃO COM O APPS SCRIPT
+   (mesmo padrão do app do Naruá: pop-up + postMessage,
+   em vez de fetch(), para não esbarrar em CORS)
+   ============================================================ */
+
+const CFG_KEY = 'brecho_apps_script_url';
+const DEFAULT_API_URL = 'https://script.google.com/macros/s/AKfycbzd5DAzBRA6DxEhfbDT3MOBbCH4DUWIVxg83y-lPS66VautR4VGjszRkgTNk2GdURHoGQ/exec';
+let API_URL = localStorage.getItem(CFG_KEY) || DEFAULT_API_URL;
+
+function getApiUrl() { return API_URL; }
+
+function buildApiUrl(action, params = {}) {
+  const base = getApiUrl();
+  if (!base) {
+    throw new Error('Configure a URL do Apps Script na aba "Config" primeiro.');
   }
-  const btn = e.target.closest('[data-action="del-menu-item"]');
-  if (!btn) return;
-  const idx = Number(btn.getAttribute('data-idx'));
-  menuRascunho.splice(idx, 1);
-  desenharMenuRows();
-});
-document.getElementById('repasseInput').addEventListener('input', e => {
-  menuRepassePercent = parseFloat(e.target.value) || 0;
-  desenharMenuRows();
-});
-document.getElementById('addMenuItemBtn').addEventListener('click', () => {
-  menuRascunho.push({ chave: '', max: 0 });
-  desenharMenuRows();
-});
-document.getElementById('saveMenuBtn').addEventListener('click', async () => {
-  const limpo = menuRascunho
-    .map(m => ({ chave: normalizarTexto(m.chave), max: Number(m.max) || 0 }))
-    .filter(m => m.chave);
-  const msg = document.getElementById('menuSaveMsg');
-  const syncLink = document.getElementById('menuSyncLink');
-  try {
-    await storageSet('config:menu', JSON.stringify(limpo), false);
-    MENU_REFERENCIA = limpo;
-    recalcMaiorPrecoCardapio();
-    msg.textContent = 'Menu salvo neste aparelho ✓ — toque no botão abaixo pra sincronizar com a planilha';
-    msg.classList.add('ok');
-    if (webhookUrl && limpo.length > 0) {
-      syncLink.href = urlServidor({ action: 'salvarMenu', itens: JSON.stringify(limpo) });
-      syncLink.style.display = 'inline-flex';
+  const url = new URL(base);
+  url.searchParams.set('action', action);
+  Object.keys(params).forEach(k => {
+    if (params[k] !== undefined && params[k] !== null) {
+      url.searchParams.set(k, params[k]);
     }
-  } catch(e){
-    msg.textContent = 'Não consegui salvar o menu. Tente novamente.';
-    msg.classList.remove('ok');
+  });
+  return url;
+}
+
+// LEITURA: JSONP (tag <script>). O Apps Script não manda cabeçalho de CORS
+// pro fetch(), então usamos carregamento de script, que não depende dele —
+// e aqui no GitHub Pages não tem CSP restritivo bloqueando isso (diferente
+// do sandbox de artefato do chat).
+let _jsonpSeq = 0;
+function callApi(action, params = {}) {
+  return new Promise((resolve, reject) => {
+    let url;
+    try { url = buildApiUrl(action, params); }
+    catch (e) { reject(e); return; }
+    url.searchParams.set('callback', 'brechoCb_' + Date.now() + '_' + (_jsonpSeq++));
+    const cbName = url.searchParams.get('callback');
+
+    let done = false;
+    const script = document.createElement('script');
+    function limpar() {
+      clearTimeout(timeout);
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    }
+    const timeout = setTimeout(() => {
+      if (done) return;
+      done = true; limpar();
+      reject(new Error('Tempo esgotado esperando resposta da planilha.'));
+    }, 20000);
+    window[cbName] = function (data) {
+      if (done) return;
+      done = true; limpar();
+      resolve(data);
+    };
+    script.onerror = () => {
+      if (done) return;
+      done = true; limpar();
+      reject(new Error('Erro ao conectar com o Apps Script. Confira a URL configurada na aba "Config".'));
+    };
+    script.src = url.toString();
+    document.head.appendChild(script);
+  });
+}
+
+// ESCRITA: abre a URL numa aba nova (igual ao app do Naruá) e NÃO espera
+// resposta — evita qualquer bloqueio de CORS/CSP/COOP. O app assume sucesso
+// otimisticamente e recarrega a lista (via JSONP) logo em seguida.
+function callApiWrite(action, params = {}) {
+  const url = buildApiUrl(action, params);
+  const win = window.open(url.toString(), '_blank');
+  if (!win) {
+    toast('Pop-up bloqueada. Permita pop-ups ou abra manualmente: ' + url.toString(), 'error');
+  }
+  return new Promise(resolve => setTimeout(resolve, 1200));
+}
+
+/* ============================================================
+   UI HELPERS
+   ============================================================ */
+
+function toast(msg, type = '') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show ' + type;
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => { el.className = 'toast'; }, 3200);
+}
+
+function fmtMoeda(v) {
+  return (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+function fmtData(v) {
+  const d = new Date(v);
+  if (isNaN(d)) return '';
+  return d.toLocaleDateString('pt-BR');
+}
+
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+/* ============================================================
+   NAVEGAÇÃO ENTRE ABAS
+   ============================================================ */
+
+document.querySelectorAll('nav.tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+    if (btn.dataset.tab === 'vendas') carregarClientesSelect();
+    if (btn.dataset.tab === 'resumo') carregarResumo();
+    if (btn.dataset.tab === 'lembretes') carregarLembretes();
+  });
+});
+
+/* ============================================================
+   CONFIG
+   ============================================================ */
+
+const cfgUrlInput = document.getElementById('cfg-url');
+const connStatusEl = document.getElementById('connStatus');
+cfgUrlInput.value = API_URL;
+atualizarStatusConexao();
+
+function atualizarStatusConexao() {
+  if (API_URL) {
+    connStatusEl.textContent = '🟢 conectado';
+    connStatusEl.className = 'config-box connected';
+  } else {
+    connStatusEl.textContent = '⚙️ configurar conexão';
+    connStatusEl.className = 'config-box disconnected';
+  }
+}
+
+document.getElementById('cfg-salvar').addEventListener('click', () => {
+  const v = cfgUrlInput.value.trim();
+  if (!v) { toast('Cole a URL do Apps Script primeiro.', 'error'); return; }
+  API_URL = v;
+  localStorage.setItem(CFG_KEY, v);
+  atualizarStatusConexao();
+  toast('URL salva!', 'success');
+});
+
+document.getElementById('cfg-testar').addEventListener('click', async () => {
+  const statusEl = document.getElementById('cfg-status');
+  statusEl.textContent = 'Testando…';
+  try {
+    const r = await callApi('setup');
+    statusEl.textContent = r.ok ? ('✅ ' + r.message) : ('❌ ' + r.erro);
+    if (r.ok) { toast('Conexão OK!', 'success'); carregarEstoque(); }
+  } catch (e) {
+    statusEl.textContent = '❌ ' + e.message;
   }
 });
 
-// ---------- Inteligência (BI) ----------
-let biDados = null;
-let biCarregando = false;
-let biDatasSelecionadas = null; // null = ainda não inicializado (todas selecionadas por padrão)
-let biCalendarioMes = null; // Date apontando pro mês exibido no calendário real
-let biLocalSelecionado = 'todos';
+/* ============================================================
+   ESTOQUE
+   ============================================================ */
 
-function formatDataCurta(iso){
-  if (!iso || iso === 'sem data') return 'sem data';
-  const partes = iso.split('-');
-  if (partes.length !== 3) return iso;
-  return `${partes[2]}/${partes[1]}`;
-}
+let estoqueCache = [];
 
-// A coluna "Data evento" na planilha é uma célula de Data de verdade, então o Apps Script
-// devolve algo como "2026-07-11 00:00" (com hora). Aqui a gente só usa o dia — extrai
-// só o "YYYY-MM-DD" do início da string, ignorando o que vier depois.
-function extrairDataEvento(valor){
-  if (!valor) return null;
-  const m = String(valor).match(/^(\d{4}-\d{2}-\d{2})/);
-  return m ? m[1] : null;
-}
-
-const NOMES_MES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-
-function buildCalendarHTML(mesRef, datasDisponiveis, datasSelecionadas, labelPorData, idPrefix){
-  const y = mesRef.getFullYear(), m = mesRef.getMonth();
-  const primeiroDiaSemana = new Date(y, m, 1).getDay();
-  const totalDias = new Date(y, m+1, 0).getDate();
-  const disponiveisSet = new Set(datasDisponiveis);
-  const mesStr = String(m+1).padStart(2,'0');
-
-  let celulas = '';
-  for (let i=0;i<primeiroDiaSemana;i++){ celulas += `<div class="cal-cell empty"></div>`; }
-  for (let d=1; d<=totalDias; d++){
-    const iso = `${y}-${mesStr}-${String(d).padStart(2,'0')}`;
-    const disponivel = disponiveisSet.has(iso);
-    const selecionado = datasSelecionadas.has(iso);
-    celulas += `<div class="cal-cell ${disponivel ? 'available' : ''} ${selecionado ? 'selected' : ''}" ${disponivel ? `data-date="${iso}"` : ''}>
-      <span>${d}</span>
-    </div>`;
-  }
-
-  const legendaItens = datasDisponiveis
-    .filter(iso => iso.startsWith(`${y}-${mesStr}`))
-    .sort()
-    .map(iso => `<div class="cal-legend-item ${datasSelecionadas.has(iso) ? '' : 'inactive'}"><span class="cal-legend-dot"></span>${formatDataCurta(iso)} — ${escapeHtml(labelPorData(iso))}</div>`)
-    .join('');
-
-  return `
-    <div class="calendar">
-      <div class="cal-header">
-        <button class="cal-nav-btn" id="${idPrefix}NavPrev">‹</button>
-        <span class="cal-title">${NOMES_MES[m]} de ${y}</span>
-        <button class="cal-nav-btn" id="${idPrefix}NavNext">›</button>
-      </div>
-      <div class="cal-grid">
-        <div class="cal-weekday">D</div><div class="cal-weekday">S</div><div class="cal-weekday">T</div><div class="cal-weekday">Q</div><div class="cal-weekday">Q</div><div class="cal-weekday">S</div><div class="cal-weekday">S</div>
-        ${celulas}
-      </div>
-      ${legendaItens ? `<div class="cal-legend">${legendaItens}</div>` : `<p class="empty-hint" style="padding:6px 0 0;">Nenhum evento neste mês.</p>`}
-      <div class="date-filter-actions" style="margin-top:12px;">
-        <button class="date-filter-link" id="${idPrefix}Todas">selecionar todos os eventos</button>
-        <button class="date-filter-link" id="${idPrefix}Nenhuma">limpar seleção</button>
-      </div>
-    </div>`;
-}
-
-async function loadBI(force){
-  const wrap = document.getElementById('biWrap');
-  if (!webhookUrl){
-    wrap.innerHTML = `<div class="card placeholder-card">
-      <span class="icon">📊</span>
-      <h2>Conecte a planilha primeiro</h2>
-      <p>Configure a URL da planilha (ícone de engrenagem, na tela de comandas) antes de ver os indicadores.</p>
-    </div>`;
-    return;
-  }
-  if (biDados && !force){ renderBI(biDados); return; }
-  if (biCarregando) return;
-  biCarregando = true;
-  wrap.innerHTML = `<div class="card"><div class="status"><div class="spinner"></div>Carregando dados da planilha...</div></div>`;
+async function carregarEstoque() {
+  const wrap = document.getElementById('est-tabela-wrap');
+  if (!getApiUrl()) { wrap.innerHTML = '<div class="empty">Configure a conexão na aba "Config".</div>'; return; }
   try {
-    const res = await fetch(urlServidor({ action: 'dados' }));
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const dados = await res.json();
-    if (dados && dados.ok === false && dados.erro === 'token') throw new Error('a planilha recusou o token — confira o campo Token na engrenagem ⚙ da tela de comandas');
-    if (!Array.isArray(dados)) throw new Error('resposta inesperada');
-    biDados = dados;
-    biUltimaAtualizacao = new Date();
-    renderBI(biDados);
-  } catch(err){
-    wrap.innerHTML = `<div class="card placeholder-card">
-      <span class="icon">⚠️</span>
-      <h2>Não consegui carregar os dados</h2>
-      <p>Confira se o Apps Script foi atualizado com a rota de leitura (ação "dados") e se uma nova versão foi implantada.<br>Detalhe técnico: ${escapeHtml(err.message)}</p>
-      <button class="save-btn" id="biRetryBtn" style="margin-top:14px;">Tentar de novo</button>
-    </div>`;
-    document.getElementById('biRetryBtn').addEventListener('click', () => loadBI(true));
-  } finally {
-    biCarregando = false;
+    const r = await callApi('listarEstoque');
+    if (!r.ok) throw new Error(r.erro);
+    estoqueCache = r.itens || [];
+    renderEstoque();
+    atualizarDatalistCategorias();
+    atualizarDatalistProprietarios();
+  } catch (e) {
+    wrap.innerHTML = '<div class="empty">Erro ao carregar: ' + escapeHtml(e.message) + '</div>';
   }
 }
 
-let biUltimaAtualizacao = null;
+function atualizarDatalistCategorias() {
+  const dl = document.getElementById('lista-categorias');
+  const cats = [...new Set(estoqueCache.map(i => i.Categoria).filter(Boolean))];
+  dl.innerHTML = cats.map(c => `<option value="${escapeHtml(c)}">`).join('');
+}
 
-function renderBI(dados){
-  const wrap = document.getElementById('biWrap');
+function atualizarDatalistProprietarios() {
+  const dl = document.getElementById('lista-proprietarios');
+  const nomes = [...new Set(estoqueCache.map(i => i.Proprietario).filter(Boolean))];
+  if (!nomes.includes('RE9')) nomes.unshift('RE9');
+  dl.innerHTML = nomes.map(n => `<option value="${escapeHtml(n)}">`).join('');
+}
 
-  if (dados.length === 0){
-    wrap.innerHTML = `<div class="bi-toolbar">
-        <span class="bi-updated">${biUltimaAtualizacao ? 'atualizado às ' + biUltimaAtualizacao.toLocaleTimeString('pt-BR') : ''}</span>
-        <button class="bi-refresh" id="biRefreshBtn">↻ Atualizar</button>
-      </div>
-      <div class="card placeholder-card">
-        <span class="icon">📊</span>
-        <h2>Sem dados ainda</h2>
-        <p>Assim que as primeiras comandas forem enviadas pra planilha, os indicadores aparecem aqui.</p>
-      </div>`;
-    document.getElementById('biRefreshBtn').addEventListener('click', () => loadBI(true));
-    return;
+function ehProprioRe9(proprietario) {
+  return (proprietario || 'RE9').trim().toUpperCase() === 'RE9';
+}
+
+function renderEstoque() {
+  const wrap = document.getElementById('est-tabela-wrap');
+  const busca = document.getElementById('est-busca').value.trim().toLowerCase();
+  let itens = estoqueCache;
+  if (busca) {
+    itens = itens.filter(i =>
+      (i.Codigo || '').toLowerCase().includes(busca) ||
+      (i.Categoria || '').toLowerCase().includes(busca) ||
+      (i.Descricao || '').toLowerCase().includes(busca)
+    );
   }
+  if (!itens.length) { wrap.innerHTML = '<div class="empty">Nenhuma peça encontrada.</div>'; return; }
 
-  const localPorData = new Map();
-  dados.forEach(row => {
-    const data = extrairDataEvento(row.data_evento);
-    if (!data) return;
-    const set = localPorData.get(data) || new Set();
-    set.add(row.local || 'sem local');
-    localPorData.set(data, set);
+  wrap.innerHTML = `
+    <table>
+      <thead><tr>
+        <th>Código</th><th>Categoria</th><th>Marca</th><th>Descrição</th><th>Tam.</th><th>Cor</th>
+        <th>Qtd.</th><th>Venda</th><th></th>
+      </tr></thead>
+      <tbody>
+        ${itens.map(i => `
+          <tr>
+            <td><span class="codigo-tag">${escapeHtml(i.Codigo)}</span></td>
+            <td><span class="tag">${escapeHtml(i.Categoria)}</span></td>
+            <td>${escapeHtml(i.Marca)}</td>
+            <td>${escapeHtml(i.Descricao)}
+              ${!ehProprioRe9(i.Proprietario) ? `<span class="consignado-tag">Consignado · ${escapeHtml(i.Proprietario)} · Re9 fica ${i.ComissaoPercentual || 0}%</span>` : ''}
+            </td>
+            <td>${escapeHtml(i.Tamanho)}</td>
+            <td>${escapeHtml(i.Cor)}</td>
+            <td class="${Number(i.Quantidade) <= 2 ? 'qty-low' : ''}">${i.Quantidade}</td>
+            <td>${fmtMoeda(i.PrecoVenda)}</td>
+            <td><button class="btn ghost" data-edit-estoque="${escapeHtml(i.ID)}">editar</button></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>`;
+
+  wrap.querySelectorAll('[data-edit-estoque]').forEach(btn => {
+    btn.addEventListener('click', () => editarItemEstoque(btn.dataset.editEstoque));
   });
-  const labelPorData = iso => Array.from(localPorData.get(iso) || ['sem local']).join(' + ');
+}
 
-  const todosLocais = Array.from(new Set(dados.map(row => row.local || 'sem local'))).sort((a,b) => a.localeCompare(b, 'pt-BR'));
+document.getElementById('est-busca').addEventListener('input', renderEstoque);
+document.getElementById('est-refresh').addEventListener('click', carregarEstoque);
 
-  // datas disponíveis no dataset completo, já restritas ao evento/local escolhido, pra montar o calendário
-  const datasComData = Array.from(new Set(
-    dados.map(row => extrairDataEvento(row.data_evento)).filter(Boolean)
-  )).filter(d => biLocalSelecionado === 'todos' || (localPorData.get(d) || new Set()).has(biLocalSelecionado));
+const estProprietarioInput = document.getElementById('est-proprietario');
+const estComissaoWrap = document.getElementById('est-comissao-wrap');
+const estComissaoInput = document.getElementById('est-comissao');
+function atualizarVisibilidadeComissao() {
+  const consignado = !ehProprioRe9(estProprietarioInput.value);
+  estComissaoWrap.style.display = consignado ? 'block' : 'none';
+  estComissaoInput.required = consignado;
+  if (!consignado) estComissaoInput.value = '';
+}
+estProprietarioInput.addEventListener('input', atualizarVisibilidadeComissao);
+atualizarVisibilidadeComissao();
 
-  if (!biDatasSelecionadas) biDatasSelecionadas = new Set(datasComData);
-  if (!biCalendarioMes) {
-    const maisRecente = datasComData.slice().sort().pop();
-    biCalendarioMes = maisRecente ? new Date(maisRecente + 'T00:00:00') : new Date();
+function editarItemEstoque(id) {
+  const item = estoqueCache.find(i => i.ID === id);
+  if (!item) return;
+  document.getElementById('estoque-form-title').textContent = 'Editar peça — ' + item.Descricao;
+  document.getElementById('est-id').value = item.ID;
+  document.getElementById('est-codigo').value = item.Codigo;
+  document.getElementById('est-categoria').value = item.Categoria;
+  document.getElementById('est-marca').value = item.Marca;
+  document.getElementById('est-descricao').value = item.Descricao;
+  document.getElementById('est-tamanho').value = item.Tamanho;
+  document.getElementById('est-cor').value = item.Cor;
+  document.getElementById('est-quantidade').value = item.Quantidade;
+  document.getElementById('est-preco-custo').value = item.PrecoCusto;
+  document.getElementById('est-preco-venda').value = item.PrecoVenda;
+  document.getElementById('est-proprietario').value = item.Proprietario || 'RE9';
+  document.getElementById('est-comissao').value = item.ComissaoPercentual || '';
+  atualizarVisibilidadeComissao();
+  document.getElementById('est-submit-btn').textContent = 'Salvar alterações';
+  document.getElementById('est-cancel-btn').style.display = 'inline-flex';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('est-cancel-btn').addEventListener('click', resetFormEstoque);
+
+function resetFormEstoque() {
+  document.getElementById('form-estoque').reset();
+  document.getElementById('est-id').value = '';
+  document.getElementById('estoque-form-title').textContent = 'Nova peça / categoria';
+  document.getElementById('est-submit-btn').textContent = 'Salvar';
+  document.getElementById('est-cancel-btn').style.display = 'none';
+  document.getElementById('est-quantidade').value = 1;
+  document.getElementById('est-proprietario').value = 'RE9';
+  atualizarVisibilidadeComissao();
+}
+
+document.getElementById('form-estoque').addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const btn = document.getElementById('est-submit-btn');
+  btn.disabled = true;
+  try {
+    const params = {
+      id: document.getElementById('est-id').value || undefined,
+      codigo: document.getElementById('est-codigo').value,
+      categoria: document.getElementById('est-categoria').value,
+      marca: document.getElementById('est-marca').value,
+      descricao: document.getElementById('est-descricao').value,
+      tamanho: document.getElementById('est-tamanho').value,
+      cor: document.getElementById('est-cor').value,
+      quantidade: document.getElementById('est-quantidade').value,
+      precoCusto: document.getElementById('est-preco-custo').value,
+      precoVenda: document.getElementById('est-preco-venda').value,
+      proprietario: document.getElementById('est-proprietario').value,
+      comissaoPercentual: document.getElementById('est-comissao').value,
+    };
+    await callApiWrite('salvarItem', params);
+    toast('Salvo!', 'success');
+    resetFormEstoque();
+    await carregarEstoque();
+  } catch (e) {
+    toast('Erro: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
   }
+});
 
-  // linhas sem data_evento válida não têm como ser filtradas pelo calendário, então só passam pelo filtro de evento
-  const dadosFiltrados = dados.filter(row => {
-    const data = extrairDataEvento(row.data_evento);
-    const passaLocal = biLocalSelecionado === 'todos' || (row.local || 'sem local') === biLocalSelecionado;
-    const passaData = !data || biDatasSelecionadas.has(data);
-    return passaLocal && passaData;
+/* ============================================================
+   CLIENTES
+   ============================================================ */
+
+let clientesCache = [];
+
+async function carregarClientes() {
+  const wrap = document.getElementById('cli-tabela-wrap');
+  if (!getApiUrl()) { wrap.innerHTML = '<div class="empty">Configure a conexão na aba "Config".</div>'; return; }
+  try {
+    const r = await callApi('listarClientes');
+    if (!r.ok) throw new Error(r.erro);
+    clientesCache = r.clientes || [];
+    renderClientes();
+  } catch (e) {
+    wrap.innerHTML = '<div class="empty">Erro ao carregar: ' + escapeHtml(e.message) + '</div>';
+  }
+}
+
+function renderClientes() {
+  const wrap = document.getElementById('cli-tabela-wrap');
+  const busca = document.getElementById('cli-busca').value.trim().toLowerCase();
+  let itens = clientesCache;
+  if (busca) itens = itens.filter(c => (c.Nome || '').toLowerCase().includes(busca));
+  if (!itens.length) { wrap.innerHTML = '<div class="empty">Nenhum cliente encontrado.</div>'; return; }
+
+  wrap.innerHTML = `
+    <table>
+      <thead><tr><th>Nome</th><th>Telefone</th><th>Email</th><th>Rede social</th><th></th></tr></thead>
+      <tbody>
+        ${itens.map(c => `
+          <tr>
+            <td>${escapeHtml(c.Nome)}</td>
+            <td>${escapeHtml(c.Telefone)}</td>
+            <td>${escapeHtml(c.Email)}</td>
+            <td>${c.RedeSocial ? `<a href="${escapeHtml(c.RedeSocial)}" target="_blank" rel="noopener">link</a>` : ''}</td>
+            <td><button class="btn ghost" data-edit-cliente="${escapeHtml(c.ID)}">editar</button></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>`;
+
+  wrap.querySelectorAll('[data-edit-cliente]').forEach(btn => {
+    btn.addEventListener('click', () => editarCliente(btn.dataset.editCliente));
   });
+}
 
-  const opcoesLocais = todosLocais.map(l => `<option value="${escapeHtml(l)}" ${biLocalSelecionado === l ? 'selected' : ''}>${escapeHtml(l)}</option>`).join('');
+document.getElementById('cli-busca').addEventListener('input', renderClientes);
+document.getElementById('cli-refresh').addEventListener('click', carregarClientes);
 
-  const filtroHTML = `
-    <div class="card">
-      <div class="bi-section-title">Filtrar por evento</div>
-      <label>Evento / local</label>
-      <select id="biLocalFiltro">
-        <option value="todos" ${biLocalSelecionado === 'todos' ? 'selected' : ''}>Todos os eventos</option>
-        ${opcoesLocais}
+function editarCliente(id) {
+  const c = clientesCache.find(x => x.ID === id);
+  if (!c) return;
+  document.getElementById('cliente-form-title').textContent = 'Editar cliente — ' + c.Nome;
+  document.getElementById('cli-id').value = c.ID;
+  document.getElementById('cli-nome').value = c.Nome;
+  document.getElementById('cli-telefone').value = c.Telefone;
+  document.getElementById('cli-email').value = c.Email;
+  document.getElementById('cli-rede-social').value = c.RedeSocial;
+  document.getElementById('cli-observacoes').value = c.Observacoes;
+  document.getElementById('cli-submit-btn').textContent = 'Salvar alterações';
+  document.getElementById('cli-cancel-btn').style.display = 'inline-flex';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('cli-cancel-btn').addEventListener('click', resetFormCliente);
+
+function resetFormCliente() {
+  document.getElementById('form-cliente').reset();
+  document.getElementById('cli-id').value = '';
+  document.getElementById('cliente-form-title').textContent = 'Novo cliente';
+  document.getElementById('cli-submit-btn').textContent = 'Salvar';
+  document.getElementById('cli-cancel-btn').style.display = 'none';
+}
+
+document.getElementById('form-cliente').addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const btn = document.getElementById('cli-submit-btn');
+  btn.disabled = true;
+  try {
+    const params = {
+      id: document.getElementById('cli-id').value || undefined,
+      nome: document.getElementById('cli-nome').value,
+      telefone: document.getElementById('cli-telefone').value,
+      email: document.getElementById('cli-email').value,
+      redeSocial: document.getElementById('cli-rede-social').value,
+      observacoes: document.getElementById('cli-observacoes').value,
+    };
+    await callApiWrite('salvarCliente', params);
+    toast('Salvo!', 'success');
+    resetFormCliente();
+    await carregarClientes();
+  } catch (e) {
+    toast('Erro: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+/* ============================================================
+   VENDAS
+   ============================================================ */
+
+async function carregarClientesSelect() {
+  if (!clientesCache.length) await carregarClientes();
+  const sel = document.getElementById('venda-cliente');
+  const atual = sel.value;
+  sel.innerHTML = '<option value="">Venda avulsa (sem cliente)</option>' +
+    clientesCache.map(c => `<option value="${escapeHtml(c.ID)}">${escapeHtml(c.Nome)}</option>`).join('');
+  sel.value = atual;
+}
+
+function novaLinhaVendaItem(itemIdPreSelecionado) {
+  const wrap = document.getElementById('venda-itens');
+  const row = document.createElement('div');
+  row.className = 'venda-item';
+  row.innerHTML = `
+    <div>
+      <label>Peça</label>
+      <select class="venda-item-select">
+        <option value="">Selecione…</option>
+        ${estoqueCache.filter(i => Number(i.Quantidade) > 0).map(i =>
+          `<option value="${escapeHtml(i.ID)}" data-preco="${i.PrecoVenda}" data-max="${i.Quantidade}" ${i.ID === itemIdPreSelecionado ? 'selected' : ''}>
+            [${escapeHtml(i.Codigo)}] ${escapeHtml(i.Categoria)} — ${escapeHtml(i.Descricao)} (${i.Quantidade} disp.)${!ehProprioRe9(i.Proprietario) ? ' · consignado' : ''}
+          </option>`).join('')}
       </select>
-      <div style="margin-top:16px;">
-        ${buildCalendarHTML(biCalendarioMes, datasComData, biDatasSelecionadas, labelPorData, 'biCal')}
-      </div>
-    </div>`;
+    </div>
+    <div>
+      <label>Qtd.</label>
+      <input type="number" class="venda-item-qtd" min="1" value="1">
+    </div>
+    <div>
+      <label>Preço unit.</label>
+      <input type="number" class="venda-item-preco" min="0" step="0.01">
+    </div>
+    <button type="button" class="btn ghost venda-item-remover" title="Remover">✕</button>
+  `;
+  wrap.appendChild(row);
 
-  if (dadosFiltrados.length === 0){
-    wrap.innerHTML = `
-      <div class="bi-toolbar">
-        <span class="bi-updated">${biUltimaAtualizacao ? 'atualizado às ' + biUltimaAtualizacao.toLocaleTimeString('pt-BR') : ''}</span>
-        <button class="bi-refresh" id="biRefreshBtn">↻ Atualizar</button>
-      </div>
-      ${filtroHTML}
-      <div class="card placeholder-card">
-        <span class="icon">🗓️</span>
-        <h2>Nenhuma data selecionada</h2>
-        <p>Escolha ao menos uma data no filtro acima para ver os indicadores.</p>
-      </div>`;
-    document.getElementById('biRefreshBtn').addEventListener('click', () => loadBI(true));
-    ligarEventosFiltroData();
+  const select = row.querySelector('.venda-item-select');
+  const precoInput = row.querySelector('.venda-item-preco');
+  const qtdInput = row.querySelector('.venda-item-qtd');
+
+  if (itemIdPreSelecionado) {
+    const opt = select.selectedOptions[0];
+    if (opt) { precoInput.value = opt.dataset.preco || ''; qtdInput.max = opt.dataset.max || ''; }
+  }
+
+  select.addEventListener('change', () => {
+    const opt = select.selectedOptions[0];
+    precoInput.value = opt.dataset.preco || '';
+    qtdInput.max = opt.dataset.max || '';
+    atualizarTotalVenda();
+  });
+  precoInput.addEventListener('input', atualizarTotalVenda);
+  qtdInput.addEventListener('input', atualizarTotalVenda);
+  row.querySelector('.venda-item-remover').addEventListener('click', () => {
+    row.remove();
+    atualizarTotalVenda();
+  });
+
+  atualizarTotalVenda();
+}
+
+function atualizarTotalVenda() {
+  let total = 0;
+  document.querySelectorAll('#venda-itens .venda-item').forEach(row => {
+    const qtd = Number(row.querySelector('.venda-item-qtd').value) || 0;
+    const preco = Number(row.querySelector('.venda-item-preco').value) || 0;
+    total += qtd * preco;
+  });
+  document.getElementById('venda-total').textContent = fmtMoeda(total);
+}
+
+const vendaPagamentoSelect = document.getElementById('venda-pagamento');
+const vendaDataPagamentoWrap = document.getElementById('venda-data-pagamento-wrap');
+vendaPagamentoSelect.addEventListener('change', () => {
+  vendaDataPagamentoWrap.style.display = vendaPagamentoSelect.value === 'Parcelado' ? 'block' : 'none';
+});
+
+document.getElementById('venda-add-item').addEventListener('click', () => {
+  if (!estoqueCache.length) { toast('Cadastre peças no estoque primeiro.', 'error'); return; }
+  novaLinhaVendaItem();
+});
+
+const vendaBuscaCodigoInput = document.getElementById('venda-busca-codigo');
+vendaBuscaCodigoInput.addEventListener('keydown', (ev) => {
+  if (ev.key !== 'Enter') return;
+  ev.preventDefault();
+  const codigo = vendaBuscaCodigoInput.value.trim().toLowerCase();
+  if (!codigo) return;
+  const item = estoqueCache.find(i => (i.Codigo || '').toLowerCase() === codigo && Number(i.Quantidade) > 0);
+  if (!item) { toast('Nenhuma peça em estoque com o código "' + vendaBuscaCodigoInput.value.trim() + '".', 'error'); return; }
+  novaLinhaVendaItem(item.ID);
+  atualizarTotalVenda();
+  vendaBuscaCodigoInput.value = '';
+  vendaBuscaCodigoInput.focus();
+});
+
+document.getElementById('venda-finalizar').addEventListener('click', async () => {
+  const linhas = [...document.querySelectorAll('#venda-itens .venda-item')];
+  const itens = [];
+  for (const row of linhas) {
+    const itemId = row.querySelector('.venda-item-select').value;
+    const qtd = Number(row.querySelector('.venda-item-qtd').value);
+    const preco = Number(row.querySelector('.venda-item-preco').value);
+    if (!itemId || !qtd) continue;
+    itens.push({ itemId, quantidade: qtd, precoUnit: preco });
+  }
+  if (!itens.length) { toast('Adicione ao menos um item à venda.', 'error'); return; }
+
+  const formaPagamento = document.getElementById('venda-pagamento').value;
+  const dataPagamento = document.getElementById('venda-data-pagamento').value;
+  if (formaPagamento === 'Parcelado' && !dataPagamento) {
+    toast('Informe a data prevista de pagamento para venda parcelada.', 'error');
     return;
   }
 
-  // total histórico por evento (local+data), a partir do dataset COMPLETO (não filtrado) —
-  // o crescimento de um evento é sempre comparado com o evento anterior no mesmo local,
-  // independente do filtro de data/evento que está sendo visualizado agora.
-  const totalPorEventoCompleto = new Map(); // 'local|data' -> total
-  dados.forEach(row => {
-    const data = extrairDataEvento(row.data_evento);
-    if (!data) return;
-    const key = (row.local || 'sem local') + '|' + data;
-    totalPorEventoCompleto.set(key, (totalPorEventoCompleto.get(key) || 0) + (Number(row.valor_total) || 0));
-  });
-  const eventosPorLocal = new Map(); // local -> [{data, total}] ordenado por data asc
-  totalPorEventoCompleto.forEach((total, key) => {
-    const [local, data] = key.split('|');
-    const lista = eventosPorLocal.get(local) || [];
-    lista.push({ data, total });
-    eventosPorLocal.set(local, lista);
-  });
-  eventosPorLocal.forEach(lista => lista.sort((a,b) => a.data.localeCompare(b.data)));
-  function calcularCrescimento(local, data){
-    const lista = eventosPorLocal.get(local) || [];
-    const idx = lista.findIndex(e => e.data === data);
-    if (idx <= 0) return null; // primeiro evento registrado nesse local, sem base de comparação
-    const anterior = lista[idx-1].total;
-    if (anterior <= 0) return null;
-    const pct = Math.round(((lista[idx].total - anterior) / anterior) * 100);
-    return { pct, dir: pct >= 0 ? 'up' : 'down' };
+  const clienteSel = document.getElementById('venda-cliente');
+  const btn = document.getElementById('venda-finalizar');
+  btn.disabled = true;
+  try {
+    const totalAntes = document.getElementById('venda-total').textContent;
+    await callApiWrite('registrarVenda', {
+      clienteId: clienteSel.value,
+      clienteNome: clienteSel.value ? clienteSel.selectedOptions[0].textContent : 'Venda avulsa',
+      formaPagamento,
+      dataPagamento: formaPagamento === 'Parcelado' ? dataPagamento : undefined,
+      itens: JSON.stringify(itens),
+    });
+    toast('Venda registrada! Total: ' + totalAntes, 'success');
+    document.getElementById('venda-itens').innerHTML = '';
+    document.getElementById('venda-total').textContent = fmtMoeda(0);
+    document.getElementById('venda-data-pagamento').value = '';
+    vendaDataPagamentoWrap.style.display = 'none';
+    vendaPagamentoSelect.value = 'Dinheiro';
+    await carregarEstoque();
+    await carregarVendas();
+    carregarLembretesBadge();
+  } catch (e) {
+    toast('Erro: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
   }
+});
 
-  // agrupamentos (só sobre o que está dentro do filtro atual)
-  const comandaInfo = new Map();  // chaveComanda -> { total, pagamento }
-  const eventoMap = new Map();    // 'data|local' -> total
-  const pagamentoMap = new Map(); // forma de pagamento -> total (soma de tudo)
-  const itemMap = new Map();      // item -> { quantidade, total }
-  let totalGeralBI = 0;
-  let pratosVendidos = 0;
+let vendasCache = [];
 
-  dadosFiltrados.forEach(row => {
-    const valor = Number(row.valor_total) || 0;
-    const qtd = Number(row.quantidade) || 0;
-    totalGeralBI += valor;
-    pratosVendidos += qtd;
+async function carregarVendas() {
+  const wrap = document.getElementById('vendas-tabela-wrap');
+  if (!getApiUrl()) { wrap.innerHTML = '<div class="empty">Configure a conexão na aba "Config".</div>'; return; }
+  try {
+    const r = await callApi('listarVendas');
+    if (!r.ok) throw new Error(r.erro);
+    vendasCache = (r.vendas || []).sort((a, b) => new Date(b.Data) - new Date(a.Data));
+    renderVendas();
+  } catch (e) {
+    wrap.innerHTML = '<div class="empty">Erro ao carregar: ' + escapeHtml(e.message) + '</div>';
+  }
+}
 
-    // Linhas gravadas pela versão 2 trazem o ID único da comanda; linhas antigas
-    // (sem ID) caem na chave aproximada de antes.
-    const chaveComanda = (row.comanda_id && String(row.comanda_id).startsWith('cmd_'))
-      ? String(row.comanda_id)
-      : [row.registrado_em, row.cliente, row.pagamento, row.numero_comanda || ''].join('|');
-    const info = comandaInfo.get(chaveComanda) || { total: 0, pagamento: row.pagamento || 'não informado' };
-    info.total += valor;
-    comandaInfo.set(chaveComanda, info);
+function renderVendas() {
+  const wrap = document.getElementById('vendas-tabela-wrap');
+  const itens = vendasCache.slice(0, 60);
+  if (!itens.length) { wrap.innerHTML = '<div class="empty">Nenhuma venda registrada ainda.</div>'; return; }
+  wrap.innerHTML = `
+    <table>
+      <thead><tr><th>Data</th><th>Cliente</th><th>Item</th><th>Qtd.</th><th>Subtotal</th><th>Propriet.</th><th>Pagamento</th><th>Status</th></tr></thead>
+      <tbody>
+        ${itens.map(v => `
+          <tr>
+            <td>${fmtData(v.Data)}</td>
+            <td>${escapeHtml(v.ClienteNome)}</td>
+            <td>${escapeHtml(v.ItemDescricao)}</td>
+            <td>${v.Quantidade}</td>
+            <td>${fmtMoeda(v.Subtotal)}</td>
+            <td>${ehProprioRe9(v.Proprietario) ? 'Re9' : escapeHtml(v.Proprietario) + ' (' + (v.ComissaoPercentual || 0) + '% Re9)'}</td>
+            <td>${escapeHtml(v.FormaPagamento)}</td>
+            <td>${v.StatusPagamento === 'Pendente' ? '<span class="venc-badge atrasado">Pendente</span>' : (v.StatusPagamento ? '✓ Pago' : '')}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>`;
+}
 
-    const chaveEvento = (extrairDataEvento(row.data_evento) || 'sem data') + '|' + (row.local || 'sem local');
-    eventoMap.set(chaveEvento, (eventoMap.get(chaveEvento) || 0) + valor);
+document.getElementById('vendas-refresh').addEventListener('click', carregarVendas);
 
-    const pag = row.pagamento || 'não informado';
-    pagamentoMap.set(pag, (pagamentoMap.get(pag) || 0) + valor);
+/* ============================================================
+   LEMBRETES (cobranças de vendas parceladas)
+   ============================================================ */
 
-    const nomeItem = normalizarTexto(row.item || 'sem nome');
-    const atual = itemMap.get(nomeItem) || { quantidade: 0, total: 0 };
-    atual.quantidade += qtd;
-    atual.total += valor;
-    itemMap.set(nomeItem, atual);
-  });
+async function carregarLembretes() {
+  const wrap = document.getElementById('lembretes-wrap');
+  if (!getApiUrl()) { wrap.innerHTML = '<div class="empty">Configure a conexão na aba "Config".</div>'; return; }
+  wrap.innerHTML = '<div class="empty loading-dot">Carregando</div>';
+  try {
+    const r = await callApi('listarLembretes');
+    if (!r.ok) throw new Error(r.erro);
+    renderLembretes(r.lembretes || []);
+    atualizarBadgeLembretes(r.lembretes || []);
+  } catch (e) {
+    wrap.innerHTML = '<div class="empty">Erro ao carregar: ' + escapeHtml(e.message) + '</div>';
+  }
+}
 
-  const qtdComandas = comandaInfo.size;
-  const ticketMedio = qtdComandas > 0 ? totalGeralBI / qtdComandas : 0;
+async function carregarLembretesBadge() {
+  if (!getApiUrl()) return;
+  try {
+    const r = await callApi('listarLembretes');
+    if (r.ok) atualizarBadgeLembretes(r.lembretes || []);
+  } catch (e) { /* silencioso */ }
+}
 
-  // ticket médio por forma de pagamento = soma das comandas daquele pagamento / nº de comandas daquele pagamento
-  const pagamentoComandas = new Map(); // pagamento -> { total, count }
-  comandaInfo.forEach(info => {
-    const c = pagamentoComandas.get(info.pagamento) || { total: 0, count: 0 };
-    c.total += info.total;
-    c.count += 1;
-    pagamentoComandas.set(info.pagamento, c);
-  });
-  const ticketPorPagamento = Array.from(pagamentoComandas.entries())
-    .map(([nome, c]) => [nome, c.count > 0 ? c.total / c.count : 0])
-    .sort((a,b) => b[1]-a[1]);
+function atualizarBadgeLembretes(lembretes) {
+  const badge = document.getElementById('lembretes-badge');
+  badge.textContent = lembretes.length ? String(lembretes.length) : '';
+}
 
-  const porEvento = Array.from(eventoMap.entries()).sort((a,b) => b[1]-a[1]).slice(0, 8);
-  const porPagamento = Array.from(pagamentoMap.entries()).sort((a,b) => b[1]-a[1]);
-  const porItemQtd = Array.from(itemMap.entries()).sort((a,b) => b[1].quantidade - a[1].quantidade);
-  const maisVendidos = porItemQtd.slice(0, 5);
-  const parados = porItemQtd.slice(-5).reverse();
+function renderLembretes(lembretes) {
+  const wrap = document.getElementById('lembretes-wrap');
+  if (!lembretes.length) { wrap.innerHTML = '<div class="empty">Nenhuma cobrança pendente. 🎉</div>'; return; }
 
-  const maxPagamento = Math.max(1, ...porPagamento.map(p => p[1]));
-  const maxTicketPagamento = Math.max(1, ...ticketPorPagamento.map(p => p[1]));
+  wrap.innerHTML = lembretes.map(l => {
+    let vencTxt, vencClasse = '';
+    if (l.atrasado) { vencTxt = `Atrasado há ${Math.abs(l.diasParaVencer)} dia(s)`; vencClasse = 'atrasado'; }
+    else if (l.diasParaVencer === 0) { vencTxt = 'Vence hoje'; vencClasse = 'atrasado'; }
+    else { vencTxt = `Vence em ${l.diasParaVencer} dia(s)`; }
 
-  const barrasHTML = (lista, max) => lista.map(([nome, valor]) => `
-    <div class="bi-bar-row">
-      <div class="bi-bar-label"><span class="bi-bar-name">${escapeHtml(nome)}</span><span class="bi-bar-value">${formatBRL(valor)}</span></div>
-      <div class="bi-bar-track"><div class="bi-bar-fill" style="width:${Math.max(4, (valor/max)*100)}%"></div></div>
-    </div>`).join('');
-
-  const maxEventoValor = Math.max(1, ...porEvento.map(e => e[1]));
-  const eventosHTML = porEvento.map(([chave, valor]) => {
-    const [data, local] = chave.split('|');
-    const crescimento = data !== 'sem data' ? calcularCrescimento(local, data) : null;
-    const nomeExibicao = data !== 'sem data' ? `${local} — ${formatDataCurta(data)}` : local;
-    const tagCrescimento = crescimento ? `<span class="growth-tag ${crescimento.dir}">${crescimento.dir === 'up' ? '↑' : '↓'} ${Math.abs(crescimento.pct)}%</span>` : '';
     return `
-    <div class="bi-bar-row">
-      <div class="bi-bar-label"><span class="bi-bar-name">${escapeHtml(nomeExibicao)}</span><span class="bi-bar-value">${formatBRL(valor)} ${tagCrescimento}</span></div>
-      <div class="bi-bar-track"><div class="bi-bar-fill" style="width:${Math.max(4, (valor/maxEventoValor)*100)}%"></div></div>
-    </div>`;
+      <div class="lembrete-row">
+        <div class="lembrete-info">
+          <div class="nome">${escapeHtml(l.clienteNome)} — ${fmtMoeda(l.total)}</div>
+          <div class="detalhe">${escapeHtml(l.itens.join(', '))} · vencimento ${fmtData(l.dataPagamento)}</div>
+        </div>
+        <span class="venc-badge ${vencClasse}">${vencTxt}</span>
+        <button class="btn secondary" data-marcar-pago="${escapeHtml(l.vendaId)}">Marcar como pago</button>
+      </div>`;
   }).join('');
 
-  const maisVendidosHTML = maisVendidos.map(([nome, info]) => `<div class="bi-item-row"><span>${escapeHtml(nome)}</span><span class="bi-item-total">×${info.quantidade}</span></div>`).join('');
-  const paradosHTML = parados.map(([nome, info]) => `<div class="bi-item-row"><span>${escapeHtml(nome)}</span><span class="bi-item-total">×${info.quantidade}</span></div>`).join('');
-
-  wrap.innerHTML = `
-    <div class="bi-toolbar">
-      <span class="bi-updated">${biUltimaAtualizacao ? 'atualizado às ' + biUltimaAtualizacao.toLocaleTimeString('pt-BR') : ''}</span>
-      <button class="bi-refresh" id="biRefreshBtn">↻ Atualizar</button>
-    </div>
-
-    ${filtroHTML}
-
-    <div class="bi-stats">
-      <div class="bi-stat"><span class="bi-stat-value">${formatBRL(totalGeralBI)}</span><span class="bi-stat-label">Total vendido</span></div>
-      <div class="bi-stat"><span class="bi-stat-value">${qtdComandas}</span><span class="bi-stat-label">Comandas</span></div>
-      <div class="bi-stat"><span class="bi-stat-value">${formatBRL(ticketMedio)}</span><span class="bi-stat-label">Ticket médio</span></div>
-      <div class="bi-stat"><span class="bi-stat-value">${pratosVendidos}</span><span class="bi-stat-label">Pratos vendidos</span></div>
-    </div>
-
-    <div class="card">
-      <div class="bi-section-title">Vendas por dia / evento</div>
-      ${eventosHTML}
-    </div>
-
-    <div class="card">
-      <div class="bi-section-title">Ticket médio por forma de pagamento</div>
-      ${barrasHTML(ticketPorPagamento, maxTicketPagamento)}
-    </div>
-
-    <div class="card">
-      <div class="bi-section-title">Formas de pagamento (total)</div>
-      ${barrasHTML(porPagamento, maxPagamento)}
-    </div>
-
-    <div class="card">
-      <div class="bi-section-title">Mais vendidos × parados</div>
-      <div class="bi-two-col">
-        <div>
-          <div class="bi-mini-title">🔥 Mais vendidos</div>
-          ${maisVendidosHTML}
-        </div>
-        <div>
-          <div class="bi-mini-title">🐌 Parados</div>
-          ${paradosHTML}
-        </div>
-      </div>
-    </div>
-  `;
-  document.getElementById('biRefreshBtn').addEventListener('click', () => loadBI(true));
-  ligarEventosFiltroData();
-}
-
-function ligarEventosFiltroData(){
-  const wrap = document.getElementById('biWrap');
-  const selectLocal = wrap.querySelector('#biLocalFiltro');
-  if (selectLocal) selectLocal.addEventListener('change', () => {
-    biLocalSelecionado = selectLocal.value;
-    renderBI(biDados);
-  });
-  wrap.querySelectorAll('.cal-cell.available').forEach(cel => {
-    cel.addEventListener('click', () => {
-      const data = cel.dataset.date;
-      if (biDatasSelecionadas.has(data)) biDatasSelecionadas.delete(data);
-      else biDatasSelecionadas.add(data);
-      renderBI(biDados);
+  wrap.querySelectorAll('[data-marcar-pago]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      try {
+        await callApiWrite('marcarPago', { vendaId: btn.dataset.marcarPago });
+        toast('Marcado como pago!', 'success');
+        await carregarLembretes();
+        await carregarVendas();
+      } catch (e) {
+        toast('Erro: ' + e.message, 'error');
+        btn.disabled = false;
+      }
     });
   });
-  const navPrev = wrap.querySelector('#biCalNavPrev');
-  const navNext = wrap.querySelector('#biCalNavNext');
-  if (navPrev) navPrev.addEventListener('click', () => {
-    biCalendarioMes = new Date(biCalendarioMes.getFullYear(), biCalendarioMes.getMonth() - 1, 1);
-    renderBI(biDados);
-  });
-  if (navNext) navNext.addEventListener('click', () => {
-    biCalendarioMes = new Date(biCalendarioMes.getFullYear(), biCalendarioMes.getMonth() + 1, 1);
-    renderBI(biDados);
-  });
-  const btnTodas = wrap.querySelector('#biCalTodas');
-  const btnNenhuma = wrap.querySelector('#biCalNenhuma');
-  if (btnTodas) btnTodas.addEventListener('click', () => {
-    biDatasSelecionadas = new Set(biDados.map(row => extrairDataEvento(row.data_evento)).filter(Boolean));
-    renderBI(biDados);
-  });
-  if (btnNenhuma) btnNenhuma.addEventListener('click', () => {
-    biDatasSelecionadas = new Set();
-    renderBI(biDados);
-  });
 }
 
-// ---------- Consultar compras (planilha externa, via Apps Script próprio) ----------
-const COMPRAS_EMPRESA_PADRAO = 'narua'; // comparado já sem acento/maiúsculas — seleção inicial do filtro
+document.getElementById('lembretes-refresh').addEventListener('click', carregarLembretes);
 
-let comprasDados = null;
-let comprasCarregando = false;
-let comprasUltimaAtualizacao = null;
-let comprasDatasSelecionadas = null;
-let comprasCalendarioMes = null;
-let comprasProdutoSelecionado = 'todos';
-let comprasEmpresaSelecionada = null; // null = ainda não inicializado
+/* ============================================================
+   RESUMO
+   ============================================================ */
 
-async function loadCompras(force){
-  const wrap = document.getElementById('comprasWrap');
-  if (comprasCarregando) return;
-
-  if (!comprasWebhookUrl){
-    wrap.innerHTML = `<div class="card placeholder-card">
-      <span class="icon">🔗</span>
-      <h2>Falta conectar a planilha de compras</h2>
-      <p>Toque no ícone de engrenagem ⚙ aqui em cima e cole a URL do Web App (Apps Script) da planilha de compras.</p>
-    </div>`;
+async function carregarResumo() {
+  const kpisWrap = document.getElementById('resumo-kpis');
+  const catWrap = document.getElementById('resumo-categoria');
+  const baixoWrap = document.getElementById('resumo-estoque-baixo');
+  if (!getApiUrl()) {
+    kpisWrap.innerHTML = '';
+    catWrap.innerHTML = '<div class="empty">Configure a conexão na aba "Config".</div>';
+    baixoWrap.innerHTML = '';
     return;
   }
-
-  if (comprasDados && !force){ renderCompras(comprasDados); return; }
-  comprasCarregando = true;
-  wrap.innerHTML = `<div class="card placeholder-card"><span class="icon">⏳</span><h2>Carregando compras...</h2><p>Buscando os dados na planilha de controle de compras.</p></div>`;
   try {
-    const res = await fetch(comprasWebhookUrl);
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const bruto = await res.json();
-    if (!bruto || bruto.ok === false) throw new Error((bruto && bruto.erro) ? bruto.erro : 'resposta inesperada do Apps Script');
-    const linhas = Array.isArray(bruto.linhas) ? bruto.linhas : [];
-    comprasDados = linhas.map(l => ({
-      id: l.id || '',
-      empresa: l.empresa || '',
-      produto: l.produto || '',
-      dataOriginal: l.data || '',
-      data: extrairDataEvento(l.data),
-      quantidade: Number(l.quantidade) || 0,
-      preco_unitario: Number(l.preco_unitario) || 0,
-      preco_total: Number(l.preco_total) || 0
-    }));
-    comprasUltimaAtualizacao = new Date();
-    renderCompras(comprasDados);
-  } catch (err) {
-    wrap.innerHTML = `<div class="card placeholder-card">
-      <span class="icon">⚠️</span>
-      <h2>Não consegui carregar as compras</h2>
-      <p>Confira se a URL do Apps Script de compras na engrenagem ⚙ está certa e se o Web App está implantado. Detalhe técnico: ${escapeHtml(err.message)}</p>
-    </div>`;
-  } finally {
-    comprasCarregando = false;
+    const r = await callApi('dados');
+    if (!r.ok) throw new Error(r.erro);
+    kpisWrap.innerHTML = `
+      <div class="kpi"><div class="label">Vendas no mês</div><div class="value">${fmtMoeda(r.resumo.totalVendasMes)}</div></div>
+      <div class="kpi"><div class="label">Nº de vendas (mês)</div><div class="value">${r.resumo.qtdVendasMes}</div></div>
+      <div class="kpi"><div class="label">Peças em estoque</div><div class="value">${r.resumo.pecasEmEstoque}</div></div>
+      <div class="kpi"><div class="label">Valor em estoque</div><div class="value">${fmtMoeda(r.resumo.valorEstoque)}</div></div>
+      <div class="kpi"><div class="label">Clientes</div><div class="value">${r.resumo.totalClientes}</div></div>
+      <div class="kpi"><div class="label">A receber (parcelado)</div><div class="value">${fmtMoeda(r.resumo.valorAReceber)}</div></div>
+    `;
+    const catEntries = Object.entries(r.porCategoria || {}).sort((a, b) => b[1] - a[1]);
+    catWrap.innerHTML = catEntries.length
+      ? `<table><thead><tr><th>Categoria</th><th>Total vendido</th></tr></thead><tbody>
+          ${catEntries.map(([cat, val]) => `<tr><td><span class="tag">${escapeHtml(cat)}</span></td><td>${fmtMoeda(val)}</td></tr>`).join('')}
+        </tbody></table>`
+      : '<div class="empty">Nenhuma venda registrada este mês ainda.</div>';
+
+    const baixo = r.estoqueBaixo || [];
+    baixoWrap.innerHTML = baixo.length
+      ? `<table><thead><tr><th>Categoria</th><th>Descrição</th><th>Qtd.</th></tr></thead><tbody>
+          ${baixo.map(i => `<tr><td><span class="tag">${escapeHtml(i.Categoria)}</span></td><td>${escapeHtml(i.Descricao)}</td><td class="qty-low">${i.Quantidade}</td></tr>`).join('')}
+        </tbody></table>`
+      : '<div class="empty">Nenhuma peça com estoque baixo. 🎉</div>';
+  } catch (e) {
+    catWrap.innerHTML = '<div class="empty">Erro ao carregar: ' + escapeHtml(e.message) + '</div>';
   }
 }
 
-function renderCompras(dados){
-  const wrap = document.getElementById('comprasWrap');
+/* ============================================================
+   INICIALIZAÇÃO
+   ============================================================ */
 
-  if (dados.length === 0){
-    wrap.innerHTML = `<div class="bi-toolbar">
-        <span class="bi-updated">${comprasUltimaAtualizacao ? 'atualizado às ' + comprasUltimaAtualizacao.toLocaleTimeString('pt-BR') : ''}</span>
-        <button class="bi-refresh" id="comprasRefreshBtn">↻ Atualizar</button>
-      </div>
-      <div class="card placeholder-card">
-        <span class="icon">📦</span>
-        <h2>Nenhuma compra encontrada</h2>
-        <p>Essa planilha ainda não tem nenhuma linha de compra registrada.</p>
-      </div>`;
-    document.getElementById('comprasRefreshBtn').addEventListener('click', () => loadCompras(true));
-    return;
-  }
-
-  const todasEmpresas = Array.from(new Set(dados.map(row => row.empresa || 'sem empresa'))).sort((a,b) => a.localeCompare(b, 'pt-BR'));
-  if (comprasEmpresaSelecionada === null) {
-    const padrao = todasEmpresas.find(e => normalizarTexto(e) === COMPRAS_EMPRESA_PADRAO);
-    comprasEmpresaSelecionada = padrao || 'todos';
-  }
-
-  const dadosDaEmpresa = dados.filter(row => comprasEmpresaSelecionada === 'todos' || (row.empresa || 'sem empresa') === comprasEmpresaSelecionada);
-
-  const todosProdutos = Array.from(new Set(dadosDaEmpresa.map(row => row.produto || 'sem nome'))).sort((a,b) => a.localeCompare(b, 'pt-BR'));
-  if (comprasProdutoSelecionado === null) comprasProdutoSelecionado = 'todos';
-  if (comprasProdutoSelecionado !== 'todos' && !todosProdutos.includes(comprasProdutoSelecionado)) comprasProdutoSelecionado = 'todos';
-
-  const datasComData = Array.from(new Set(
-    dadosDaEmpresa.map(row => row.data).filter(Boolean)
-  )).filter(d => {
-    if (comprasProdutoSelecionado === 'todos') return true;
-    return dadosDaEmpresa.some(row => row.data === d && row.produto === comprasProdutoSelecionado);
-  });
-
-  if (!comprasDatasSelecionadas) comprasDatasSelecionadas = new Set(datasComData);
-  if (!comprasCalendarioMes) {
-    const maisRecente = datasComData.slice().sort().pop();
-    comprasCalendarioMes = maisRecente ? new Date(maisRecente + 'T00:00:00') : new Date();
-  }
-
-  const produtoPorData = new Map();
-  dadosDaEmpresa.forEach(row => {
-    if (!row.data) return;
-    const set = produtoPorData.get(row.data) || new Set();
-    set.add(row.produto || 'sem nome');
-    produtoPorData.set(row.data, set);
-  });
-  const labelPorData = iso => Array.from(produtoPorData.get(iso) || ['sem produto']).slice(0,3).join(' + ');
-
-  const dadosFiltrados = dadosDaEmpresa.filter(row => {
-    const passaProduto = comprasProdutoSelecionado === 'todos' || row.produto === comprasProdutoSelecionado;
-    const passaData = !row.data || comprasDatasSelecionadas.has(row.data);
-    return passaProduto && passaData;
-  });
-
-  const opcoesEmpresas = todasEmpresas.map(e => `<option value="${escapeHtml(e)}" ${comprasEmpresaSelecionada === e ? 'selected' : ''}>${escapeHtml(e)}</option>`).join('');
-  const opcoesProdutos = todosProdutos.map(p => `<option value="${escapeHtml(p)}" ${comprasProdutoSelecionado === p ? 'selected' : ''}>${escapeHtml(p)}</option>`).join('');
-
-  const filtroHTML = `
-    <div class="card">
-      <div class="bi-section-title">Filtrar por empresa e produto</div>
-      <label>Empresa</label>
-      <select id="comprasEmpresaFiltro">
-        <option value="todos" ${comprasEmpresaSelecionada === 'todos' ? 'selected' : ''}>Todas as empresas</option>
-        ${opcoesEmpresas}
-      </select>
-      <label style="margin-top:12px;">Produto</label>
-      <select id="comprasProdutoFiltro">
-        <option value="todos" ${comprasProdutoSelecionado === 'todos' ? 'selected' : ''}>Todos os produtos</option>
-        ${opcoesProdutos}
-      </select>
-      <div style="margin-top:16px;">
-        ${buildCalendarHTML(comprasCalendarioMes, datasComData, comprasDatasSelecionadas, labelPorData, 'comprasCal')}
-      </div>
-    </div>`;
-
-  if (dadosFiltrados.length === 0){
-    wrap.innerHTML = `
-      <div class="bi-toolbar">
-        <span class="bi-updated">${comprasUltimaAtualizacao ? 'atualizado às ' + comprasUltimaAtualizacao.toLocaleTimeString('pt-BR') : ''}</span>
-        <button class="bi-refresh" id="comprasRefreshBtn">↻ Atualizar</button>
-      </div>
-      ${filtroHTML}
-      <div class="card placeholder-card">
-        <span class="icon">🗓️</span>
-        <h2>Nenhuma data selecionada</h2>
-        <p>Escolha ao menos uma data no filtro acima para ver os indicadores.</p>
-      </div>`;
-    document.getElementById('comprasRefreshBtn').addEventListener('click', () => loadCompras(true));
-    ligarEventosFiltroCompras();
-    return;
-  }
-
-  const produtoMap = new Map(); // produto -> { total, count, somaUnitario, quantidade }
-  const dataMap = new Map();    // data -> total
-  let totalGeral = 0;
-  let quantidadeTotal = 0;
-
-  dadosFiltrados.forEach(row => {
-    totalGeral += row.preco_total;
-    quantidadeTotal += row.quantidade;
-
-    const p = produtoMap.get(row.produto) || { total: 0, count: 0, somaUnitario: 0, quantidade: 0 };
-    p.total += row.preco_total;
-    p.count += 1;
-    p.somaUnitario += row.preco_unitario;
-    p.quantidade += row.quantidade;
-    produtoMap.set(row.produto, p);
-
-    const chaveData = row.data || 'sem data';
-    dataMap.set(chaveData, (dataMap.get(chaveData) || 0) + row.preco_total);
-  });
-
-  const qtdCompras = dadosFiltrados.length;
-  const precoMedioPorCompra = qtdCompras > 0 ? totalGeral / qtdCompras : 0;
-  const produtosDistintos = produtoMap.size;
-
-  const porProdutoTotal = Array.from(produtoMap.entries()).sort((a,b) => b[1].total - a[1].total).slice(0, 8);
-  // preço médio por produto, ponderado pela quantidade real (não é só a média simples dos lançamentos) —
-  // se não tiver quantidade informada em nenhum lançamento daquele produto, cai pra média simples do valor unitário
-  const porProdutoMedio = Array.from(produtoMap.entries())
-    .map(([nome, info]) => [nome, info.quantidade > 0 ? info.total / info.quantidade : (info.count > 0 ? info.somaUnitario / info.count : 0)])
-    .sort((a,b) => b[1] - a[1]).slice(0, 8);
-  const porData = Array.from(dataMap.entries()).sort((a,b) => a[0].localeCompare(b[0]));
-
-  const maxProdutoTotal = Math.max(1, ...porProdutoTotal.map(p => p[1].total));
-  const maxProdutoMedio = Math.max(1, ...porProdutoMedio.map(p => p[1]));
-  const maxData = Math.max(1, ...porData.map(d => d[1]));
-
-  const barrasProdutoTotalHTML = porProdutoTotal.map(([nome, info]) => `
-    <div class="bi-bar-row">
-      <div class="bi-bar-label"><span class="bi-bar-name">${escapeHtml(nome)}</span><span class="bi-bar-value">${formatBRL(info.total)}</span></div>
-      <div class="bi-bar-track"><div class="bi-bar-fill" style="width:${Math.max(4, (info.total/maxProdutoTotal)*100)}%"></div></div>
-    </div>`).join('');
-
-  const barrasProdutoMedioHTML = porProdutoMedio.map(([nome, valor]) => `
-    <div class="bi-bar-row">
-      <div class="bi-bar-label"><span class="bi-bar-name">${escapeHtml(nome)}</span><span class="bi-bar-value">${formatBRL(valor)}</span></div>
-      <div class="bi-bar-track"><div class="bi-bar-fill" style="width:${Math.max(4, (valor/maxProdutoMedio)*100)}%"></div></div>
-    </div>`).join('');
-
-  const barrasDataHTML = porData.map(([data, valor]) => `
-    <div class="bi-bar-row">
-      <div class="bi-bar-label"><span class="bi-bar-name">${data === 'sem data' ? 'sem data' : formatDataCurta(data)}</span><span class="bi-bar-value">${formatBRL(valor)}</span></div>
-      <div class="bi-bar-track"><div class="bi-bar-fill" style="width:${Math.max(4, (valor/maxData)*100)}%"></div></div>
-    </div>`).join('');
-
-  wrap.innerHTML = `
-    <div class="bi-toolbar">
-      <span class="bi-updated">${comprasUltimaAtualizacao ? 'atualizado às ' + comprasUltimaAtualizacao.toLocaleTimeString('pt-BR') : ''}</span>
-      <button class="bi-refresh" id="comprasRefreshBtn">↻ Atualizar</button>
-    </div>
-
-    ${filtroHTML}
-
-    <div class="bi-stats">
-      <div class="bi-stat"><span class="bi-stat-value">${formatBRL(totalGeral)}</span><span class="bi-stat-label">Total gasto</span></div>
-      <div class="bi-stat"><span class="bi-stat-value">${qtdCompras}</span><span class="bi-stat-label">Compras</span></div>
-      <div class="bi-stat"><span class="bi-stat-value">${formatBRL(precoMedioPorCompra)}</span><span class="bi-stat-label">Preço médio</span></div>
-      <div class="bi-stat"><span class="bi-stat-value">${quantidadeTotal.toFixed(2)}</span><span class="bi-stat-label">Quantidade comprada</span></div>
-      <div class="bi-stat"><span class="bi-stat-value">${produtosDistintos}</span><span class="bi-stat-label">Produtos distintos</span></div>
-    </div>
-
-    <div class="card">
-      <div class="bi-section-title">Gasto por produto</div>
-      ${barrasProdutoTotalHTML}
-    </div>
-
-    <div class="card">
-      <div class="bi-section-title">Preço médio por unidade (por produto)</div>
-      ${barrasProdutoMedioHTML}
-    </div>
-
-    <div class="card">
-      <div class="bi-section-title">Compras por dia</div>
-      ${barrasDataHTML}
-    </div>
-  `;
-  document.getElementById('comprasRefreshBtn').addEventListener('click', () => loadCompras(true));
-  ligarEventosFiltroCompras();
+if (getApiUrl()) {
+  carregarEstoque();
+  carregarClientes();
+  carregarVendas();
+  carregarLembretesBadge();
+} else {
+  document.getElementById('est-tabela-wrap').innerHTML = '<div class="empty">Configure a conexão na aba "Config" para começar.</div>';
+  document.getElementById('cli-tabela-wrap').innerHTML = '';
+  document.getElementById('vendas-tabela-wrap').innerHTML = '';
 }
-
-function ligarEventosFiltroCompras(){
-  const wrap = document.getElementById('comprasWrap');
-  const selectEmpresa = wrap.querySelector('#comprasEmpresaFiltro');
-  if (selectEmpresa) selectEmpresa.addEventListener('change', () => {
-    comprasEmpresaSelecionada = selectEmpresa.value;
-    renderCompras(comprasDados);
-  });
-  const selectProduto = wrap.querySelector('#comprasProdutoFiltro');
-  if (selectProduto) selectProduto.addEventListener('change', () => {
-    comprasProdutoSelecionado = selectProduto.value;
-    renderCompras(comprasDados);
-  });
-  wrap.querySelectorAll('.cal-cell.available').forEach(cel => {
-    cel.addEventListener('click', () => {
-      const data = cel.dataset.date;
-      if (comprasDatasSelecionadas.has(data)) comprasDatasSelecionadas.delete(data);
-      else comprasDatasSelecionadas.add(data);
-      renderCompras(comprasDados);
-    });
-  });
-  const navPrev = wrap.querySelector('#comprasCalNavPrev');
-  const navNext = wrap.querySelector('#comprasCalNavNext');
-  if (navPrev) navPrev.addEventListener('click', () => {
-    comprasCalendarioMes = new Date(comprasCalendarioMes.getFullYear(), comprasCalendarioMes.getMonth() - 1, 1);
-    renderCompras(comprasDados);
-  });
-  if (navNext) navNext.addEventListener('click', () => {
-    comprasCalendarioMes = new Date(comprasCalendarioMes.getFullYear(), comprasCalendarioMes.getMonth() + 1, 1);
-    renderCompras(comprasDados);
-  });
-  const btnTodas = wrap.querySelector('#comprasCalTodas');
-  const btnNenhuma = wrap.querySelector('#comprasCalNenhuma');
-  if (btnTodas) btnTodas.addEventListener('click', () => {
-    comprasDatasSelecionadas = new Set(comprasDados.map(row => row.data).filter(Boolean));
-    renderCompras(comprasDados);
-  });
-  if (btnNenhuma) btnNenhuma.addEventListener('click', () => {
-    comprasDatasSelecionadas = new Set();
-    renderCompras(comprasDados);
-  });
-}
-
-
 </script>
 </body>
 </html>
