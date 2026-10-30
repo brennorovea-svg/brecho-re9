@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Peças únicas da live da Re9 Second Hand, com curadoria da Fátima Rovêa. Reserve pelo WhatsApp.">
+<meta property="og:title" content="Re9 Second Hand · Peças da live">
+<meta property="og:description" content="Peças únicas com curadoria da Fátima Rovêa. Reserve pelo WhatsApp.">
+<meta property="og:image" content="img/tropical.jpg">
+<meta name="theme-color" content="#082419">
+<title>Re9 Second Hand · Peças da live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap">
+<style>
+html, body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+/* Layout: mobile-first "stories" vitrine. One centered phone-width column; motion from the Neon Motion catalogue, recolored to the brand. Single dark look by choice (Re9 emerald + gold). */
+:root {
+  --emerald: #0E3A2C;
+  --emerald-deep: #082419;
+  --emerald-soft: #164A39;
+  --ink: #050F0B;
+  --gold: #CDA85E;
+  --gold-soft: #E3CB95;
+  --cream: #F3EEE3;
+  --muted: #B9C4BB;
+  --wa: #1FA855;
+  --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body: "Jost", "Futura", "Century Gothic", system-ui, sans-serif;
+  --mono: "Space Mono", ui-monospace, Menlo, monospace;
+  --E: cubic-bezier(.22,1,.36,1);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--ink); color: var(--cream); font: 300 16px/1.55 var(--body); }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+.stage { display: flex; justify-content: center; align-items: flex-start; gap: 48px; }
+.device { position: relative; width: 100%; }
+.app { background: var(--emerald-deep); position: relative; }
+.overlay { position: fixed; inset: 0; pointer-events: none; z-index: 30; }
+.overlay canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.gut { padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+
+/* Hero */
+.hero { position: relative; overflow: hidden; padding-block: 28px 34px; isolation: isolate; }
+.blob { position: absolute; width: 260px; height: 200px; border-radius: 50%; filter: blur(48px); opacity: .45; z-index: -1; }
+.top { display: flex; justify-content: space-between; align-items: center; }
+.live { display: inline-flex; align-items: center; gap: 8px; font: 400 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--gold-soft); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #E0524A; box-shadow: 0 0 0 4px rgba(224,82,74,.2); }
+.badge4 { font: 400 11px var(--mono); color: var(--muted); letter-spacing: .08em; }
+.badge4 b { color: var(--gold); font-weight: 700; font-size: 14px; }
+.sign { margin-top: 26px; text-align: center; color: var(--gold); }
+.sign svg { width: 86px; height: 36px; display: block; margin: 0 auto 4px; }
+.sign .re9 { font: 500 88px/1 var(--display); letter-spacing: -.01em; color: var(--gold-soft);
+  text-shadow: 0 0 6px rgba(227,203,149,.6), 0 0 22px rgba(205,168,94,.55), 0 0 60px rgba(205,168,94,.35); }
+.sign small { display: block; margin-top: 6px; font: 400 11px var(--body); letter-spacing: .4em; text-transform: uppercase; }
+.headline { margin: 26px 0 0; text-align: center; font: 400 clamp(32px, 9vw, 40px)/1.08 var(--display); text-wrap: balance; }
+.headline .w { display: inline-block; }
+.headline em { color: var(--gold); }
+.sub { margin: 12px auto 0; text-align: center; max-width: 30ch; color: var(--muted); }
+.mk { position: relative; isolation: isolate; color: var(--cream); font-weight: 400; padding: 0 3px; white-space: nowrap; }
+.mk::before { content: ""; position: absolute; inset: 22% 0 8% 0; background: var(--gold); opacity: .4; z-index: -1; transform: scaleX(0); transform-origin: left; transition: transform 500ms cubic-bezier(.65,0,.35,1); }
+.mk.on::before { transform: scaleX(1); }
+
+/* Chips with elastic indicator (20) */
+.chips-wrap { position: sticky; top: 0; z-index: 5; background: rgba(8,36,25,.92); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(205,168,94,.18); }
+.chips { position: relative; display: flex; justify-content: space-between; gap: 4px; padding-block: 12px 10px; }
+.chip { background: none; border: 0; padding: 6px 4px; font: 500 14px var(--body); letter-spacing: .03em; color: var(--muted); cursor: pointer; transition: color 180ms var(--E); flex: 1; }
+.chip[aria-selected="true"] { color: var(--gold-soft); }
+.ind { position: absolute; bottom: 6px; height: 2px; background: var(--gold); border-radius: 2px; left: 0; right: 0; }
+.segs { display: flex; gap: 4px; padding-bottom: 10px; }
+.seg { flex: 1; height: 3px; border-radius: 2px; background: rgba(243,238,227,.16); overflow: hidden; }
+.seg i { display: block; height: 100%; background: var(--gold); transform-origin: left; transform: scaleX(0); }
+
+/* Carousel of pieces */
+.rail { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+.rail::-webkit-scrollbar { display: none; }
+.slide { flex: 0 0 100%; scroll-snap-align: center; padding-block: 22px 8px; display: grid; gap: 14px; min-width: 0; }
+.flip { perspective: 1100px; position: relative; width: 100%; max-width: 420px; margin: 0 auto; aspect-ratio: 3 / 4; }
+.card { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 600ms ease-in-out; }
+.flip.turned .card { transform: rotateY(180deg); }
+.face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; padding: 12px; border-radius: 3px;
+  background: linear-gradient(135deg, #8a6a2c 0%, #e9d29a 18%, #b48a3e 34%, #f4e2b0 50%, #a77d34 66%, #e3c98c 82%, #7c5d24 100%);
+  box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 28px 50px -22px rgba(0,0,0,.8); }
+.face::before { content: ""; position: absolute; inset: 5px; border: 1px solid rgba(90,64,20,.55); pointer-events: none; }
+.face .mat { position: relative; height: 100%; background: var(--emerald-deep); padding: 7px; box-shadow: inset 0 6px 14px rgba(0,0,0,.6); overflow: hidden; }
+.face .mat img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.back { transform: rotateY(180deg); }
+.back .mat { padding: 22px 20px; display: flex; flex-direction: column; gap: 12px; background: linear-gradient(160deg, var(--emerald-soft), var(--emerald-deep)); }
+.back h3 { margin: 0; font: 400 26px/1.1 var(--display); }
+.back p { margin: 0; font-size: 15px; }
+.back .thumb { flex: 1; min-height: 0; border: 1px solid rgba(205,168,94,.4); overflow: hidden; }
+.back .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: center 70%; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 0; list-style: none; }
+.tags li { font-size: 12px; border: 1px solid rgba(205,168,94,.4); color: var(--gold-soft); padding: 3px 10px; border-radius: 999px; }
+.code { position: absolute; z-index: 2; top: 22px; left: -8px; background: var(--emerald-deep); border: 1px solid var(--gold); color: var(--gold-soft); font: 700 12px var(--mono); letter-spacing: .1em; padding: 6px 10px; box-shadow: 0 10px 20px rgba(0,0,0,.5); min-width: 9ch; }
+.meta { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; max-width: 420px; margin: 0 auto; width: 100%; }
+.meta h2 { margin: 0; font: 400 26px/1.1 var(--display); text-wrap: balance; min-width: 0; }
+.turn { flex: none; background: transparent; border: 1px solid rgba(205,168,94,.5); color: var(--gold-soft); border-radius: 999px; padding: 8px 14px; font-size: 13px; cursor: pointer; transition: transform 180ms var(--E), background 180ms; }
+.turn:hover { transform: translateY(-2px); }
+.turn:active { transform: scale(.97); }
+.swipe { text-align: center; font: 400 11px var(--mono); color: var(--muted); letter-spacing: .1em; margin: 6px 0 0; }
+
+/* How to reserve (10) */
+.how { padding-block: 40px 30px; }
+.how h2 { margin: 0 0 18px; font: 400 30px/1.1 var(--display); }
+.steps { position: relative; display: grid; gap: 26px; padding-left: 40px; }
+.steps svg { position: absolute; left: 0; top: 4px; width: 24px; height: calc(100% - 8px); overflow: visible; }
+.step h3 { margin: 0; font: 500 17px var(--body); color: var(--gold-soft); }
+.step p { margin: 2px 0 0; color: var(--muted); font-size: 15px; }
+.foot { padding-block: 26px 30px; text-align: center; border-top: 1px solid rgba(205,168,94,.2); color: var(--muted); font-size: 14px; display: grid; gap: 6px; }
+.foot .num { color: var(--cream); font-variant-numeric: tabular-nums; user-select: all; }
+
+/* Reserve bar (07, 28) */
+.bar { position: sticky; bottom: 0; z-index: 6; padding-block: 12px calc(12px + env(safe-area-inset-bottom, 0px)); background: linear-gradient(to top, var(--emerald-deep) 70%, rgba(8,36,25,0)); }
+.reserve { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 56px; border-radius: 999px; background: var(--wa); color: #fff; text-decoration: none; font: 500 16px var(--body); letter-spacing: .02em; box-shadow: 0 4px 0 #11703a, 0 14px 24px -10px rgba(0,0,0,.7); }
+.reserve svg { width: 22px; height: 22px; flex: none; }
+.reserve .code-in { font: 700 13px var(--mono); opacity: .85; }
+.dots { display: none; gap: 7px; }
+.dots i { width: 8px; height: 8px; border-radius: 50%; background: #fff; }
+.reserve.loading .lbl { display: none; }
+.reserve.loading .dots { display: inline-flex; }
+
+/* Toast (18) */
+.toast { position: absolute; left: 16px; right: 16px; top: calc(14px + env(safe-area-inset-top, 0px)); display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; background: var(--emerald); border: 1px solid var(--gold); border-radius: 12px; box-shadow: 0 16px 30px -12px rgba(0,0,0,.7); font-size: 14px; transform: translateY(-160%); pointer-events: auto; }
+.toast b { color: var(--gold-soft); font-weight: 500; }
+.toast .ok { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--gold); color: var(--emerald-deep); display: grid; place-items: center; font-weight: 700; font-size: 13px; }
+
+
+@media (min-width: 560px) {
+  .device { max-width: 480px; border-left: 1px solid rgba(205,168,94,.2); border-right: 1px solid rgba(205,168,94,.2); }
+  .overlay { left: 50%; right: auto; width: 480px; transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) { .card, .chip, .turn, .mk::before { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="device">
+    <div class="app" id="app">
+      <header class="hero gut" id="hero">
+        <div class="blob" style="background:#1d6b50;left:-60px;top:20px" data-rx="60" data-ry="24" data-d="36000"></div>
+        <div class="blob" style="background:#CDA85E;right:-80px;top:120px;opacity:.22" data-rx="50" data-ry="30" data-d="42000"></div>
+        <div class="blob" style="background:#0f4f5a;left:40px;bottom:-60px" data-rx="70" data-ry="20" data-d="45000"></div>
+        <div class="top">
+          <span class="live"><span class="dot"></span>Peças da live</span>
+          <span class="badge4"><b id="cnt">4</b> anos de Re9</span>
+        </div>
+        <div class="sign" id="sign">
+          <svg viewBox="0 0 46 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 5a3 3 0 1 1 3 3v2L4 18h38L23 10"/></svg>
+          <div class="re9">Re9</div>
+          <small>Second hand</small>
+        </div>
+        <h1 class="headline" id="headline"><span class="w">As</span> <span class="w">peças</span> <span class="w">da</span> <em class="w">live</em></h1>
+        <p class="sub">Curadoria da Fátima Rovêa. Cada uma é <span class="mk" id="mk">peça única</span>: quem reserva primeiro leva.</p>
+      </header>
+
+      <div class="chips-wrap gut">
+        <div class="chips" role="tablist" id="chips"><span class="ind" id="ind"></span></div>
+        <div class="segs" id="segs"></div>
+      </div>
+
+      <div class="rail" id="rail"></div>
+      <p class="swipe">Deslize para ver as outras peças</p>
+
+      <section class="how gut" id="how">
+        <h2>Como reservar</h2>
+        <div class="steps">
+          <svg viewBox="0 0 24 200" preserveAspectRatio="none" aria-hidden="true"><path id="path" d="M12 4 C 2 50, 22 80, 12 100 S 2 160, 12 196" fill="none" stroke="#CDA85E" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"/><circle cx="12" cy="4" r="5" fill="#CDA85E"/><circle cx="12" cy="100" r="5" fill="#CDA85E"/><circle cx="12" cy="196" r="5" fill="#CDA85E"/></svg>
+          <div class="step"><h3>Escolha a peça</h3><p>Viu na live ou aqui? Deslize até ela.</p></div>
+          <div class="step"><h3>Toque em Reservar</h3><p>A mensagem vai pronta para o WhatsApp da Fátima, com o código da peça.</p></div>
+          <div class="step"><h3>Combine com a Fátima</h3><p>Ela confirma tamanho, pagamento e a retirada no studio ou o envio.</p></div>
+        </div>
+      </section>
+
+      <footer class="foot gut">
+        <span>Re9 Second Hand · Instagram <a href="https://instagram.com/re9secondhand" target="_blank" rel="noopener">@re9secondhand</a></span>
+        <span>WhatsApp da Fátima: <span class="num">+55 11 97514-3469</span></span>
+      </footer>
+
+      <div class="bar gut">
+        <a class="reserve" id="reserve" target="_blank" rel="noopener">
+          <span class="lbl" style="display:inline-flex;align-items:center;gap:10px"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 2s.8 2.3.9 2.5c.1.2 1.6 2.5 4 3.5 1.5.6 2 .7 2.8.6.4-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Reservar <span class="code-in" id="rcode">RE9-01</span></span>
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        </a>
+      </div>
+
+    </div>
+    <div class="overlay" id="overlay"><canvas id="fx"></canvas><div class="toast" id="toast" role="status"><span class="ok">✓</span><div><b>Mensagem pronta para a Fátima.</b><br><span id="tmsg"></span></div></div></div>
+  </div>
+
+</div>
+
+<script>
+const sl = ms => new Promise(r => setTimeout(r, ms));
+const E = "cubic-bezier(.22,1,.36,1)";
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const WA = "5511975143469";
+const $ = s => document.querySelector(s);
+const pieces = [
+  { code: "RE9-01", short: "Tropical", name: "Vestido tropical coral", img: "img/tropical.jpg", detail: "img/tropical-costas.jpg",
+    desc: "Viscose leve com folhagens em coral, verde e amarelo. Gola de camisa e fenda nas costas.", tags: ["Viscose", "Midi", "Gola camisa"] },
+  { code: "RE9-02", short: "Rosé", name: "Tomara-que-caia rosé", img: "img/rose.jpg", detail: "img/rose-detalhe.jpg",
+    desc: "Decote coração e babados que formam uma rosa na barra. Zíper nas costas.", tags: ["Decote coração", "Barra em rosa", "Festa"] },
+  { code: "RE9-03", short: "Poá", name: "Babado e tule poá", img: "img/poa.jpg", detail: "img/poa.jpg",
+    desc: "Blusa preta com babado debruado de branco e saia longa com faixas de tule poá.", tags: ["Conjunto", "Tule poá", "Longo"] }
+];
+const waLink = p => `https://wa.me/${WA}?text=${encodeURIComponent(`Oi, Fátima! Vi no site da Re9 e quero reservar a peça ${p.code}: ${p.name}. Ainda está disponível?`)}`;
+
+/* Render */
+$("#rail").innerHTML = pieces.map((p, i) => `
+  <article class="slide gut" data-i="${i}" aria-label="${p.name}">
+    <div class="flip" id="flip${i}">
+      <span class="code" data-code="${p.code}">${p.code}</span>
+      <div class="card">
+        <div class="face front"><div class="mat"><img src="${p.img}" alt="${p.name}"></div></div>
+        <div class="face back"><div class="mat">
+          <span class="badge4">${p.code} · peça única</span>
+          <h3>${p.name}</h3><p>${p.desc}</p>
+          <ul class="tags">${p.tags.map(t => `<li>${t}</li>`).join("")}</ul>
+          <div class="thumb"><img src="${p.detail}" alt=""></div>
+          <p class="badge4">Preço e medidas: a Fátima confirma no WhatsApp.</p>
+        </div></div>
+      </div>
+    </div>
+    <div class="meta"><h2>${p.name}</h2><button class="turn" type="button" data-turn="${i}" aria-pressed="false">Ver detalhes</button></div>
+  </article>`).join("");
+$("#chips").insertAdjacentHTML("beforeend", pieces.map((p, i) => `<button class="chip" role="tab" type="button" data-go="${i}" aria-selected="false">${p.short}</button>`).join(""));
+$("#segs").innerHTML = pieces.map(() => `<span class="seg"><i></i></span>`).join("");
+const chips = [...document.querySelectorAll(".chip")], segs = [...document.querySelectorAll(".seg i")], ind = $("#ind"), chipBox = $("#chips");
+
+/* 05 Letreiro que acende (once) */
+function signOn() {
+  if (reduce) return;
+  $("#sign .re9").animate([{opacity:.1,offset:0},{opacity:1,offset:.08},{opacity:.15,offset:.14},{opacity:1,offset:.22},{opacity:.4,offset:.3},{opacity:1,offset:.4},{opacity:1}], { duration: 1500, easing: "linear" });
+}
+/* 01 Tipografia cinética, adapted (brand easing, light overshoot) */
+function kinetic() {
+  if (reduce) return;
+  document.querySelectorAll("#headline .w").forEach((w, i) => w.animate(
+    [{ opacity: 0, transform: "scale(.6) translateY(14px)" }, { opacity: 1, transform: "scale(1.04) translateY(0)", offset: .6 }, { opacity: 1, transform: "none" }],
+    { duration: 620, delay: 500 + i * 80, easing: E, fill: "backwards" }));
+}
+/* 06 Contador com overshoot */
+function counter() {
+  const el = $("#cnt"); if (reduce) { el.textContent = "4"; return; }
+  const bk = t => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
+  const t0 = performance.now();
+  (function f(now) { const t = Math.min(1, (now - t0) / 1500); el.textContent = Math.max(0, Math.round(4 * bk(t))); if (t < 1) requestAnimationFrame(f); })(t0);
+}
+/* 15 Marca-texto */
+async function marker() { const m = $("#mk"); m.classList.remove("on"); await sl(60); m.classList.add("on"); }
+/* 22 Aurora lenta (hero only, pauses offscreen) */
+const auroraAnims = [];
+if (!reduce) document.querySelectorAll(".blob").forEach(b => {
+  const rx = +b.dataset.rx, ry = +b.dataset.ry, kf = [];
+  for (let i = 0; i <= 8; i++) { const a = i / 8 * 2 * Math.PI; kf.push({ transform: `translate(${(Math.cos(a) * rx).toFixed(1)}px,${(Math.sin(a) * ry).toFixed(1)}px)` }); }
+  auroraAnims.push(b.animate(kf, { duration: +b.dataset.d, iterations: Infinity, easing: "linear" }));
+});
+new IntersectionObserver(es => es.forEach(e => auroraAnims.forEach(a => e.isIntersecting ? a.play() : a.pause()))).observe($("#hero"));
+
+/* 20 Abas com indicador elástico */
+let cur = -1;
+function placeInd(i, prev) {
+  const t = chips[i], L = t.offsetLeft + 10, R = chipBox.clientWidth - (t.offsetLeft + t.offsetWidth) + 10, right = i > prev, c = "cubic-bezier(.34,1.4,.64,1)";
+  ind.style.transition = prev < 0 ? "none" : `left 300ms ${right ? "60ms" : "0ms"} ${c}, right 300ms ${right ? "0ms" : "60ms"} ${c}`;
+  ind.style.left = L + "px"; ind.style.right = R + "px";
+}
+/* 26 Progresso elástico (story segments) */
+function segFill(i) {
+  segs.forEach((s, k) => { s.getAnimations().forEach(a => a.cancel()); s.style.transform = k < i ? "scaleX(1)" : "scaleX(0)"; });
+  const s = segs[i];
+  if (reduce) { s.style.transform = "scaleX(1)"; return; }
+  s.animate([{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }], { duration: 900, easing: "cubic-bezier(.34,1.56,.64,1)", fill: "forwards" })
+    .finished.then(() => s.parentElement.animate([{ boxShadow: "0 0 0 0 rgba(205,168,94,0)" }, { boxShadow: "0 0 14px 2px rgba(205,168,94,.9)" }, { boxShadow: "0 0 0 0 rgba(205,168,94,0)" }], { duration: 220 })).catch(() => {});
+}
+/* 12 Decodificação do código */
+const decTimers = new Map();
+function decode(el) {
+  const TXT = el.dataset.code, CH = "!<>-_/[]{}=+*^?#";
+  clearInterval(decTimers.get(el));
+  if (reduce) { el.textContent = TXT; return; }
+  const t0 = performance.now();
+  decTimers.set(el, setInterval(() => {
+    const e = performance.now() - t0; let s = "", done = true;
+    for (let i = 0; i < TXT.length; i++) { if (TXT[i] === "-") { s += "-"; continue; } if (e >= 300 + i * 70) s += TXT[i]; else { done = false; s += CH[Math.floor(Math.random() * CH.length)]; } }
+    el.textContent = s; if (done) clearInterval(decTimers.get(el));
+  }, 40));
+}
+function setActive(i) {
+  if (i === cur) return;
+  const prev = cur; cur = i;
+  chips.forEach((c, k) => c.setAttribute("aria-selected", k === i));
+  placeInd(i, prev); segFill(i);
+  decode(document.querySelectorAll(".code")[i]);
+  const r = $("#reserve"); r.href = waLink(pieces[i]); $("#rcode").textContent = pieces[i].code;
+  if (prev >= 0 && !reduce) r.animate([{ transform: "translateY(0)" }, { transform: "translateY(-4px)" }, { transform: "none" }], { duration: 320, easing: E });
+  document.querySelectorAll(".flip").forEach((f, k) => { if (k !== i) unturn(k); });
+}
+const rail = $("#rail");
+const railIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) setActive(+e.target.dataset.i); }), { root: rail, threshold: .6 });
+document.querySelectorAll(".slide").forEach(s => railIO.observe(s));
+chips.forEach(c => c.addEventListener("click", () => rail.scrollTo({ left: +c.dataset.go * rail.clientWidth, behavior: reduce ? "auto" : "smooth" })));
+addEventListener("resize", () => cur >= 0 && placeInd(cur, -1));
+
+/* 30 Cartão que vira */
+function unturn(k) { const f = $("#flip" + k), b = document.querySelector(`[data-turn="${k}"]`); f.classList.remove("turned"); b.setAttribute("aria-pressed", "false"); b.textContent = "Ver detalhes"; }
+document.querySelectorAll("[data-turn]").forEach(b => b.addEventListener("click", () => {
+  const f = $("#flip" + b.dataset.turn), on = !f.classList.contains("turned");
+  f.classList.toggle("turned", on); b.setAttribute("aria-pressed", on); b.textContent = on ? "Ver foto" : "Ver detalhes";
+}));
+
+/* 07 Botão com peso + 28 Loader → Pronto + 29 Celebração dourada + 18 Toast */
+const overlay = $("#overlay"), cv = $("#fx"), ctx = cv.getContext("2d");
+let parts = [], lt = 0, running = false;
+function sizeCanvas() { const d = devicePixelRatio || 1; cv.width = overlay.clientWidth * d; cv.height = overlay.clientHeight * d; ctx.setTransform(d, 0, 0, d, 0, 0); }
+function burst(x, y) {
+  if (reduce) return;
+  sizeCanvas();
+  const COL = ["#CDA85E", "#E3CB95", "#F3EEE3", "#1FA855", "#8a6a2c"];
+  for (let i = 0; i < 24; i++) { const a = -Math.PI / 2 + (Math.random() - .5) * Math.PI * 1.3, sp = 140 + Math.random() * 180; parts.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, t: 0, s: 3 + Math.random() * 3, c: COL[i % 5] }); }
+  if (!running) { running = true; lt = performance.now(); requestAnimationFrame(fx); }
+}
+function fx(now) {
+  const dt = Math.min(.033, (now - lt) / 1000); lt = now;
+  ctx.clearRect(0, 0, cv.width, cv.height); parts = parts.filter(p => p.t < .9);
+  for (const p of parts) { p.t += dt; p.vy += 600 * dt; p.x += p.vx * dt; p.y += p.vy * dt; ctx.globalAlpha = Math.max(0, 1 - p.t / .9); ctx.fillStyle = p.c; ctx.fillRect(p.x - p.s / 2, p.y - p.s / 2, p.s, p.s); }
+  ctx.globalAlpha = 1;
+  if (parts.length) requestAnimationFrame(fx); else running = false;
+}
+function toast(p) {
+  $("#tmsg").textContent = `Código ${p.code}. Se o WhatsApp não abrir, chame no +55 11 97514-3469.`;
+  const t = $("#toast"); t.getAnimations().forEach(a => a.cancel());
+  t.animate([{ transform: "translateY(-160%)", easing: E, offset: 0 }, { transform: "translateY(6px)", easing: "ease-out", offset: .07 }, { transform: "translateY(0)", offset: .1 }, { transform: "translateY(0)", easing: "ease-in", offset: .92 }, { transform: "translateY(-160%)" }], { duration: 4200, fill: "forwards" });
+}
+let busy = false;
+async function reserveFx() {
+  const r = $("#reserve");
+  if (!reduce) r.animate([{ transform: "scale(1)" }, { transform: "scale(.92)", offset: .25 }, { transform: "scale(1.05)", offset: .6 }, { transform: "scale(.98)", offset: .8 }, { transform: "scale(1)" }], { duration: 520, easing: "ease-out" });
+  if (busy) return; busy = true;
+  r.classList.add("loading");
+  const ds = [...r.querySelectorAll(".dots i")];
+  if (!reduce) ds.forEach((d, i) => d.animate([{ transform: "translateY(0)" }, { transform: "translateY(-7px)" }, { transform: "translateY(0)" }], { duration: 600, delay: i * 120, iterations: 2, easing: "ease-in-out" }));
+  await sl(reduce ? 200 : 1300);
+  r.classList.remove("loading");
+  const rb = r.getBoundingClientRect(), ob = overlay.getBoundingClientRect();
+  burst(rb.left - ob.left + rb.width / 2, rb.top - ob.top);
+  toast(pieces[cur]);
+  busy = false;
+}
+$("#reserve").addEventListener("click", reserveFx);
+
+/* 10 Traço que desenha (once on reveal) */
+const path = $("#path"), len = path.getTotalLength();
+function drawPath() { if (reduce) return; path.style.strokeDasharray = len; path.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }], { duration: 1400, easing: "cubic-bezier(.65,0,.35,1)", fill: "both" }); }
+const howIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { drawPath(); howIO.disconnect(); } }), { threshold: .4 });
+howIO.observe($("#how"));
+
+/* Boot */
+setActive(0);
+signOn(); kinetic(); counter();
+setTimeout(marker, 1200);
+</script>
+</body>
+</html>
